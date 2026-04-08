@@ -1,0 +1,13 @@
+{
+  "name": "the-mind-of-nox",
+  "private": true,
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "dev": "netlify dev"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.0",
+    "netlify-cli": "^20.0.0"
+  }
+}

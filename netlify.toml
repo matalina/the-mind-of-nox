@@ -1,0 +1,15 @@
+[build]
+  command = "npm run build"
+  publish = "_site"
+  functions = "netlify/functions"
+
+# Friendly URLs: /api/hello → netlify function "hello"
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[dev]
+  command = "npm run serve"
+  targetPort = 8080
+  port = 8888
