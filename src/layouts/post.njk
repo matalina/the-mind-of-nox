@@ -1,0 +1,39 @@
+---
+layout: base.njk
+---
+
+<article class="manilla-folder">
+  <div class="folder-tab header-subtitle font-typewriter">
+    <strong>Case Number:</strong>
+    {{ year }}{{ case_type }}-{{ case_number | padSuffix }}.{{ session | padSuffix }}
+  </div>
+  <div class="folder-body">
+    <section class="stationary">
+      <div class="stationary-header">
+        <div class="logo">
+          <img src="/images/logo.png" alt="The Mind of Nox"/>
+        </div>
+        <div>
+          <p class="header-subtitle font-typewriter">Phoenix Investigations</p>
+          <h1 class="header-title font-handwriting">{{ title }}</h1>
+          <p class="header-date font-typewriter">{{ date | longDate }}</p>
+        </div>
+      </div>
+      <div class="stationary-content">
+        {% if image %}
+          <aside class="post-polaroid-aside" aria-label="Case photograph">
+            <div class="polaroid polaroid--post">
+              <span class="tape tape-polaroid tape-polaroid-top" aria-hidden="true"></span>
+              <div class="polaroid-image">
+                <img src="{{ image }}" alt="{{ title }}"/>
+              </div>
+              <div class="polaroid-caption font-handwriting">{{ caption }}</div>
+              <span class="tape tape-polaroid tape-polaroid-bottom" aria-hidden="true"></span>
+            </div>
+          </aside>
+        {% endif %}
+        <div class="content stationary-body">{{ content | safe }}</div>
+      </div>
+    </section>
+  </div>
+</article>

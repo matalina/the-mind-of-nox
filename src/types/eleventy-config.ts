@@ -4,6 +4,15 @@ export interface EleventyConfigApi {
   addExtension(extension: string | string[], options: { key: string }): void;
   addTemplateFormats(formats: string | string[]): void;
   addPassthroughCopy(path: string | Record<string, string>): void;
+  addFilter(filterName: string, filterFunction: (...args: any[]) => any): void;
+  addShortcode(
+    shortcodeName: string,
+    shortcodeFunction: (...args: any[]) => any,
+  ): void;
+  addCollection(
+    collectionName: string,
+    collectionFunction: (...args: any[]) => any,
+  ): void;
 }
 
 /** Return value of the default config function (`dir` and any other top-level options). */

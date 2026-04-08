@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsx node_modules/@11ty/eleventy/cmd.cjs --config=eleventy.config.ts",
-    "serve": "tsx node_modules/@11ty/eleventy/cmd.cjs --config=eleventy.config.ts --serve",
+    "build": "eleventy",
+    "serve": "eleventy --serve --port=8099",
     "typecheck": "tsc --noEmit",
-    "dev": "netlify dev"
+    "dev": "netlify dev --internal-disable-edge-functions"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.0",
@@ -17,6 +17,7 @@
     "typescript": "^5.9.0"
   },
   "dependencies": {
-    "@11ty/eleventy-plugin-rss": "^3.0.0"
+    "@11ty/eleventy-plugin-rss": "^3.0.0",
+    "slugify": "^1.6.9"
   }
 }

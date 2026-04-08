@@ -10,6 +10,8 @@
   status = 200
 
 [dev]
+  # Eleventy --port must match targetPort (package.json "serve"). npm run dev also passes
+  # --internal-disable-edge-functions so Netlify CLI does not require Deno for Edge Functions locally.
   command = "npm run serve"
-  targetPort = 8080
+  targetPort = 8099
   port = 8888
