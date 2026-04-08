@@ -1,8 +1,7 @@
-/**
- * Example Netlify Function.
- * Local / prod: GET /.netlify/functions/hello or GET /api/hello (see netlify.toml redirect)
- */
-exports.handler = async () => {
+import type { Handler } from "@netlify/functions";
+
+/** GET /.netlify/functions/hello or /api/hello (redirect in netlify.toml) */
+export const handler: Handler = async () => {
   return {
     statusCode: 200,
     headers: { "Content-Type": "application/json" },
