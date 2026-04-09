@@ -2,22 +2,21 @@
 layout: base.njk
 title: Field Notes
 ---
+
 <div class="blog-grid">
   {% for post in collections.posts %}
     {% set tilt = loop.index0 | boardTiltStyle %}
     {% set img = post.data.image | default("/images/logo.png") %}
-    <a
-      class="blog-card"
-      href="{{ post.url }}"
-      style="{{ tilt }}"
-    >
+    <a class="blog-card" href="{{ post.url }}" style="{{ tilt }}">
       {% if post.data.indexPolaroid %}
         <div class="polaroid">
+          <div class="tape tape-left"></div>
+          <div class="tape tape-right"></div>
           <div class="polaroid-image">
             <img src="{{ img }}" alt="{{ post.data.title }}"/>
           </div>
           <div class="polaroid-caption font-handwriting">
-            <h3>{{ post.data.caption | default(post.data.title) }}</h3>
+            <h3>{{ post.data.title }}</h3>
           </div>
         </div>
       {% else %}
@@ -25,15 +24,17 @@ title: Field Notes
           <div class="tape tape-left"></div>
           <div class="tape tape-right"></div>
           <div class="note-header">
+            <img
+              class="note-blood-drop {{ '' | bloodDropPlacement }}"
+              src="/images/blood_drop.png"
+              alt=""
+              width="48"
+              height="48"
+              decoding="async"
+              aria-hidden="true"/>
             <h2 class="note-title font-handwriting">{{ post.data.title }}</h2>
             {% if post.data.image %}
-              <img
-                src="{{ post.data.image }}"
-                alt=""
-                class="note-thumbnail"
-                width="80"
-                height="80"
-              />
+              <img src="{{ post.data.image }}" alt="" class="note-thumbnail" width="80" height="80"/>
             {% endif %}
           </div>
           {% set manualExcerpt = post.data.excerpt | default(post.data.description) %}
@@ -50,7 +51,9 @@ title: Field Notes
             </span>
             <span class="note-date">{{ post.date | longDate }}</span>
           </div>
-          <div class="evidence-stamp">{{ post.data.category | default("Field notes") }}</div>
+          <div class="evidence-stamp">
+            <span class="category-stamp__text">{{ post.data.category | default("Field notes") }}</span>
+          </div>
         </div>
       {% endif %}
     </a>

@@ -1,4 +1,71 @@
 /* Global styles — add rules here; output is /css/main.css */
+
+:root {
+  /* Page — concrete wall photo fills viewport; fallback while image loads */
+  --bg-page-image: url("https://images.unsplash.com/photo-1572782733355-de9749d10fce");
+  --color-page-fallback: #7d8184;
+
+  /* Brand & accent */
+  --color-brand: #721A1A;
+  --color-accent: #0F52BA;
+  --color-accent-hover: #194395;
+  /* Text */
+  --color-text: #374151;
+  --color-text-muted: #6b7280;
+  --color-text-footer: #4b5563;
+
+  /* Surfaces */
+  --color-surface-frost: rgb(255 251 235 / 0.8);
+  --color-surface-white: #ffffff;
+  --color-note-paper: #fffbeb;
+  --color-polaroid-placeholder: #e5e7eb;
+  --color-avatar-bg: #e8e4dc;
+
+  /* Paper / manilla */
+  --color-paper-base: #fcfaf5;
+  --color-paper-ruled-end: #f7f4eb;
+  --color-manilla-tab-start: #d9c9a8;
+  --color-manilla-tab-end: #cbb896;
+  --color-manilla-body-1: #f0e6d2;
+  --color-manilla-body-2: #ebe0c8;
+  --color-manilla-body-3: #e8dcc4;
+
+  /* Borders */
+  --color-border-manilla: #a89878;
+  --color-border-note: #d1d5db;
+  --color-border-tape: #fef9c3;
+
+  /* Overlays (rgb / rgba) */
+  --color-folder-shine: rgb(255 255 255 / 0.35);
+  --color-paper-shine-top: rgb(255 255 255 / 0.9);
+  --color-paper-shine-mid: rgb(252 250 245 / 0.98);
+  --color-paper-line: rgb(180 170 150 / 0.07);
+  --color-divider-manilla: rgb(167 152 120 / 0.35);
+  --color-avatar-ring: rgb(167 152 120 / 0.45);
+  --color-stamp-bg: rgb(255 255 255 / 0.9);
+  --color-stationary-inset: rgb(255 255 255 / 0.65);
+  --color-tape-fill: rgb(254 252 232 / 0.3);
+  --color-tape-polaroid-1: rgb(212 201 162 / 0.3);
+  --color-tape-polaroid-2: rgb(184 168 120 / 0.3);
+  --color-tape-polaroid-3: rgb(154 139 96 / 0.3);
+  --color-tape-polaroid-border: rgb(92 77 50 / 0.32);
+  --color-tape-polaroid-inset: rgb(255 255 255 / 0.28);
+
+  /* Shadows */
+  --shadow-folder-tab: 0 -2px 4px rgb(0 0 0 / 0.06);
+  --shadow-folder-body: 0 10px 15px -3px rgb(0 0 0 / 0.25);
+  --shadow-card: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+  --shadow-stationary-a: 0 1px 2px rgb(0 0 0 / 0.06);
+  --shadow-stationary-b: 0 3px 8px rgb(0 0 0 / 0.04);
+  --shadow-stationary-combined:
+    var(--shadow-stationary-a), var(--shadow-stationary-b),
+    inset 0 0 0 1px var(--color-stationary-inset);
+  --shadow-avatar: 0 2px 4px rgb(0 0 0 / 0.08), 0 6px 16px rgb(0 0 0 / 0.12);
+  --shadow-thumb: 0 4px 6px -1px rgb(0 0 0 / 0.2);
+  --shadow-tape-polaroid: 0 1px 2px rgb(0 0 0 / 0.1),
+    inset 0 1px 0 var(--color-tape-polaroid-inset);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,29 +73,18 @@
 }
 
 /*
- * Page background: gradient lives on html so it grows with long content.
- * Avoid `html { height: 100% }` — it pins the canvas to the viewport and the
- * gradient stops while content keeps scrolling (background looks “cut off”).
+ * Wall texture on html — fixed + cover so it fills the viewport; body stays
+ * transparent with content above. Avoid `html { height: 100% }` for long pages.
  */
 html {
-  /* Single min-height — avoid 100vh (often > visible viewport on mobile → extra scroll) */
   min-height: 100dvh;
-  background: linear-gradient(135deg, #fef3c7 0%, #d6d3d1 50%, #fef3c7 100%);
+  background-color: var(--color-page-fallback);
+  background-image: var(--bg-page-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   position: relative;
-}
-
-/*
- * Cork texture on html — NOT on body — so body’s grid only has header / main / footer.
- * (A ::before on a grid container can become a grid item and break row layout.)
- */
-html::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a16207' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  opacity: 0.3;
-  pointer-events: none;
-  z-index: 0;
 }
 
 body {
@@ -46,10 +102,19 @@ body {
 
 .font-handwriting {
   font-family: "Nothing You Could Do", cursive;
+  color: var(--color-brand);
 }
 
 .font-typewriter {
   font-family: "Special Elite", monospace;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+a:hover {
+  color: var(--color-accent-hover);
 }
 
 /* Header */
@@ -58,8 +123,8 @@ header {
   grid-row: 1;
   z-index: 10;
   padding: 2rem;
-  border-bottom: 4px solid #7f1d1d;
-  background: rgba(255, 251, 235, 0.8);
+  border-bottom: 4px solid var(--color-brand);
+  background: var(--color-surface-frost);
   backdrop-filter: blur(8px);
 }
 
@@ -73,13 +138,22 @@ header {
 
 .header-title {
   font-size: 3rem;
-  color: #7f1d1d;
   margin-bottom: 0.5rem;
+}
+
+.header-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.header-title a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
 }
 
 .header-subtitle {
   font-size: 0.875rem;
-  color: #374151;
+  color: var(--color-text);
   text-transform: uppercase;
   letter-spacing: 0.15em;
 }
@@ -123,48 +197,58 @@ main {
   display: inline-block;
   padding: 0.5rem 1.25rem 0.65rem;
   margin-bottom: -1px;
-  background: linear-gradient(180deg, #d9c9a8 0%, #cbb896 100%);
-  border: 1px solid #a89878;
+  background: linear-gradient(
+    180deg,
+    var(--color-manilla-tab-start) 0%,
+    var(--color-manilla-tab-end) 100%
+  );
+  border: 1px solid var(--color-border-manilla);
   border-bottom: none;
   border-radius: 0.5rem 0.5rem 0 0;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-folder-tab);
 }
 
 .manilla-folder .folder-body {
   position: relative;
   padding: 20px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, transparent 40%),
-    linear-gradient(135deg, #f0e6d2 0%, #ebe0c8 50%, #e8dcc4 100%);
-  border: 1px solid #a89878;
+    linear-gradient(
+      180deg,
+      var(--color-folder-shine) 0%,
+      transparent 40%
+    ),
+    linear-gradient(
+      135deg,
+      var(--color-manilla-body-1) 0%,
+      var(--color-manilla-body-2) 50%,
+      var(--color-manilla-body-3) 100%
+    );
+  border: 1px solid var(--color-border-manilla);
   border-radius: 0 0.75rem 0.75rem 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-folder-body);
 }
 
 /* Inset paper — folder shows ~20px around the sheet */
 .manilla-folder .stationary {
   position: relative;
   isolation: isolate;
-  background-color: #fcfaf5;
+  background-color: var(--color-paper-base);
   background-image:
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(252, 250, 245, 0.98) 35%,
-      #f7f4eb 100%
+      var(--color-paper-shine-top) 0%,
+      var(--color-paper-shine-mid) 35%,
+      var(--color-paper-ruled-end) 100%
     ),
     repeating-linear-gradient(
       0deg,
       transparent,
       transparent 27px,
-      rgba(180, 170, 150, 0.07) 27px,
-      rgba(180, 170, 150, 0.07) 28px
+      var(--color-paper-line) 27px,
+      var(--color-paper-line) 28px
     );
   border-radius: 2px;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.06),
-    0 3px 8px rgba(0, 0, 0, 0.04),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+  box-shadow: var(--shadow-stationary-combined);
   padding: 1.5rem 2rem 2rem;
 }
 
@@ -193,11 +277,15 @@ main {
 .manilla-folder .stationary-header {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(167, 152, 120, 0.35);
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-divider-manilla);
+}
+
+.manilla-folder .stationary-header-brand {
+  flex-shrink: 0;
 }
 
 .manilla-folder .stationary-header .logo {
@@ -215,7 +303,7 @@ main {
 }
 
 /* Text block: column flex; date is last child, aligned right */
-.manilla-folder .stationary-header > .logo + div {
+.manilla-folder .stationary-header > .stationary-header-brand + div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -224,22 +312,22 @@ main {
   flex: 1;
 }
 
-.manilla-folder .stationary-header > .logo + div .header-subtitle {
+.manilla-folder .stationary-header > .stationary-header-brand + div .header-subtitle {
   margin: 0;
 }
 
-.manilla-folder .stationary-header > .logo + div .header-title {
+.manilla-folder .stationary-header > .stationary-header-brand + div .header-title {
   margin-bottom: 0;
   line-height: 1.15;
 }
 
-.manilla-folder .stationary-header > .logo + div .header-date {
+.manilla-folder .stationary-header > .stationary-header-brand + div .header-date {
   align-self: flex-end;
   margin: 0;
   text-align: right;
   white-space: nowrap;
   font-size: 0.875rem;
-  color: #374151;
+  color: var(--color-text);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -285,11 +373,47 @@ main {
   line-height: 1.5rem;
 }
 
+/* Block quotes — same face/color as .font-handwriting (overrides .font-typewriter on .content) */
+.manilla-folder .content blockquote {
+  margin: 0 0 1.5rem;
+  font-family: "Nothing You Could Do", cursive;
+  color: var(--color-brand);
+  font-size: 1.25rem;
+  font-weight: bold;
+  background: url("/images/blood_drop.png") no-repeat left center;
+  background-size: 3rem;
+  padding-left: 2.2rem;
+}
+
+/* Lists: keep markers in the text column (not hanging in the margin) */
+.manilla-folder .content ul,
+.manilla-folder .content ol {
+  margin: 0 0 1.5rem;
+  padding-left: 0;
+  line-height: 1.5rem;
+  list-style-position: inside;
+}
+
+.manilla-folder .content li {
+  margin: 0 0 0.25rem;
+  padding-left: 0;
+}
+
+.manilla-folder .content li:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested lists: tuck under parent item */
+.manilla-folder .content li ul,
+.manilla-folder .content li ol {
+  margin: 0.5rem 0 0;
+}
+
 /* Post footer — author */
 .manilla-folder .stationary-footer {
   margin-top: 1.75rem;
   padding-top: 1.25rem;
-  border-top: 1px solid rgba(167, 152, 120, 0.35);
+  border-top: 1px solid var(--color-divider-manilla);
 }
 
 .manilla-folder .author {
@@ -309,25 +433,24 @@ main {
   margin: 0;
   line-height: 1.55;
   font-size: 0.875rem;
-  color: #374151;
+  color: var(--color-text);
 }
 
 .manilla-folder .author__bio a {
-  color: #7f1d1d;
+  color: var(--color-brand);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .manilla-folder .author__bio a:hover {
-  color: #991b1b;
+  color: var(--color-accent-hover);
 }
 
-/* Signature: larger; same tilt as case polaroid (see .post-polaroid-aside .polaroid) */
+/* Signature: tilt + handwriting — keep weight at 400 (no faux bold) to limit stroke glitches when rotated */
 .manilla-folder .author__signature {
   margin: 0 2rem;
   font-size: clamp(2rem, 3.5vw, 3rem);
   line-height: 1.1;
-  color: #5c2b29;
   text-align: right;
   transform: rotate(-10deg);
   transform-origin: right center;
@@ -340,11 +463,9 @@ main {
   height: 7.5rem;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.08),
-    0 6px 16px rgba(0, 0, 0, 0.12);
-  border: 3px solid rgba(167, 152, 120, 0.45);
-  background: #e8e4dc;
+  box-shadow: var(--shadow-avatar);
+  border: 3px solid var(--color-avatar-ring);
+  background: var(--color-avatar-bg);
 }
 
 .manilla-folder .author__avatar-img {
@@ -373,7 +494,6 @@ main {
 
   .manilla-folder .author__signature {
     text-align: right;
-    transform-origin: right center;
   }
 }
 
@@ -411,9 +531,10 @@ a.blog-card {
 
 /* Polaroid card */
 .polaroid {
-  background: white;
+  position: relative;
+  background: var(--color-surface-white);
   padding: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-card);
   cursor: pointer;
 }
 
@@ -422,7 +543,7 @@ a.blog-card {
 }
 
 .polaroid-image {
-  background: #e5e7eb;
+  background: var(--color-polaroid-placeholder);
   width: 100%;
   aspect-ratio: 1;
   margin-bottom: 0.75rem;
@@ -443,11 +564,65 @@ a.blog-card {
 /* Note card */
 .note-card {
   position: relative;
-  background: #fffbeb;
+  background: var(--color-note-paper);
   padding: 1.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-  border-left: 4px solid #dc2626;
+  box-shadow: var(--shadow-card);
+  border-left: 4px solid var(--color-accent);
   cursor: pointer;
+}
+
+.note-blood-drop {
+  position: absolute;
+  width: 3rem;
+  height: auto;
+  z-index: 4;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.note-blood-drop--1 {
+  top: 0.1rem;
+  left: 0.25rem;
+  right: auto;
+  bottom: auto;
+  transform: rotate(-20deg);
+  transform-origin: center center;
+}
+
+.note-blood-drop--2 {
+  top: -0.1rem;
+  left: 35%;
+  right: auto;
+  bottom: auto;
+  transform: translateX(-50%) rotate(14deg);
+  transform-origin: center top;
+}
+
+.note-blood-drop--3 {
+  top: 0.2rem;
+  right: 0.15rem;
+  left: auto;
+  bottom: auto;
+  transform: rotate(-10deg);
+  transform-origin: center center;
+}
+
+.note-blood-drop--4 {
+  top: 50%;
+  left: 0;
+  right: auto;
+  bottom: auto;
+  transform: translateY(-50%) rotate(18deg);
+  transform-origin: left center;
+}
+
+.note-blood-drop--5 {
+  bottom: -0.15rem;
+  right: 0.5rem;
+  top: auto;
+  left: auto;
+  transform: rotate(-22deg);
+  transform-origin: bottom right;
 }
 
 /* Tape on corners */
@@ -455,9 +630,9 @@ a.blog-card {
   position: absolute;
   width: 3rem;
   height: 1.5rem;
-  background: rgba(254, 252, 232, 0.3);
+  background: var(--color-tape-fill);
   opacity: 0.7;
-  border: 1px solid #fef9c3;
+  border: 1px solid var(--color-border-tape);
 }
 
 .tape-left {
@@ -487,15 +662,13 @@ a.blog-card {
   opacity: 1;
   background: linear-gradient(
     180deg,
-    rgba(212, 201, 162, 0.3) 0%,
-    rgba(184, 168, 120, 0.3) 45%,
-    rgba(154, 139, 96, 0.3) 100%
+    var(--color-tape-polaroid-1) 0%,
+    var(--color-tape-polaroid-2) 45%,
+    var(--color-tape-polaroid-3) 100%
   );
-  border: 1px solid rgba(92, 77, 50, 0.32);
+  border: 1px solid var(--color-tape-polaroid-border);
   border-radius: 2px;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: var(--shadow-tape-polaroid);
 }
 
 .manilla-folder .post-polaroid-aside .tape-polaroid-top {
@@ -510,6 +683,8 @@ a.blog-card {
 }
 
 .note-header {
+  position: relative;
+  overflow: visible;
   display: flex;
   justify-content: space-between;
   align-items: start;
@@ -525,7 +700,7 @@ a.blog-card {
   width: 5rem;
   height: 5rem;
   object-fit: cover;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-thumb);
   transform: rotate(3deg);
   flex-shrink: 0;
 }
@@ -533,7 +708,7 @@ a.blog-card {
 .note-excerpt {
   font-family: "Courier New", monospace;
   font-size: 0.875rem;
-  color: #374151;
+  color: var(--color-text);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -543,13 +718,13 @@ a.blog-card {
   justify-content: space-between;
   align-items: center;
   padding-top: 0.75rem;
-  border-top: 1px solid #d1d5db;
+  border-top: 1px solid var(--color-border-note);
 }
 
 .case-label {
   font-size: 0.75rem;
   font-family: "Courier New", monospace;
-  color: #dc2626;
+  color: var(--color-accent);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: bold;
@@ -558,26 +733,58 @@ a.blog-card {
 .note-date {
   font-size: 0.75rem;
   font-family: "Courier New", monospace;
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 
-/* Category stamp (index note cards) */
+/* Category stamp — shared look (index cards + post letterhead); self-contained typography (no p/.content inheritance) */
+.evidence-stamp,
+.manilla-folder .stationary-category-stamp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: 11rem;
+  margin: 0;
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  font-family: "Special Elite", monospace;
+  font-weight: bold;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.35rem 0.75rem;
+  background: var(--color-stamp-bg);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* Caps-only line boxes keep extra space below the baseline; nudge ink down optically */
+.category-stamp__text {
+  display: block;
+  transform: translateY(0.14em);
+}
+
+/* Index note cards: corner of card */
 .evidence-stamp {
   position: absolute;
   bottom: -0.75rem;
   right: -0.75rem;
-  max-width: 11rem;
-  border: 2px solid #dc2626;
-  color: #dc2626;
-  font-weight: bold;
-  padding: 0.25rem 0.75rem;
+  left: auto;
   transform: rotate(12deg);
-  background: rgba(255, 255, 255, 0.9);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-align: center;
-  line-height: 1.2;
+}
+
+/* Post letterhead: under logo column, diagonal across header/content border */
+.manilla-folder .stationary-category-stamp {
+  position: absolute;
+  left: 0;
+  right: auto;
+  bottom: -0.9rem;
+  top: auto;
+  transform: rotate(-14deg);
+  transform-origin: left bottom;
+  z-index: 2;
+  pointer-events: none;
 }
 
 /* Footer */
@@ -587,15 +794,15 @@ footer {
   z-index: 10;
   margin-top: 5rem;
   padding: 1.5rem;
-  border-top: 4px solid #7f1d1d;
-  background: rgba(255, 251, 235, 0.8);
+  border-top: 4px solid var(--color-brand);
+  background: var(--color-surface-frost);
   backdrop-filter: blur(8px);
   text-align: center;
 }
 
 footer p {
   font-size: 0.75rem;
-  color: #4b5563;
+  color: var(--color-text-footer);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -630,14 +837,22 @@ footer p {
     text-align: center;
   }
 
-  .manilla-folder .stationary-header > .logo + div {
+  .manilla-folder .stationary-category-stamp {
+    left: 50%;
+    right: auto;
+    bottom: -0.85rem;
+    transform: translateX(-50%) rotate(-12deg);
+    transform-origin: center bottom;
+  }
+
+  .manilla-folder .stationary-header > .stationary-header-brand + div {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.35rem;
   }
 
-  .manilla-folder .stationary-header > .logo + div .header-date {
+  .manilla-folder .stationary-header > .stationary-header-brand + div .header-date {
     align-self: center;
     white-space: normal;
     text-align: center;

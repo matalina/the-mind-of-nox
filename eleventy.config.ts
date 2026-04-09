@@ -28,6 +28,15 @@ export default function (
     );
   });
 
+  // Treat single newlines as <br> (markdown-it `breaks`), so you don’t need two
+  // trailing spaces or a blank line between every visual line.
+  eleventyConfig.amendLibrary(
+    "md",
+    (mdLib: { set: (opts: object) => void }) => {
+      mdLib.set({ breaks: true });
+    },
+  );
+
   eleventyConfig.addCollection("posts", (collectionApi) => {
     const sorted = collectionApi
       .getFilteredByGlob("**/posts/**/*.md")
@@ -38,7 +47,9 @@ export default function (
       });
     for (const item of sorted) {
       const data = item.data as Record<string, unknown>;
-      data.indexPolaroid = Math.random() < 0.5;
+      const hasImage =
+        typeof data.image === "string" && data.image.trim() !== "";
+      data.indexPolaroid = hasImage ? Math.random() < 0.5 : false;
     }
     return sorted;
   });

@@ -13,6 +13,10 @@ export interface EleventyConfigApi {
     collectionName: string,
     collectionFunction: (...args: any[]) => any,
   ): void;
+  amendLibrary(
+    engineName: string,
+    callback: (libraryInstance: { set: (opts: object) => void }) => void,
+  ): void;
 }
 
 /** Return value of the default config function (`dir` and any other top-level options). */

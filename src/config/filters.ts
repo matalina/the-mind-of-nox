@@ -88,6 +88,20 @@ const BOARD_TILT_PRESETS = [
   "transform: rotate(3deg); margin-top: 20px",
 ] as const;
 
+/** Random modifier class for note-card blood spatter (build-time). Input ignored (use with pipe). */
+const BLOOD_DROP_PLACEMENTS = [
+  "note-blood-drop--1",
+  "note-blood-drop--2",
+  "note-blood-drop--3",
+  "note-blood-drop--4",
+  "note-blood-drop--5",
+] as const;
+
+function bloodDropPlacement(_value?: unknown): string {
+  const i = Math.floor(Math.random() * BLOOD_DROP_PLACEMENTS.length);
+  return BLOOD_DROP_PLACEMENTS[i] ?? BLOOD_DROP_PLACEMENTS[0];
+}
+
 /** Deterministic cork-board tilt from card index (0-based). */
 function boardTiltStyle(index: number | string): string {
   const n = typeof index === "string" ? Number.parseInt(index, 10) : index;
@@ -123,6 +137,7 @@ export default {
   slugify: slugifyTitle,
   longDate,
   randomBool,
+  bloodDropPlacement,
   boardTiltStyle,
   plainExcerpt,
 };

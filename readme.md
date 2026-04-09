@@ -35,3 +35,12 @@ where
 The permalink of the post is defined in the post on the yaml data as follows:
 
 `permalink: "field-notes/{{ slug }}/{{ session_num | padSuffix }}/index.html"`
+
+## Categories
+
+- Example (GEN-001)
+- Announcement (GEN-000)
+- Off Topic (GEN-002)
+- Field Notes (Session Notes)
+- Surveillance (Recorded Actual Plays)
+- Incident Reports (Short Stories)

@@ -1,5 +1,6 @@
 ---
 layout: base.njk
+permalink: field-notes/{{ title | slugify }}/{{ session | padSuffix }}/index.html
 ---
 
 <article class="manilla-folder">
@@ -10,13 +11,18 @@ layout: base.njk
   <div class="folder-body">
     <section class="stationary">
       <div class="stationary-header">
-        <div class="logo">
-          <img src="/images/logo.png" alt="The Mind of Nox"/>
+        <div class="stationary-header-brand">
+          <div class="logo">
+            <img src="/images/logo.png" alt="The Mind of Nox"/>
+          </div>
         </div>
         <div>
           <p class="header-subtitle font-typewriter">Phoenix Investigations</p>
           <h1 class="header-title font-handwriting">{{ title }}</h1>
           <p class="header-date font-typewriter">{{ date | longDate }}</p>
+        </div>
+        <div class="stationary-category-stamp">
+          <span class="category-stamp__text">{{ category | default("Field notes") }}</span>
         </div>
       </div>
       <div class="stationary-content">
