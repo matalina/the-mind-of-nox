@@ -1,35 +1,89 @@
 <header>
   <div class="header-content">
-    <div>
-      <h1 class="header-title font-handwriting">
-        <a href="/">The Mind of Nox</a>
-      </h1>
-      <p class="header-subtitle font-typewriter">
-        Field Notes - Authorized Personnel Only
-      </p>
-    </div>
-    <div class="header-icons">
-      <svg
-        class="icon"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#4b5563"
-        stroke-linecap="round"
-        stroke-linejoin="round">
-        <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-      </svg>
-      <svg
-        class="icon"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#7f1d1d"
-        stroke-linecap="round"
-        stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="m21 21-4.3-4.3"/>
-      </svg>
+    <div class="header-content__primary">
+      <div class="header-business-card">
+        <span class="tape tape-left" aria-hidden="true"></span>
+        <span class="tape tape-right" aria-hidden="true"></span>
+        <div class="header-business-card__brand">
+          <div class="logo">
+            <img src="/images/logo.png" alt="The Mind of Nox"/>
+          </div>
+        </div>
+        <div class="header-business-card__text">
+          <p class="header-subtitle company-name font-typewriter">
+            Phoenix Investigations
+          </p>
+          <h1 class="header-title font-handwriting">
+            <a href="/">The Mind of Nox</a>
+          </h1>
+          <p class="header-subtitle header-field-notes font-typewriter">
+            Field Notes
+          </p>
+        </div>
+        <img
+          class="header-business-card__blood-drop"
+          src="/images/blood_drop.png"
+          alt=""
+          width="48"
+          height="48"
+          decoding="async"
+          aria-hidden="true"/>
+      </div>
+      <div class="header-banner">
+        <div class="header-banner__top">
+          <div class="header-personnel-sign">
+            <span class="tape tape-left" aria-hidden="true"></span>
+            <span class="tape tape-right" aria-hidden="true"></span>
+            <span class="category-stamp__text">Authorized Personnel Only</span>
+          </div>
+          <div class="header-icons">
+            <a class="header-icon-link" href="/feed/index.xml" aria-label="RSS feed for field notes">
+              <div class="header-icon-sticker">
+                <i class="fa-solid fa-rss" aria-hidden="true"></i>
+              </div>
+            </a>
+            <a
+              class="header-icon-link"
+              href="https://discord.gg/JGM7vfZ4D5"
+              rel="noopener noreferrer"
+              target="_blank"
+              aria-label="The Mind of Nox Discord community">
+              <div class="header-icon-sticker">
+                <i class="fa-brands fa-discord" aria-hidden="true"></i>
+              </div>
+            </a>
+            <a
+              class="header-icon-link"
+              href="https://themindofnox.wordpress.com"
+              rel="noopener noreferrer"
+              target="_blank"
+              aria-label="The Mind of Nox on WordPress">
+              <div class="header-icon-sticker">
+                <i class="fa-brands fa-wordpress" aria-hidden="true"></i>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="header-banner__bottom">
+          <nav class="header-nav" aria-label="Site">
+            <a href="/">
+              <span class="header-nav__label">Blog</span>
+            </a>
+            <a href="/cases/">
+              <span class="header-nav__label">Cases</span>
+            </a>
+            <a href="/characters">
+              <span class="header-nav__label">Characters</span>
+            </a>
+            <a href="/lore">
+              <span class="header-nav__label">Lore</span>
+            </a>
+            <a href="https://tagandtally.quest" rel="noopener noreferrer" target="_blank">
+              <span class="header-nav__label">Tag and Tally</span>
+            </a>
+          </nav>
+        </div>
+      </div>
     </div>
   </div>
 </header>

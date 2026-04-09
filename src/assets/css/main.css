@@ -6,7 +6,7 @@
   --color-page-fallback: #7d8184;
 
   /* Brand & accent */
-  --color-brand: #721A1A;
+  --color-brand: #871623;
   --color-accent: #0F52BA;
   --color-accent-hover: #194395;
   /* Text */
@@ -45,11 +45,6 @@
   --color-stamp-bg: rgb(255 255 255 / 0.9);
   --color-stationary-inset: rgb(255 255 255 / 0.65);
   --color-tape-fill: rgb(254 252 232 / 0.3);
-  --color-tape-polaroid-1: rgb(212 201 162 / 0.3);
-  --color-tape-polaroid-2: rgb(184 168 120 / 0.3);
-  --color-tape-polaroid-3: rgb(154 139 96 / 0.3);
-  --color-tape-polaroid-border: rgb(92 77 50 / 0.32);
-  --color-tape-polaroid-inset: rgb(255 255 255 / 0.28);
 
   /* Shadows */
   --shadow-folder-tab: 0 -2px 4px rgb(0 0 0 / 0.06);
@@ -62,8 +57,6 @@
     inset 0 0 0 1px var(--color-stationary-inset);
   --shadow-avatar: 0 2px 4px rgb(0 0 0 / 0.08), 0 6px 16px rgb(0 0 0 / 0.12);
   --shadow-thumb: 0 4px 6px -1px rgb(0 0 0 / 0.2);
-  --shadow-tape-polaroid: 0 1px 2px rgb(0 0 0 / 0.1),
-    inset 0 1px 0 var(--color-tape-polaroid-inset);
 }
 
 * {
@@ -95,9 +88,8 @@ body {
   position: relative;
   z-index: 1;
   overflow-x: hidden;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .font-handwriting {
@@ -117,28 +109,294 @@ a:hover {
   color: var(--color-accent-hover);
 }
 
-/* Header */
+/* Header — no bar/frost; sits on page background */
 header {
   position: relative;
-  grid-row: 1;
+  flex-shrink: 0;
   z-index: 10;
   padding: 2rem;
-  border-bottom: 4px solid var(--color-brand);
-  background: var(--color-surface-frost);
-  backdrop-filter: blur(8px);
 }
 
 .header-content {
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+/* Business card + stamp/icons row; nav is a separate full-width block below */
+.header-content__primary {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5rem;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Stamp centered in remaining width, stickers on the right */
+.header-banner {
+  flex-grow: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-banner__top {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.header-banner__bottom {
+  width: 100%;
+  padding-top: 3rem;
+
+}
+
+.header-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem 1.5rem;
+  width: 100%;
+}
+
+/* Masking-tape strips (no corner tape) — typed label on tape */
+.header-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Special Elite", monospace;
+  font-size: 0.9rem;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-accent);
+  text-decoration: none;
+  padding: 0.42rem 0.85rem;
+  border-radius: 1px;
+  border: 1px solid color-mix(in srgb, var(--color-border-tape) 50%, rgb(180 155 110 / 0.25));
+  background: linear-gradient(
+    178deg,
+    rgb(255 253 240 / 0.58) 0%,
+    rgb(254 248 228 / 0.52) 40%,
+    rgb(245 232 205 / 0.55) 100%
+  );
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.06),
+    inset 0 1px 0 rgb(255 255 255 / 0.3);
+  text-shadow: 0 0 1px rgb(255 255 255 / 0.35);
+  /* Nudge on .header-nav__label only — translateY on <a> moves the whole strip, not text inside it */
+  --tape-label-nudge: 0.12em;
+  --tape-rotate: -0.4deg;
+  transform: rotate(var(--tape-rotate));
+  transition:
+    color 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease,
+    transform 0.28s cubic-bezier(0.33, 1.2, 0.55, 1);
+}
+
+.header-nav__label {
+  display: inline-block;
+  line-height: 1;
+  transform: translateY(var(--tape-label-nudge));
+}
+
+/* Per-strip tilt (shared with @keyframes header-nav-tape-bounce via --tape-rotate) */
+.header-nav a:nth-child(1) {
+  --tape-rotate: -1.1deg;
+}
+
+.header-nav a:nth-child(2) {
+  --tape-rotate: 0.75deg;
+}
+
+.header-nav a:nth-child(3) {
+  --tape-rotate: -0.65deg;
+}
+
+.header-nav a:nth-child(4) {
+  --tape-rotate: 1deg;
+}
+
+.header-nav a:nth-child(5) {
+  --tape-rotate: -0.4deg;
+}
+
+.header-nav a:nth-child(n + 6) {
+  --tape-rotate: -0.4deg;
+}
+
+@keyframes header-nav-tape-bounce {
+  0%,
+  100% {
+    transform: rotate(var(--tape-rotate)) translateY(0);
+  }
+
+  35% {
+    transform: rotate(var(--tape-rotate)) translateY(-5px);
+  }
+
+  55% {
+    transform: rotate(var(--tape-rotate)) translateY(2px);
+  }
+
+  75% {
+    transform: rotate(var(--tape-rotate)) translateY(-1px);
+  }
+}
+
+.header-nav a:hover {
+  color: var(--color-accent-hover);
+  text-decoration: none;
+  box-shadow:
+    0 2px 5px rgb(0 0 0 / 0.1),
+    inset 0 1px 0 rgb(255 255 255 / 0.5);
+  filter: brightness(1.02);
+  animation-name: header-nav-tape-bounce;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.34, 1.35, 0.55, 1);
+  animation-fill-mode: forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-nav a {
+    transition:
+      color 0.15s ease,
+      box-shadow 0.15s ease,
+      filter 0.15s ease;
+  }
+
+  .header-nav a:hover {
+    animation: none;
+  }
+}
+
+.header-nav a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Index note cards use --shadow-card; match that lift so the header card reads the same */
+.header-business-card {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 1rem;
+  box-sizing: border-box;
+  width: 21rem;
+  max-width: 100%;
+  height: 12rem;
+  flex-shrink: 0;
+  align-self: center;
+  padding: 1rem 1.35rem;
+  background-color: var(--color-paper-base);
+  background-image:
+    linear-gradient(
+      180deg,
+      var(--color-paper-shine-top) 0%,
+      var(--color-paper-shine-mid) 35%,
+      var(--color-paper-ruled-end) 100%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 27px,
+      var(--color-paper-line) 27px,
+      var(--color-paper-line) 28px
+    );
+  border-radius: 2px;
+  box-shadow: var(--shadow-card);
+  transform: rotate(-3deg);
+}
+
+/* Corner tape (same as .note-card / polaroid) — above blood drop, don’t intercept clicks */
+header .header-business-card > .tape {
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Same asset as .note-blood-drop — bottom area, nudged left, larger */
+.header-business-card__blood-drop {
+  position: absolute;
+  bottom: 0.1rem;
+  left: 36%;
+  z-index: 2;
+  width: 4.25rem;
+  height: auto;
+  transform: translateX(-50%) rotate(-22deg);
+  transform-origin: center bottom;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.header-business-card__brand {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  line-height: 0;
+}
+
+header .header-business-card .logo img {
+  display: block;
+  max-height: 10rem;
+  margin-left: -2rem;
+  object-fit: contain;
+}
+
+.header-business-card__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* font-size/margins: site title overrides in header .header-business-card .header-title only */
 .header-title {
-  font-size: 3rem;
+  font-size: 2.5rem;
+  margin-top: 0;
   margin-bottom: 0.5rem;
+  margin-left: 0;
+}
+
+/* Phoenix top-left; pull into padding — must not share a later .header-subtitle { margin:0 } reset */
+header .header-business-card .header-subtitle.company-name {
+  margin: 0 -4.5rem;
+  text-align: left;
+  white-space: nowrap;
+  align-self: stretch;
+}
+
+header .header-business-card .header-title {
+  margin-left: -2rem;
+  margin-bottom: 0;
+  line-height: 1.1;
+  text-align: center;
+  align-self: stretch;
+}
+
+header .header-business-card .header-field-notes {
+  margin: 0;
+  text-align: right;
+  align-self: stretch;
 }
 
 .header-title a {
@@ -158,23 +416,98 @@ header {
   letter-spacing: 0.15em;
 }
 
+/* Stamp-style type; deviates from category stamp: white fill + thick border like header icon stickers */
+.header-personnel-sign {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(96vw, 28rem);
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0.45rem 1rem;
+  border: 4px solid color-mix(in srgb, var(--color-brand) 78%, black);
+  background: var(--color-surface-white);
+  color: var(--color-brand);
+  font-family: "Special Elite", monospace;
+  font-weight: bold;
+  /* Approaches .header-title (3rem); caps below title so the name stays primary */
+  font-size: clamp(1.25rem, 1.15rem + 1.65vw, 2.35rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+  transform: rotate(-10deg);
+  transform-origin: center center;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.08),
+    0 4px 12px rgb(0 0 0 / 0.12);
+}
+
+header .header-personnel-sign > .tape {
+  z-index: 2;
+  pointer-events: none;
+}
+
 .header-icons {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 1.1rem;
 }
 
-.icon {
-  width: 2rem;
-  height: 2rem;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
+/* Icon links: round white sticker (div) + FA glyph — no text stroke/shadow */
+.header-icon-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 50%;
 }
 
-/* Main — middle grid row (1fr) fills space between header and footer on short pages */
+.header-icon-sticker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.65rem;
+  height: 2.65rem;
+  border-radius: 50%;
+  background: var(--color-surface-white);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.08),
+    0 4px 12px rgb(0 0 0 / 0.12);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.header-icon-link i {
+  font-size: 1.65rem;
+  color: var(--color-brand);
+}
+
+.header-icon-link:hover .header-icon-sticker {
+  box-shadow:
+    0 2px 4px rgb(0 0 0 / 0.1),
+    0 8px 18px rgb(0 0 0 / 0.16);
+  transform: scale(1.05);
+}
+
+.header-icon-link:hover i {
+  filter: brightness(1.06);
+}
+
+.header-icon-link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Main grows to fill space between header and footer on short pages */
 main {
   position: relative;
-  grid-row: 2;
+  flex: 1 1 auto;
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
@@ -228,11 +561,11 @@ main {
   box-shadow: var(--shadow-folder-body);
 }
 
-/* Inset paper — folder shows ~20px around the sheet */
+/* Inset paper — folder shows ~20px around the sheet (base matches .note-card) */
 .manilla-folder .stationary {
   position: relative;
   isolation: isolate;
-  background-color: var(--color-paper-base);
+  background-color: var(--color-note-paper);
   background-image:
     linear-gradient(
       180deg,
@@ -368,9 +701,50 @@ main {
   transform-origin: center center;
 }
 
+/* Post polaroid: one centered strip top + one bottom (same .tape look as note cards) */
+.manilla-folder .post-polaroid-aside .polaroid > .tape-post-top,
+.manilla-folder .post-polaroid-aside .polaroid > .tape-post-bottom {
+  z-index: 4;
+  pointer-events: none;
+  left: 50%;
+  right: auto;
+  width: min(62%, 9.5rem);
+  height: 1.5rem;
+}
+
+.manilla-folder .post-polaroid-aside .polaroid > .tape-post-top {
+  top: -0.42rem;
+  transform: translateX(-50%) rotate(-1.5deg);
+  transform-origin: center center;
+}
+
+.manilla-folder .post-polaroid-aside .polaroid > .tape-post-bottom {
+  top: auto;
+  bottom: -0.42rem;
+  transform: translateX(-50%) rotate(1.5deg);
+  transform-origin: center center;
+}
+
 .manilla-folder .content p {
   margin-bottom: 1.5rem;
   line-height: 1.5rem;
+}
+
+/* YouTube embed (shortcode) */
+.manilla-folder .content .youtube-embed {
+  position: relative;
+  width: 100%;
+  max-width: min(100%, 42rem);
+  margin: 0 0 1.5rem;
+  aspect-ratio: 16 / 9;
+}
+
+.manilla-folder .content .youtube-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 /* Block quotes — same face/color as .font-handwriting (overrides .font-typewriter on .content) */
@@ -497,15 +871,151 @@ main {
   }
 }
 
-/* Blog grid */
+/* Lore & Characters indexes — simple list (not field-notes / cork board cards) */
+.content-index {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2.5rem 0 3rem;
+}
+
+.content-index__title {
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  color: var(--color-brand);
+  margin-bottom: 1.75rem;
+  line-height: 1.15;
+}
+
+.content-index__lede {
+  margin-bottom: 1.25rem;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.content-index__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.content-index__item {
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border-manilla) 55%, transparent);
+  padding: 1.1rem 0;
+}
+
+.content-index__item:first-child {
+  border-top: 1px solid color-mix(in srgb, var(--color-border-manilla) 55%, transparent);
+}
+
+/* Cases index — case number, title link, session count */
+.content-index__item--case .content-index__case-number {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.content-index__item--case .content-index__case-number strong {
+  color: var(--color-text);
+  font-weight: bold;
+}
+
+.content-index__item--case .content-index__link {
+  display: inline-block;
+  margin-top: 0.35rem;
+}
+
+.content-index__session-count {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+.content-index__case-date {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--color-text-muted);
+}
+
+/* Case hub — one line: Category: Session ### - date */
+.content-index__item--case-hub {
+  padding: 0.65rem 0;
+}
+
+.content-index__case-hub-line {
+  margin: 0;
+  padding: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.content-index__case-hub-line strong {
+  font-weight: bold;
+  margin-right: 0.25rem;
+}
+
+.content-index__link--case-hub {
+  display: inline;
+  font-size: inherit;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.content-index__link {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: var(--color-accent);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.content-index__link:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.content-index__excerpt {
+  margin-top: 0.45rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  max-width: 36rem;
+}
+
+.content-index__empty {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+/* Blog index — responsive row wrap (flex, not grid) */
 .blog-grid {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  justify-items: start;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
   gap: 2rem;
   padding: 3rem 0;
   z-index: 10;
+}
+
+.blog-grid > .blog-card {
+  flex: 1 1 300px;
+}
+
+.blog-grid > .blog-grid__empty {
+  flex: 1 1 100%;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Blog card — max width so a single post does not stretch full row */
@@ -647,41 +1157,6 @@ a.blog-card {
   transform: rotate(-12deg);
 }
 
-/*
- * Tape on the outer polaroid card: top + bottom, centered, half on white frame
- * and half on the stationery so it reads as taping the print to the paper.
- */
-.manilla-folder .post-polaroid-aside .tape-polaroid {
-  display: block;
-  left: 50%;
-  width: min(58%, 9rem);
-  height: 1.8rem;
-  z-index: 3;
-  pointer-events: none;
-  /* Override .tape opacity so only rgba controls see-through */
-  opacity: 1;
-  background: linear-gradient(
-    180deg,
-    var(--color-tape-polaroid-1) 0%,
-    var(--color-tape-polaroid-2) 45%,
-    var(--color-tape-polaroid-3) 100%
-  );
-  border: 1px solid var(--color-tape-polaroid-border);
-  border-radius: 2px;
-  box-shadow: var(--shadow-tape-polaroid);
-}
-
-.manilla-folder .post-polaroid-aside .tape-polaroid-top {
-  top: 0;
-  transform: translate(-50%, -50%) rotate(-2deg);
-}
-
-.manilla-folder .post-polaroid-aside .tape-polaroid-bottom {
-  bottom: 0;
-  top: auto;
-  transform: translate(-50%, 50%) rotate(1.75deg);
-}
-
 .note-header {
   position: relative;
   overflow: visible;
@@ -790,7 +1265,7 @@ a.blog-card {
 /* Footer */
 footer {
   position: relative;
-  grid-row: 3;
+  flex-shrink: 0;
   z-index: 10;
   margin-top: 5rem;
   padding: 1.5rem;
@@ -809,18 +1284,83 @@ footer p {
 
 /* Responsive */
 @media (max-width: 768px) {
+  /* Tighter gap under header → first content (index grid / post), without changing header padding */
+  main {
+    padding: 0.35rem 1rem 2rem;
+  }
+
   .header-title {
     font-size: 2rem;
   }
 
   .header-content {
-    flex-direction: column;
     gap: 1rem;
     text-align: center;
   }
 
+  .header-content__primary {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .header-banner__top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-banner__top .header-personnel-sign {
+    align-self: center;
+  }
+
+  .header-banner__top .header-icons {
+    align-self: stretch;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .header-business-card {
+    align-self: center;
+    flex-direction: column;
+    align-items: center;
+    width: min(100%, 21rem);
+    max-width: 100%;
+    min-height: 12rem;
+    height: auto;
+    padding: 1rem 1rem;
+    overflow: visible;
+  }
+
+  .header-business-card__text {
+    align-items: stretch;
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+  }
+
+  /* Undo desktop negative margins — they pull text/logo outside the card and clip on overflow-x */
+  header .header-business-card .logo img {
+    margin-left: 0;
+    max-height: 5.5rem;
+  }
+
+  header .header-business-card .header-subtitle.company-name {
+    margin: 0;
+    text-align: center;
+    white-space: normal;
+  }
+
+  header .header-business-card .header-title {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  header .header-business-card .header-field-notes {
+    text-align: center;
+  }
+
   .blog-grid {
-    grid-template-columns: 1fr;
+    padding: 1rem 0 2.5rem;
   }
 
   .manilla-folder .folder-body {

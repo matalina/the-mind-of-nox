@@ -1,0 +1,29 @@
+---
+layout: page.njk
+title: Lore
+permalink: lore/index.html
+category: Archive
+---
+
+<section class="content-index" aria-labelledby="lore-index-heading">
+  {% if collections.lore.length %}
+    <ul class="content-index__list font-typewriter">
+      {% for item in collections.lore %}
+        <li class="content-index__item">
+          <a class="content-index__link" href="{{ item.url }}">{{ item.data.title }}</a>
+          {% set blurb = item.data.excerpt | default(item.data.description) %}
+          {% if blurb %}
+            <p class="content-index__excerpt">{{ blurb }}</p>
+          {% else %}
+            {% set plain = item.templateContent | plainExcerpt(160) %}
+            {% if plain %}
+              <p class="content-index__excerpt">{{ plain }}</p>
+            {% endif %}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="content-index__empty font-typewriter">No lore entries yet.</p>
+  {% endif %}
+</section>

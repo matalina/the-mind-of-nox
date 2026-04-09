@@ -1,0 +1,47 @@
+---
+layout: base.njk
+# Match URL to source path (e.g. lore/city.md → /lore/city/), not the title slug.
+permalink: lore/{{ page.fileSlug }}/index.html
+---
+
+<article class="manilla-folder">
+  <div class="folder-tab header-subtitle font-typewriter">
+    {{ title }}
+  </div>
+  <div class="folder-body">
+    <section class="stationary">
+      <div class="stationary-header">
+        <div class="stationary-header-brand">
+          <div class="logo">
+            <img src="/images/logo.png" alt="The Mind of Nox"/>
+          </div>
+        </div>
+        <div>
+          <p class="header-subtitle font-typewriter">Phoenix Investigations</p>
+          <h1 class="header-title font-handwriting">{{ title }}</h1>
+        </div>
+        <div class="stationary-category-stamp">
+          <span class="category-stamp__text">{{ category | default("World Lore") }}</span>
+        </div>
+      </div>
+      <div class="stationary-content">
+        {% if image %}
+          <aside class="post-polaroid-aside" aria-label="Case photograph">
+            <div class="polaroid polaroid--post">
+              <span class="tape tape-post-top" aria-hidden="true"></span>
+              <div class="polaroid-image">
+                <img src="{{ image }}" alt="{{ title }}"/>
+              </div>
+              <div class="polaroid-caption font-handwriting">{{ caption }}</div>
+              <span class="tape tape-post-bottom" aria-hidden="true"></span>
+            </div>
+          </aside>
+        {% endif %}
+        <div class="content stationary-body font-typewriter">{{ content | safe }}</div>
+      </div>
+      <div class="stationary-footer">
+        {% include "author.njk" %}
+      </div>
+    </section>
+  </div>
+</article>

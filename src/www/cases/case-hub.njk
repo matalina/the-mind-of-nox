@@ -1,0 +1,32 @@
+---
+layout: page.njk
+pagination:
+  data: collections.caseGroups
+  size: 1
+  alias: case
+permalink: "cases/{{ case.slug }}/index.html"
+category: Cases
+---
+
+<section class="content-index" aria-labelledby="case-hub-heading">
+  <p class="content-index__lede font-typewriter">
+    Field notes for this case (by session).
+  </p>
+  {% if case.posts | length %}
+    <ul class="content-index__list font-typewriter">
+      {% for post in case.posts %}
+        <li class="content-index__item content-index__item--case-hub">
+          <div class="content-index__case-hub-line font-typewriter">
+            <strong>{{ post.data.category | default("Field notes") }}:</strong>
+            <a class="content-index__link content-index__link--case-hub" href="{{ post.url }}">Session {{ post.data.session | padSuffix }}</a>
+            {% if post.date %}
+              - {{ post.date | longDate }}
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="content-index__empty font-typewriter">No sessions for this case.</p>
+  {% endif %}
+</section>

@@ -1,12 +1,12 @@
 ---
 layout: base.njk
-permalink: field-notes/{{ title | slugify }}/{{ session | padSuffix }}/index.html
+permalink: characters/{{ page.fileSlug }}/index.html
+category: Characters
 ---
 
 <article class="manilla-folder">
   <div class="folder-tab header-subtitle font-typewriter">
-    <strong>Case Number:</strong>
-    {{ year }}{{ case_type }}-{{ case_number | padSuffix }}.{{ session | padSuffix }}
+    {{ title }}
   </div>
   <div class="folder-body">
     <section class="stationary">
@@ -19,15 +19,14 @@ permalink: field-notes/{{ title | slugify }}/{{ session | padSuffix }}/index.htm
         <div>
           <p class="header-subtitle font-typewriter">Phoenix Investigations</p>
           <h1 class="header-title font-handwriting">{{ title }}</h1>
-          <p class="header-date font-typewriter">{{ date | longDate }}</p>
         </div>
         <div class="stationary-category-stamp">
-          <span class="category-stamp__text">{{ category | default("Field notes") }}</span>
+          <span class="category-stamp__text">{{ category | default("Characters") }}</span>
         </div>
       </div>
       <div class="stationary-content">
         {% if image %}
-          <aside class="post-polaroid-aside" aria-label="Case photograph">
+          <aside class="post-polaroid-aside" aria-label="Photograph">
             <div class="polaroid polaroid--post">
               <span class="tape tape-post-top" aria-hidden="true"></span>
               <div class="polaroid-image">

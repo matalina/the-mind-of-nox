@@ -34,7 +34,7 @@ where
 
 The permalink of the post is defined in the post on the yaml data as follows:
 
-`permalink: "field-notes/{{ slug }}/{{ session_num | padSuffix }}/index.html"`
+`permalink: "field-notes/{{ title | slugify }}/{{ session_num | padSuffix }}/index.html"`
 
 ## Categories
 
@@ -44,3 +44,15 @@ The permalink of the post is defined in the post on the yaml data as follows:
 - Field Notes (Session Notes)
 - Surveillance (Recorded Actual Plays)
 - Incident Reports (Short Stories)
+
+## Avatar Colors
+
+- (no avatar field) Gray
+- blue
+- green
+- magenta
+- orange
+- pink
+- purple
+- red
+- teal
