@@ -28,6 +28,21 @@ export default function (
     );
   });
 
+  eleventyConfig.addCollection("posts", (collectionApi) => {
+    const sorted = collectionApi
+      .getFilteredByGlob("**/posts/**/*.md")
+      .sort((a: { date?: Date }, b: { date?: Date }) => {
+        const tb = b.date ? b.date.getTime() : 0;
+        const ta = a.date ? a.date.getTime() : 0;
+        return tb - ta;
+      });
+    for (const item of sorted) {
+      const data = item.data as Record<string, unknown>;
+      data.indexPolaroid = Math.random() < 0.5;
+    }
+    return sorted;
+  });
+
   return {
     dir: {
       input: "src/www",

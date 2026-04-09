@@ -71,8 +71,58 @@ function longDate(value: Date | string | undefined | null): string {
   return `${MONTH_NAMES[d.getUTCMonth()]} ${dayOrdinal(d.getUTCDate())}, ${d.getUTCFullYear()}`;
 }
 
+/**
+ * Build-time coin flip (e.g. for Liquid). For Nunjucks `{% set x = randomBool() %}`
+ * a `false` result can error; the home index uses `post.data.indexPolaroid` instead.
+ */
+function randomBool(): boolean {
+  return Math.random() < 0.5;
+}
+
+const BOARD_TILT_PRESETS = [
+  "transform: rotate(-3deg); margin-top: 0",
+  "transform: rotate(2deg); margin-top: 20px",
+  "transform: rotate(-2deg); margin-top: 40px",
+  "transform: rotate(4deg); margin-top: 60px",
+  "transform: rotate(-4deg); margin-top: 0",
+  "transform: rotate(3deg); margin-top: 20px",
+] as const;
+
+/** Deterministic cork-board tilt from card index (0-based). */
+function boardTiltStyle(index: number | string): string {
+  const n = typeof index === "string" ? Number.parseInt(index, 10) : index;
+  const i =
+    Math.max(0, Math.floor(Number.isNaN(n) ? 0 : n)) %
+    BOARD_TILT_PRESETS.length;
+  return BOARD_TILT_PRESETS[i];
+}
+
+/** Plain-text excerpt from markdown/HTML body for note cards. */
+function plainExcerpt(
+  content: string | undefined | null,
+  maxLen: number = 220,
+): string {
+  if (content == null || content === "") {
+    return "";
+  }
+  const stripped = String(content)
+    .replace(/<[^>]+>/g, " ")
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[#*`\[\]_~>-]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (stripped.length <= maxLen) {
+    return stripped;
+  }
+  return `${stripped.slice(0, maxLen - 1).trim()}…`;
+}
+
 export default {
   padSuffix,
   slugify: slugifyTitle,
   longDate,
+  randomBool,
+  boardTiltStyle,
+  plainExcerpt,
 };

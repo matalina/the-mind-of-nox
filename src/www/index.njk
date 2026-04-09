@@ -1,0 +1,62 @@
+---
+layout: base.njk
+title: Field Notes
+---
+<div class="blog-grid">
+  {% for post in collections.posts %}
+    {% set tilt = loop.index0 | boardTiltStyle %}
+    {% set img = post.data.image | default("/images/logo.png") %}
+    <a
+      class="blog-card"
+      href="{{ post.url }}"
+      style="{{ tilt }}"
+    >
+      {% if post.data.indexPolaroid %}
+        <div class="polaroid">
+          <div class="polaroid-image">
+            <img src="{{ img }}" alt="{{ post.data.title }}"/>
+          </div>
+          <div class="polaroid-caption font-handwriting">
+            <h3>{{ post.data.caption | default(post.data.title) }}</h3>
+          </div>
+        </div>
+      {% else %}
+        <div class="note-card">
+          <div class="tape tape-left"></div>
+          <div class="tape tape-right"></div>
+          <div class="note-header">
+            <h2 class="note-title font-handwriting">{{ post.data.title }}</h2>
+            {% if post.data.image %}
+              <img
+                src="{{ post.data.image }}"
+                alt=""
+                class="note-thumbnail"
+                width="80"
+                height="80"
+              />
+            {% endif %}
+          </div>
+          {% set manualExcerpt = post.data.excerpt | default(post.data.description) %}
+          <p class="note-excerpt font-typewriter">
+            {% if manualExcerpt %}
+              {{ manualExcerpt }}
+            {% else %}
+              {{ post.templateContent | plainExcerpt }}
+            {% endif %}
+          </p>
+          <div class="note-footer">
+            <span class="case-label">
+              {{ post.data.year }}{{ post.data.case_type }}-{{ post.data.case_number | default(0) | padSuffix }}.{{ post.data.session | default(0) | padSuffix }}
+            </span>
+            <span class="note-date">{{ post.date | longDate }}</span>
+          </div>
+          <div class="evidence-stamp">{{ post.data.category | default("Field notes") }}</div>
+        </div>
+      {% endif %}
+    </a>
+  {% else %}
+    <p class="font-typewriter" style="grid-column: 1 / -1">
+      No field notes filed yet.
+    </p>
+  {% endfor %}
+</div>

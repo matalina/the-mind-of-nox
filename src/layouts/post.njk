@@ -32,7 +32,10 @@ layout: base.njk
             </div>
           </aside>
         {% endif %}
-        <div class="content stationary-body">{{ content | safe }}</div>
+        <div class="content stationary-body font-typewriter">{{ content | safe }}</div>
+      </div>
+      <div class="stationary-footer">
+        {% include "author.njk" %}
       </div>
     </section>
   </div>

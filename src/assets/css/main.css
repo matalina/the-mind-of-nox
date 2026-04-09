@@ -5,20 +5,23 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: linear-gradient(135deg,
-      #fef3c7 0%,
-      #d6d3d1 50%,
-      #fef3c7 100%);
-  min-height: 100vh;
+/*
+ * Page background: gradient lives on html so it grows with long content.
+ * Avoid `html { height: 100% }` — it pins the canvas to the viewport and the
+ * gradient stops while content keeps scrolling (background looks “cut off”).
+ */
+html {
+  /* Single min-height — avoid 100vh (often > visible viewport on mobile → extra scroll) */
+  min-height: 100dvh;
+  background: linear-gradient(135deg, #fef3c7 0%, #d6d3d1 50%, #fef3c7 100%);
   position: relative;
-  overflow-x: hidden;
 }
 
-/* Cork board texture */
-body::before {
+/*
+ * Cork texture on html — NOT on body — so body’s grid only has header / main / footer.
+ * (A ::before on a grid container can become a grid item and break row layout.)
+ */
+html::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -26,6 +29,19 @@ body::before {
   opacity: 0.3;
   pointer-events: none;
   z-index: 0;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: transparent;
+  min-height: 100dvh;
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
 }
 
 .font-handwriting {
@@ -39,6 +55,7 @@ body::before {
 /* Header */
 header {
   position: relative;
+  grid-row: 1;
   z-index: 10;
   padding: 2rem;
   border-bottom: 4px solid #7f1d1d;
@@ -80,13 +97,17 @@ header {
   stroke-width: 2;
 }
 
-/* Main container */
+/* Main — middle grid row (1fr) fills space between header and footer on short pages */
 main {
   position: relative;
+  grid-row: 2;
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   z-index: 1;
+  min-width: 0;
+  min-height: 0;
 }
 
 /* Manilla folder (post layout) */
@@ -113,11 +134,7 @@ main {
   position: relative;
   padding: 20px;
   background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.35) 0%,
-      transparent 40%
-    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, transparent 40%),
     linear-gradient(135deg, #f0e6d2 0%, #ebe0c8 50%, #e8dcc4 100%);
   border: 1px solid #a89878;
   border-radius: 0 0.75rem 0.75rem 0.75rem;
@@ -126,6 +143,8 @@ main {
 
 /* Inset paper — folder shows ~20px around the sheet */
 .manilla-folder .stationary {
+  position: relative;
+  isolation: isolate;
   background-color: #fcfaf5;
   background-image:
     linear-gradient(
@@ -147,6 +166,28 @@ main {
     0 3px 8px rgba(0, 0, 0, 0.04),
     inset 0 0 0 1px rgba(255, 255, 255, 0.65);
   padding: 1.5rem 2rem 2rem;
+}
+
+/* Coffee stain PNG (top-right) — src/assets/images/coffee_stain.png → /images/coffee_stain.png */
+.manilla-folder .stationary::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  top: 0.35rem;
+  right: 0.35rem;
+  width: min(48vw, 260px);
+  height: min(42vw, 220px);
+  background-image: url("/images/coffee_stain.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: contain;
+  opacity: 0.72;
+}
+
+.manilla-folder .stationary > * {
+  position: relative;
+  z-index: 1;
 }
 
 .manilla-folder .stationary-header {
@@ -239,25 +280,101 @@ main {
   transform-origin: center center;
 }
 
-
-/* Red strings / connections */
-.red-strings {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
+.manilla-folder .content p {
+  margin-bottom: 1.5rem;
+  line-height: 1.5rem;
 }
 
-.red-string {
-  stroke: #dc2626;
-  stroke-width: 2;
-  fill: none;
-  stroke-dasharray: 5, 5;
-  opacity: 0.6;
+/* Post footer — author */
+.manilla-folder .stationary-footer {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(167, 152, 120, 0.35);
 }
 
-.red-pin {
-  fill: #dc2626;
+.manilla-folder .author {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.manilla-folder .author__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.manilla-folder .author__bio {
+  margin: 0;
+  line-height: 1.55;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.manilla-folder .author__bio a {
+  color: #7f1d1d;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.manilla-folder .author__bio a:hover {
+  color: #991b1b;
+}
+
+/* Signature: larger; same tilt as case polaroid (see .post-polaroid-aside .polaroid) */
+.manilla-folder .author__signature {
+  margin: 0 2rem;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.1;
+  color: #5c2b29;
+  text-align: right;
+  transform: rotate(-10deg);
+  transform-origin: right center;
+}
+
+/* Avatar: full circle, right column */
+.manilla-folder .author__avatar {
+  flex-shrink: 0;
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 6px 16px rgba(0, 0, 0, 0.12);
+  border: 3px solid rgba(167, 152, 120, 0.45);
+  background: #e8e4dc;
+}
+
+.manilla-folder .author__avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .manilla-folder .author {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .manilla-folder .author__text {
+    order: 2;
+    width: 100%;
+  }
+
+  .manilla-folder .author__avatar {
+    order: 1;
+  }
+
+  .manilla-folder .author__signature {
+    text-align: right;
+    transform-origin: right center;
+  }
 }
 
 /* Blog grid */
@@ -265,34 +382,31 @@ main {
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  justify-items: start;
   gap: 2rem;
   padding: 3rem 0;
   z-index: 10;
 }
 
-/* Blog card */
+/* Blog card — max width so a single post does not stretch full row */
 .blog-card {
   position: relative;
+  width: 100%;
+  max-width: 22.5rem;
   transition:
     transform 0.3s ease,
     z-index 0.3s ease;
 }
 
+a.blog-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 .blog-card:hover {
   transform: scale(1.05) rotate(0deg) !important;
   z-index: 50;
-}
-
-/* Push pin */
-.push-pin {
-  position: absolute;
-  top: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  width: 1.5rem;
-  height: 1.5rem;
-  color: #dc2626;
 }
 
 /* Polaroid card */
@@ -447,11 +561,12 @@ main {
   color: #6b7280;
 }
 
-/* Evidence stamp */
+/* Category stamp (index note cards) */
 .evidence-stamp {
   position: absolute;
   bottom: -0.75rem;
   right: -0.75rem;
+  max-width: 11rem;
   border: 2px solid #dc2626;
   color: #dc2626;
   font-weight: bold;
@@ -459,56 +574,16 @@ main {
   transform: rotate(12deg);
   background: rgba(255, 255, 255, 0.9);
   font-size: 0.75rem;
-}
-
-/* Scattered notes */
-.scattered-note {
-  position: absolute;
-  padding: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-  max-width: 16rem;
-  z-index: 0;
-}
-
-.scattered-note-1 {
-  top: 5rem;
-  right: 2.5rem;
-  background: white;
-  border-left: 2px solid #dc2626;
-  transform: rotate(6deg);
-}
-
-.scattered-note-2 {
-  bottom: 8rem;
-  left: 5rem;
-  background: #fef9c3;
-  transform: rotate(-3deg);
-}
-
-.question-mark {
-  position: absolute;
-  top: 50%;
-  right: 25%;
-  background: #fee2e2;
-  width: 6rem;
-  height: 6rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-  transform: rotate(12deg);
-  z-index: 0;
-}
-
-.question-mark span {
-  font-size: 3rem;
-  color: #b91c1c;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  line-height: 1.2;
 }
 
 /* Footer */
 footer {
   position: relative;
+  grid-row: 3;
   z-index: 10;
   margin-top: 5rem;
   padding: 1.5rem;
@@ -588,10 +663,5 @@ footer p {
   .manilla-folder .folder-tab {
     padding-left: 1rem;
     padding-right: 1rem;
-  }
-
-  .scattered-note,
-  .question-mark {
-    display: none;
   }
 }
