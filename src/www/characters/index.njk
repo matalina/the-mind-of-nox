@@ -9,16 +9,21 @@ category: Archive
   {% if collections.characters.length %}
     <ul class="content-index__list font-typewriter">
       {% for item in collections.characters %}
-        <li class="content-index__item">
-          <a class="content-index__link" href="{{ item.url }}">{{ item.data.title }}</a>
-          {% set blurb = item.data.excerpt | default(item.data.description) %}
-          {% if blurb %}
-            <p class="content-index__excerpt">{{ blurb }}</p>
-          {% else %}
-            {% set plain = item.templateContent | plainExcerpt(160) %}
-            {% if plain %}
-              <p class="content-index__excerpt">{{ plain }}</p>
+        <li class="content-index__item{% if item.data.pinned %} content-index__item--pinned{% endif %}">
+          <div class="content-index__item-main">
+            <a class="content-index__link" href="{{ item.url }}">{{ item.data.title }}</a>
+            {% set blurb = item.data.excerpt | default(item.data.description) %}
+            {% if blurb %}
+              <p class="content-index__excerpt">{{ blurb }}</p>
+            {% else %}
+              {% set plain = item.templateContent | plainExcerpt(160) %}
+              {% if plain %}
+                <p class="content-index__excerpt">{{ plain }}</p>
+              {% endif %}
             {% endif %}
+          </div>
+          {% if item.data.pinned %}
+            <img class="content-index__pin" src="/images/pin.png" alt="" width="40" height="40" decoding="async"/>
           {% endif %}
         </li>
       {% endfor %}

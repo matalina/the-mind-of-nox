@@ -3,11 +3,14 @@ layout: base.njk
 title: Field Notes
 ---
 
-<div class="blog-grid">
+<div class="blog-grid blog-grid--field-notes">
+  <div class="blog-grid__pin" aria-hidden="true">
+    <img src="/images/pin.png" alt="" width="72" height="72" decoding="async"/>
+  </div>
   {% for post in collections.posts %}
     {% set tilt = loop.index0 | boardTiltStyle %}
-    {% set img = post.data.image | default("/images/logo.png") %}
-    <a class="blog-card" href="{{ post.url }}" style="{{ tilt }}">
+    {% set img = post.data.image | default("/images/logo.png") | polaroidSrc %}
+    <a class="blog-card{% if post.data.pinned %} blog-card--pinned{% endif %}" href="{{ post.url }}" style="{{ tilt }}">
       {% if post.data.indexPolaroid %}
         <div class="polaroid">
           <div class="tape tape-left"></div>
@@ -32,9 +35,14 @@ title: Field Notes
               height="48"
               decoding="async"
               aria-hidden="true"/>
-            <h2 class="note-title font-handwriting">{{ post.data.title }}</h2>
+            <div class="note-header__copy">
+              <span class="case-label">
+                {{ post.data.year }}{{ post.data.case_type }}-{{ post.data.case_number | default(0) | padSuffix }}.{{ post.data.session | default(0) | padSuffix }}
+              </span>
+              <h2 class="note-title font-handwriting">{{ post.data.title }}</h2>
+            </div>
             {% if post.data.image %}
-              <img src="{{ post.data.image }}" alt="" class="note-thumbnail" width="80" height="80"/>
+              <img src="{{ post.data.image | polaroidSrc }}" alt="" class="note-thumbnail" width="80" height="80"/>
             {% endif %}
           </div>
           {% set manualExcerpt = post.data.excerpt | default(post.data.description) %}
@@ -46,15 +54,17 @@ title: Field Notes
             {% endif %}
           </p>
           <div class="note-footer">
-            <span class="case-label">
-              {{ post.data.year }}{{ post.data.case_type }}-{{ post.data.case_number | default(0) | padSuffix }}.{{ post.data.session | default(0) | padSuffix }}
-            </span>
             <span class="note-date">{{ post.date | longDate }}</span>
           </div>
           <div class="evidence-stamp">
             <span class="category-stamp__text">{{ post.data.category | default("Field notes") }}</span>
           </div>
         </div>
+      {% endif %}
+      {% if post.data.pinned %}
+        <span class="blog-card__pin" aria-hidden="true">
+          <img src="/images/pin.png" alt="" width="40" height="40" decoding="async"/>
+        </span>
       {% endif %}
     </a>
   {% else %}

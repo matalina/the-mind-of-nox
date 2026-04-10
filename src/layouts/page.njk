@@ -4,10 +4,18 @@ layout: base.njk
 permalink: lore/{{ page.fileSlug }}/index.html
 ---
 
-<article class="manilla-folder">
-  <div class="folder-tab header-subtitle font-typewriter">
-    {{ title }}
-  </div>
+{% set alpha_toc = show_toc and toc_override and toc_override.wrapperClass == "alphabetical" %}
+<article class="manilla-folder{% if alpha_toc %} manilla-folder--alpha-toc{% endif %}">
+  {% if alpha_toc %}
+    <div class="folder-tabs font-typewriter" role="navigation" aria-label="On this page">
+      <div class="folder-tab folder-tab--title header-subtitle font-typewriter">{{ title }}</div>
+      {{ content | toc(toc_override) | safe }}
+    </div>
+  {% else %}
+    <div class="folder-tab header-subtitle font-typewriter">
+      {{ title }}
+    </div>
+  {% endif %}
   <div class="folder-body">
     <section class="stationary">
       <div class="stationary-header">
@@ -30,14 +38,28 @@ permalink: lore/{{ page.fileSlug }}/index.html
             <div class="polaroid polaroid--post">
               <span class="tape tape-post-top" aria-hidden="true"></span>
               <div class="polaroid-image">
-                <img src="{{ image }}" alt="{{ title }}"/>
+                <img src="{{ image | polaroidSrc }}" alt="{{ title }}"/>
               </div>
-              <div class="polaroid-caption font-handwriting">{{ caption }}</div>
+              <div class="polaroid-caption font-handwriting">
+                {% if caption %}
+                  {{ caption }}{% else %}&nbsp;{% endif %}
+              </div>
               <span class="tape tape-post-bottom" aria-hidden="true"></span>
             </div>
           </aside>
         {% endif %}
-        <div class="content stationary-body font-typewriter">{{ content | safe }}</div>
+        <div class="content stationary-body font-typewriter">
+          {% if show_toc and not alpha_toc %}
+            <div class="page-toc font-typewriter" aria-label="On this page">
+              {% if toc_override %}
+                {{ content | toc(toc_override) | safe }}
+              {% else %}
+                {{ content | toc | safe }}
+              {% endif %}
+            </div>
+          {% endif %}
+          {{ content | safe }}
+        </div>
       </div>
       <div class="stationary-footer">
         {% include "author.njk" %}

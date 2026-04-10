@@ -31,9 +31,12 @@ permalink: field-notes/{{ title | slugify }}/{{ session | padSuffix }}/index.htm
             <div class="polaroid polaroid--post">
               <span class="tape tape-post-top" aria-hidden="true"></span>
               <div class="polaroid-image">
-                <img src="{{ image }}" alt="{{ title }}"/>
+                <img src="{{ image | polaroidSrc }}" alt="{{ title }}"/>
               </div>
-              <div class="polaroid-caption font-handwriting">{{ caption }}</div>
+              <div class="polaroid-caption font-handwriting">
+                {% if caption %}
+                  {{ caption }}{% else %}&nbsp;{% endif %}
+              </div>
               <span class="tape tape-post-bottom" aria-hidden="true"></span>
             </div>
           </aside>

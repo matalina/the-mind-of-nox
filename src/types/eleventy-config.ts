@@ -5,6 +5,8 @@ export interface EleventyConfigApi {
   addTemplateFormats(formats: string | string[]): void;
   addPassthroughCopy(path: string | Record<string, string>): void;
   addFilter(filterName: string, filterFunction: (...args: any[]) => any): void;
+  /** Retrieve a filter added via `addFilter` (e.g. for plugins). */
+  getFilter(filterName: string): (...args: any[]) => any;
   addShortcode(
     shortcodeName: string,
     shortcodeFunction: (...args: any[]) => any,
@@ -15,7 +17,10 @@ export interface EleventyConfigApi {
   ): void;
   amendLibrary(
     engineName: string,
-    callback: (libraryInstance: { set: (opts: object) => void }) => void,
+    callback: (libraryInstance: {
+      set: (opts: object) => void;
+      use: (plugin: unknown, opts?: object) => void;
+    }) => void,
   ): void;
 }
 

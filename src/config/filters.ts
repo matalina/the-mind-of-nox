@@ -132,6 +132,42 @@ function plainExcerpt(
   return `${stripped.slice(0, maxLen - 1).trim()}…`;
 }
 
+/**
+ * Polaroid / index card images: bare filenames map to `/images/…` (passthrough copy).
+ * `https://…`, `http://…`, `//…`, and paths starting with `/` are left as-is.
+ */
+function polaroidSrc(value: unknown): string {
+  if (value == null) {
+    return "";
+  }
+  const s = String(value).trim();
+  if (s === "") {
+    return "";
+  }
+  if (/^https?:\/\//i.test(s)) {
+    return s;
+  }
+  if (s.startsWith("//")) {
+    return s;
+  }
+  if (s.startsWith("/")) {
+    return s;
+  }
+  const rel = s.replace(/^\.\//, "");
+  if (rel.startsWith("images/")) {
+    return `/${rel}`;
+  }
+  return `/images/${rel}`;
+}
+
+/** JSON options for `eleventy-plugin-toc` (its filter parses a string). */
+function tocOptsJson(tags: unknown): string {
+  if (Array.isArray(tags) && tags.length > 0) {
+    return JSON.stringify({ tags: tags.map((t) => String(t)) });
+  }
+  return JSON.stringify({ tags: ["h2", "h3", "h4"] });
+}
+
 export default {
   padSuffix,
   slugify: slugifyTitle,
@@ -140,4 +176,6 @@ export default {
   bloodDropPlacement,
   boardTiltStyle,
   plainExcerpt,
+  polaroidSrc,
+  tocOptsJson,
 };

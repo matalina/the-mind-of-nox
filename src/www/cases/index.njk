@@ -10,15 +10,20 @@ category: Archive
     <ul class="content-index__list font-typewriter">
       {% for group in collections.caseGroups %}
         {% set head = group.posts[0] %}
-        <li class="content-index__item content-index__item--case">
-          <small class="content-index__case-number">
-            <strong>Case Number:</strong>
-            {{ head.data.year }}{{ head.data.case_type }}-{{ head.data.case_number | padSuffix }}.{{ head.data.session | padSuffix }}</small><br/>
-          <a class="content-index__link" href="/cases/{{ group.slug }}/">{{ group.title }}</a><br/>
-          <span class="content-index__session-count">{{ group.posts | length }} session{% if (group.posts | length) != 1 %}s{% endif %}
-          </span>
-          {% if group.latestDate %}
-            <small class="content-index__case-date">{{ group.latestDate | longDate }}</small>
+        <li class="content-index__item content-index__item--case{% if group.pinned %} content-index__item--pinned{% endif %}">
+          <div class="content-index__item-main">
+            <small class="content-index__case-number">
+              <strong>Case Number:</strong>
+              {{ head.data.year }}{{ head.data.case_type }}-{{ head.data.case_number | padSuffix }}.{{ head.data.session | padSuffix }}</small><br/>
+            <a class="content-index__link" href="/cases/{{ group.slug }}/">{{ group.title }}</a><br/>
+            <span class="content-index__session-count">{{ group.posts | length }} session{% if (group.posts | length) != 1 %}s{% endif %}
+            </span>
+            {% if group.latestDate %}
+              <small class="content-index__case-date">{{ group.latestDate | longDate }}</small>
+            {% endif %}
+          </div>
+          {% if group.pinned %}
+            <img class="content-index__pin" src="/images/pin.png" alt="" width="40" height="40" decoding="async"/>
           {% endif %}
         </li>
       {% endfor %}
