@@ -40,6 +40,12 @@ _monster hunter - vanguard_
 
 ## S
 
+
+### The 7-8-9s
+_gang_
+
+The 7-8-9s is a \[disciplined] \[biker gang] that \[moves illegal hardware and heavy weaponry through the city] and has a goal \[to monopolize the black market trade]. Despite their outward reputation, they \[have a secret].
+
 ### The Shattered Axis
 _cult_
 
@@ -73,3 +79,9 @@ _monster hunter - outsiders_
 _syndicate_
 
 **The Velvet Marrow** is a \[decadent] \[trafficking ring] that \[harvests and sells rare biological components] and \[has a goal to monopolize the black market]. Despite their outward reputation, they \[have a secret].
+
+
+### The Whelps
+_gang_
+
+The Whelps are a \[clandestine] \[urchin network] who \[scavenge throughout the city]. They are motivated by \[survival and communal safety] and have a goal \[to find a way out of the ash-fall and into a life without hunger]. Despite their outward reputation, they \[have a secret].

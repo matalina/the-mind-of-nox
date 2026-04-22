@@ -92,6 +92,20 @@ body {
   flex-direction: column;
 }
 
+img {
+  max-width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border-manilla);
+  text-align: center;
+}
+
 .font-handwriting {
   font-family: "Nothing You Could Do", cursive;
   color: var(--color-brand);

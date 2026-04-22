@@ -8,26 +8,27 @@ pinned: true
 ---
 **Nox** is a \[meticulous] \[Vas] \[Chronicler] who \[Ritually Sacrifices Himself to Conjure Wards].
 
-**MAI:** 7
+**MAI:** 7  
+**Age:** 21 (Jun 21, 2005)  
 
 **Childhood**
 * (flaw) Unsettling Presence
 * (background) The Forced Vessel
-* High Pain Tolerance
+* Rapid Retention
 * Hyper-Focused
 
 **Adolescent**
 * (flaw) Environmental Sensitivity
 * (background) The Lunar Symbiosis
 * Perceives Patters Others Cannot T2
-* Rapid Retention
+* Self-taught Hacker T2
 
 **Young Adult**
 * (flaw) Trust Issues
 * (background) The Demon's Price
-* (occupation) Bounty Hunter
+* (occupation) The Black Chronicler
 * Forensic Education T2
-* Self-taught Hacker T2
+* Thick Skin
 
 **Descriptor**
 * meticulous
@@ -38,7 +39,8 @@ pinned: true
 	* Can Learn Magic
 		* MAI: 3
 	* Short-Lived
-		* The Sound in the Silence
+		* Shamanistic Teachings of Magic
+			* Can use any Aspect through encoding and ritual
 	* (flaw) Stains of the Ward (Bound creatures leave behind a subtle flaw and ability when departing)
 	* Essence Siphon
 	* Mind Sanctuary T2
@@ -59,7 +61,7 @@ pinned: true
 	* Supernatural Magnet
 
 **Vessel**
-Wards: {% tally 2 5 %}   
+Wards: {% tally 2 5 %}  
 Stains: {% tally 0 10 %}   
 * Level 6 The **Phoenix Flame** marks the Vessel with \[an orange glow] \[under the skin that flickers like flames in dim light] that allows the Vessel to \[Channel the Ward's Power] and \[has to consume twice the amount of food and water a day].
 	* Can Use Fire and Life Aspects
@@ -67,16 +69,16 @@ Stains: {% tally 0 10 %}
 	* Can Use Mind and Illusion Aspects
 
 **Wounds**
-Strain: {% tally 0 5 %}   
-Lingering Trauma: {% tally 0 3 %}   
-Debilitating Injury: {% tally 0 2 %}   
-Lasting Scars: {% tally 0 3 %}   
+Strain: {% tally 0 5 %}  
+Lingering Trauma: {% tally 0 3 %}  
+Debilitating Injury: {% tally 0 2 %}  
+Lasting Scars: {% tally 0 3 %}  
 * This _Healed_ Lasting Scar is a \[cauterized] \[burn] located on \[the palms of his hands] that \[hinders fine motor skills].
 
 **Gear**
 * _Wealth:_ 3 (Reasonable) 
 	* Transportation: Bike & Public Transit
-	* Housing: Studio Apartment?
+	* Housing: Studio Apartment
 * Level 1 **Spelled Hoodie** is a \[gray] \[light armor] that \[protects against physical damage]
 * Level 3 **Blood Lance** is a thin needle-like weapon that does \[physical damage] and \[draws a ritualistic amount of blood]
 1. Level 4 **Reliquary Necklace** is chain container that \[holds special vials of essence]. -- can contain 4 vials
@@ -109,37 +111,38 @@ Lasting Scars: {% tally 0 3 %}
 
 **Quests**
 1. Hunt the "Creature"
-	* Countdown: {% tally 0 10 %} 
-	* Location: {% tally 0 5 %} 
-	* Plan: {% tally 0 5 %} 
-	* Strength: {% tally 0 1 %} 
-	* Weakness: {% tally 0 1 %} 
+	* Countdown: {% tally 0 10 %}
+	* Location: {% tally 0 5 %}
+	* Plan: {% tally 0 5 %}
+	* Strength: {% tally 0 1 %}
+	* Weakness: {% tally 0 1 %}
 2. Make more Binding Ink (Personal Quest)
-  * Reward: 1d4+2 bottles of Binding Ink
-  * Step 1: Obtain the Ooze
-    * Location: {% tally 0 5 %} 
-    * Plan: {% tally 0 5 %} 
-  * Step 2: Obtain Grave-Bloom (plant)
-    * Location: {% tally 0 5 %} 
-    * Plan: {% tally 0 5 %} 
-  * Step 3: Preform the Ritual
-3. Find a Body for Alex (Personal Quest)
+   - Reward: 1d4+2 bottles of Binding Ink
+   - Step 1: Obtain the Ooze
+     - Location: {% tally 0 5 %}
+     - Plan: {% tally 0 5 %}
+   - Step 2: Obtain Grave-Bloom (plant)
+     - Location: {% tally 0 5 %}
+     - Plan: {% tally 0 5 %}
+   - Step 3: Preform the Ritual
+1. Find a Body for Alex (Personal Quest)
 	* Reward: Alex can live a normal life
 	* Step 1: Find a ritual that can transfer a ward to a body and let it animate it
-    * Location: {% tally 0 5 %} 
-		* Plan: {% tally 0 5 %} 
+		* Location: {% tally 0 5 %}
+		* Plan: {% tally 0 5 %}
 	* Step 2: Find a body
-		* Location: {% tally 0 5 %} 
-		* Plan: {% tally 0 5 %} 
+		* Location: {% tally 0 5 %}
+		* Plan: {% tally 0 5 %}
 	* Step 3: Prepare the ritual
-		* Location: {% tally 0 5 %} 
-		* Plan: {% tally 0 5 %} 
+		* Location: {% tally 0 5 %}
+		* Plan: {% tally 0 5 %}
 	* Step 4: Preform the Ritual
 		* Consequence: Failure means that Alex is too tightly bound to Nox and likely they need to find a way to unbind him if they want him to have his own body
 
 **Relationships**
 * **Chase Knight** → \[conflict] (-1): mentor/guardian since he was a baby: deceased and is now an Echo in a vial
 * **Alex Kennedy** → \[loyal] (+1): soulmate: a ward
+* **Sage Morgan** → \[reliable] (+0): Contact in the Drift
 
 **Factions**
 * **The Shattered Axis** → \[indifferent] (+0): kidnapped as a baby and used in a ritual that ultimately failed
@@ -156,6 +159,7 @@ Lasting Scars: {% tally 0 3 %}
 
 ## Appearance
 
+**Age:** Young Adult (21)
 **Height:** 6'0"
 **Build:** Lanky but Lithe
 **Hair:** Chestnut brown coifed on top with short sides, the tips are dyed crimson red
@@ -166,25 +170,29 @@ Lasting Scars: {% tally 0 3 %}
 
 ## History
 
-**The Forced Vessel**: Nox was born to parents who didn't know what he was. But the Planar Cult who has eyes and ears in all the hospitals they know what to look for in babies. So they kidnapped him from his parents to use him to summon their planar entity. The ritual goes wrong, everyone is destroyed but Nox who absorbed enough of the Phoenix to survive the blast.
+**The Forced Vessel**: Nox was born to parents who didn't know what he was. But the Shattered Axis who has eyes and ears in all the hospitals they know what to look for in babies. So they kidnapped him from his parents to use him to summon their planar entity. The ritual goes wrong, everyone is destroyed but Nox who absorbed enough of the Phoenix to survive the blast.
 
-Someone (a monster hunter) finds him, raises him on the road and uses him to trap entities.
+Chase Knight finds him, raises him on the road and uses him to trap entities.
 
-**The Lunar Symbiosis**: Maybe as a baby/infant the hunter traps many inside Nox. Not knowing what it would do to the Vas. Nox gets sick, his guardian doesn't know what to do and takes him to a shaman in the mountains, where Nox meets Alex (his soulmate) and the Shaman is able to help Nox transfer the creatures into the jars/vials.
+**The Lunar Symbiosis**: As a baby, Chase Knight traps many creatures inside Nox. Not knowing what it would do to the Vas. Nox gets sick, Chase doesn't know what to do and takes him to a shaman in the mountains, where Nox meets Alex (his soulmate) and the Shaman is able to help Nox transfer the creatures into the jars/vials.
 
 Alex is a soul gone too early meant to haunt the place he died until he finds his soulmate. He finds Nox and they share a body, they can communicate in Nox's mind, and only truly interact in the dream. But Alex is what keeps Nox's sanity, allows him to continue to do what his guardian asks of him without the same problem. 
 
-**The Demon's Price**: Nox's guardian traps a demon inside of him, but the demon is too strong and Alex helps Nox break free but not before he's already killed his guardian. And before the demon is sent back to hell it tries to take the guardians soul but Nox absorbs his guardian's soul first. Then transfers him to a vial or risk going to hell. 
+**Shamanistic Teachings of Magic**: While Nox was with the shaman, he was taught how to access magic through ritual and encoding using the Ancient Runic Language. It came easy for Nox, the language settled into his soul with his Rapid Retention.
 
-**The Sound in the Silence**: Trapped in an elevator while Harpies assaulted him and his guardian Nox had to learn how to filter out the noise and focus on the silence.
+**The Black Ledger**: As a youngster Nox was fascinated with patterns and computers even though he rarely got to use one he taught himself how to code and ultimately learned to hack his way into security. Nox started a side app that Chase Knight knew nothing about called the Black Ledger, where he chronicled details of cases he found on the internet and through his hacking skills others might be interested in. While Chase was hunting down creatures Nox was cataloging everything in the Black Ledger. Around the internet he became know as The Black Chronicler.
+
+**The Demon's Price**: Chase Knight traps a demon inside of him, but the demon is too strong and Alex helps Nox break free but not before he's already killed his guardian. And before the demon is sent back to hell it tries to take the guardians soul but Nox absorbs his guardian's soul first. Then transfers him to a vial or risk going to hell. 
+
+**The Black Chronicler**: At Chase Knight's funeral, Nox encounters Sage Morgan and Sage offers him a job.  Sage found out that Nox was the Black Chronicler and offered Nox a home, legal hunting status and membership into the Drift even though he was technically bound to the Unbound through his guardian.  The warehouse they set him up in provided personal sanctuary for Nox and the new server farm that would be the new home of the Black Ledger.
 
 ## Stains of the Ward Mechanic
 
 For each entity taken into the vessel, the vessel gains 1 flaw and 1 ability of the Ward inside.  Upon departure, the vessel retains a stain.  
 
-{% sentence "stain", "The stain is a [descriptor] [type of mark] located on [the body part] that allows the vessel to [do an ability] and [has a flaw]." %}
+{% sentence "stain" "The stain is a [descriptor] [type of mark] located on [the body part] that allows the vessel to [do an ability] and [has a flaw]." %}
 
-{% sentence "ward", "The Ward Name marks the Vessel with [a mark] on [the body part] that allows the Vessel to [Channel the Ward's Power] and [has a flaw]." %}
+{% sentence "ward" "The Ward Name marks the Vessel with [a mark] on [the body part] that allows the Vessel to [Channel the Ward's Power] and [has a flaw]." %}
 
 A Vessel can retain up to 5 Wards without causing additional harm to the body. 
 

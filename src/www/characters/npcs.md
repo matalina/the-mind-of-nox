@@ -33,3 +33,10 @@ _Echo_
 ~~**Chase Knight** is a \[relentless] \[human] \[lone wolf] who \[Slays with Brutal Efficiency]. He is motivated by the \[the thrill of the hunt] and has a goal \[to become a world renowned hunter]. In combat he deals \[physical damage] with a \[dual silver blades] but \[thinks his ward is a monster to be hunted].~~
 
 **Chase Knight** is a \[relentless] \[echo] \[warrior] who \[Is compelled to Defend his master]. He is motivated by \[the blood magic] and has a goal \[to escape and make his master pay for his transgressions]. In combat he deals \[necrotic damage] with \[dual spectral blades] but \[he has a secrete].
+
+## S
+
+### Sage Morgan
+_contact_
+
+**Sage Morgan** is a \[frail] \[Spliced] \[Hacker] who \[can mentally interface with any digital or arcane network via a neural-shard implant]. He is motivated \[by the absolute control of information flow] and has a goal \[to collect all information under his 'roof']. In combat, he deals \[no] damage, but he \[has a secret].

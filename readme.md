@@ -1,4 +1,4 @@
-# The MInd of Nox
+# The Mind of Nox
 
 Using 11ty, netlfiy functions (if necessary).
 
