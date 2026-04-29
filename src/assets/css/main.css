@@ -946,6 +946,17 @@ main {
   --sticky-note-text: #422006;
 }
 
+.manilla-folder .content .evidence-tag--theme-magenta {
+  --sticky-note-hi: #fdf2f8;
+  --sticky-note: #fce7f3;
+  --sticky-note-low: #fbcfe8;
+  --sticky-note-border: rgb(244 114 182 / 0.9);
+  --sticky-note-shadow-glow: rgb(219 39 119 / 0.22);
+  --sticky-note-icon: #be185d;
+  --sticky-note-type: #831843;
+  --sticky-note-text: #500724;
+}
+
 /*
  * Horizontal offset = padding on the row (layout); tilt = transform on the note (paint only).
  * Assigned randomly at build time: `evidence-tag-row--stickynote-n`.
@@ -1049,6 +1060,22 @@ main {
   text-transform: capitalize;
 }
 
+.manilla-folder .content .evidence-tag__title {
+  font-family: "Nothing You Could Do", cursive;
+  font-size: 1rem;
+  line-height: 1.3;
+  font-style: italic;
+  color: var(--sticky-note-type);
+  opacity: 0.85;
+  margin-inline-start: 0.1rem;
+}
+
+.manilla-folder .content .evidence-tag__title::before {
+  content: "·";
+  margin-inline-end: 0.4rem;
+  opacity: 0.7;
+}
+
 .manilla-folder .content .evidence-tag__text {
   font-family: "Nothing You Could Do", cursive;
   font-size: 1.2rem;
@@ -1062,9 +1089,88 @@ main {
   .manilla-folder .content .evidence-tag-row--stickynote-2 .evidence-tag,
   .manilla-folder .content .evidence-tag-row--stickynote-3 .evidence-tag,
   .manilla-folder .content .evidence-tag-row--stickynote-4 .evidence-tag,
-  .manilla-folder .content .evidence-tag-row--stickynote-5 .evidence-tag {
+  .manilla-folder .content .evidence-tag-row--stickynote-5 .evidence-tag,
+  .manilla-folder .content .evidence-tag--paper,
+  .manilla-folder .content .evidence-tag--ai {
     transform: none;
   }
+}
+
+/*
+ * Paper variant (`note` shortcode) — wider rectangular sheet with washi tape on top
+ * corners. The rules apply to both `.evidence-tag--paper` (variant modifier) and
+ * `.evidence-tag--ai` (type modifier — AI is always paper-styled). Binding to the
+ * type modifier as well ensures correct rendering even if Eleventy's hot reload has
+ * stale shortcode modules cached.
+ */
+.manilla-folder .content .evidence-tag-row--paper,
+.manilla-folder .content .evidence-tag-row:has(.evidence-tag--ai) {
+  display: block;
+  padding-inline-start: 0;
+  padding-block: 1.25rem 0.75rem;
+}
+
+.manilla-folder .content .evidence-tag--paper,
+.manilla-folder .content .evidence-tag--ai {
+  --sticky-note-size: min(100%, 40rem);
+  position: relative;
+  display: block;
+  margin-inline: auto;
+  transform: rotate(-0.4deg);
+}
+
+.manilla-folder .content .evidence-tag--paper .evidence-tag__body,
+.manilla-folder .content .evidence-tag--ai .evidence-tag__body {
+  aspect-ratio: auto;
+  padding: 1.25rem 1.5rem 1.4rem;
+  border-radius: 1px;
+  box-shadow:
+    0 1px 0 rgb(0 0 0 / 0.04),
+    0 6px 12px -4px rgb(0 0 0 / 0.18),
+    0 14px 24px -8px rgb(0 0 0 / 0.12),
+    inset 0 1px 0 rgb(255 255 255 / 0.6);
+  background: linear-gradient(
+    175deg,
+    var(--sticky-note-hi) 0%,
+    var(--sticky-note) 70%,
+    var(--sticky-note-low) 100%
+  );
+}
+
+/* Two pieces of washi tape at the top corners of the paper. */
+.manilla-folder .content .evidence-tag--paper::before,
+.manilla-folder .content .evidence-tag--paper::after,
+.manilla-folder .content .evidence-tag--ai::before,
+.manilla-folder .content .evidence-tag--ai::after {
+  content: "";
+  position: absolute;
+  top: -0.55rem;
+  width: 5.5rem;
+  height: 1.15rem;
+  background: linear-gradient(
+    180deg,
+    rgba(254, 240, 200, 0.55) 0%,
+    rgba(244, 224, 170, 0.7) 50%,
+    rgba(254, 240, 200, 0.55) 100%
+  );
+  border-block: 1px solid rgba(180, 150, 90, 0.25);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.manilla-folder .content .evidence-tag--paper::before,
+.manilla-folder .content .evidence-tag--ai::before {
+  left: 0.75rem;
+  transform: rotate(-4deg);
+}
+
+.manilla-folder .content .evidence-tag--paper::after,
+.manilla-folder .content .evidence-tag--ai::after {
+  right: 0.75rem;
+  transform: rotate(3deg);
 }
 
 /* Block quotes — same face/color as .font-handwriting (overrides .font-typewriter on .content) */

@@ -41,10 +41,17 @@ export default function (
     );
   });
 
-  Object.keys(shortcodes).forEach((name) => {
+  Object.keys(shortcodes.inline).forEach((name) => {
     eleventyConfig.addShortcode(
       name,
-      shortcodes[name as keyof typeof shortcodes],
+      shortcodes.inline[name as keyof typeof shortcodes.inline],
+    );
+  });
+
+  Object.keys(shortcodes.paired).forEach((name) => {
+    eleventyConfig.addPairedShortcode(
+      name,
+      shortcodes.paired[name as keyof typeof shortcodes.paired],
     );
   });
 

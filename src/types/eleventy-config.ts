@@ -11,6 +11,10 @@ export interface EleventyConfigApi {
     shortcodeName: string,
     shortcodeFunction: (...args: any[]) => any,
   ): void;
+  addPairedShortcode(
+    shortcodeName: string,
+    shortcodeFunction: (...args: any[]) => any,
+  ): void;
   addCollection(
     collectionName: string,
     collectionFunction: (...args: any[]) => any,

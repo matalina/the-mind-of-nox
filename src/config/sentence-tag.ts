@@ -18,7 +18,7 @@ function typeSlug(type: string): string {
 }
 
 /** Color family for sticky-note chrome (from canonical sentence type). */
-export type SentenceTheme = "blue" | "green" | "red" | "yellow";
+export type SentenceTheme = "blue" | "green" | "red" | "yellow" | "magenta";
 
 const THEME_BY_CANONICAL: Record<string, SentenceTheme> = {
   info: "blue",
@@ -29,6 +29,7 @@ const THEME_BY_CANONICAL: Record<string, SentenceTheme> = {
   location: "blue",
   item: "blue",
   insight: "yellow",
+  ai: "magenta",
 };
 
 const DEFAULT_ICON_BY_CANONICAL: Record<string, string> = {
@@ -40,6 +41,7 @@ const DEFAULT_ICON_BY_CANONICAL: Record<string, string> = {
   location: "fa-map-pin",
   item: "fa-wand-sparkles",
   insight: "fa-lightbulb",
+  ai: "fa-microchip",
 };
 
 /** Maps author-facing type string → canonical type; optional Font Awesome `fa-*` icon override. */
@@ -109,17 +111,38 @@ function randomStickynoteRowClass(): string {
   return `evidence-tag-row--stickynote-${n}`;
 }
 
-/** Sticky-note markup for the `sentence` shortcode. */
-export function sentenceTagHtml(type: string, sentence: string): string {
+/**
+ * Sticky-note / paper markup for the `sentence` (inline) and `note` (paired) shortcodes.
+ *
+ * `variant` picks the chrome:
+ *   - "sticky" (default): square sticky-note with random tilt + offset (inline `sentence` shortcode).
+ *   - "paper":   wider, paper-with-tape look (paired `note` shortcode).
+ *
+ * `bodyIsHtml=true` skips escaping when the caller pre-rendered markdown to HTML.
+ */
+export function sentenceTagHtml(
+  type: string,
+  title: string,
+  body: string,
+  bodyIsHtml = false,
+  variant: "sticky" | "paper" = "sticky",
+): string {
   const rawType = type ?? "";
   const slug = typeSlug(rawType);
   const { canonical, theme, iconClass } = resolveSentenceType(rawType);
-  const rowClass = randomStickynoteRowClass();
+  const rowClass =
+    variant === "paper" ? "evidence-tag-row--paper" : randomStickynoteRowClass();
+  const variantClass =
+    variant === "paper" ? "evidence-tag--paper" : "evidence-tag--sticky";
   const escTypeAttr = escapeHtml(rawType);
   const escCanonical = escapeHtml(canonical);
   const displayType = rawType.trim() || "default";
   const escTypeLabel = escapeHtml(displayType);
-  const escSentence = escapeHtml(sentence ?? "");
+  const rawTitle = (title ?? "").trim();
+  const titleHtml = rawTitle
+    ? `<span class="evidence-tag__title">${escapeHtml(rawTitle)}</span>`
+    : "";
+  const bodyHtml = bodyIsHtml ? (body ?? "") : escapeHtml(body ?? "");
 
-  return `<span class="evidence-tag-row ${rowClass}"><span class="evidence-tag evidence-tag--${slug} evidence-tag--theme-${theme}" data-evidence-type="${escTypeAttr}" data-sentence-canonical="${escCanonical}"><span class="evidence-tag__body"><span class="evidence-tag__head"><span class="evidence-tag__icon"><i class="${iconClass}" aria-hidden="true"></i></span><span class="evidence-tag__type">${escTypeLabel}</span></span><span class="evidence-tag__text">${escSentence}</span></span></span></span>`;
+  return `<span class="evidence-tag-row ${rowClass}"><span class="evidence-tag ${variantClass} evidence-tag--${slug} evidence-tag--theme-${theme}" data-evidence-type="${escTypeAttr}" data-sentence-canonical="${escCanonical}"><span class="evidence-tag__body"><span class="evidence-tag__head"><span class="evidence-tag__icon"><i class="${iconClass}" aria-hidden="true"></i></span><span class="evidence-tag__type">${escTypeLabel}</span>${titleHtml}</span><span class="evidence-tag__text">${bodyHtml}</span></span></span></span>`;
 }
