@@ -57,3 +57,7 @@ The permalink of the post is defined in the post on the yaml data as follows:
 - purple
 - red
 - teal
+
+# Publish
+
+run npm publish to pull logs from The Mind of Nox obsidian vault and publish them.
