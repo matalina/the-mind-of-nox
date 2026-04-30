@@ -20,11 +20,12 @@ The case id is in the following format: `[year][type]-[case_number].[session_num
 where
 
 - year is a 2 digit representation: 26
-- type is one of 8 possible case types
+- type is one of several possible case types
   - GEN - general topics (not case files)
+  - HST - backstory (not case files)
   - EXT - extraction cases
   - NEU - neutralization cases
-  - TRC - trace and surveilance cases
+  - TRC - trace and surveillance cases
   - REC - recovery cases
   - SAN - sanitation cases
   - VET - vetting cases
