@@ -1851,6 +1851,102 @@ a.blog-card {
   pointer-events: none;
 }
 
+/* Mailchimp subscribe card — embedded as 3rd item of 2nd row in blog grid */
+.mailchimp-subscribe-card {
+  cursor: default;
+}
+
+.mailchimp-subscribe-card:hover {
+  transform: rotate(3deg) !important;
+  z-index: auto !important;
+}
+
+.mailchimp-subscribe-card .note-card {
+  cursor: default;
+  height: 100%;
+}
+
+.mailchimp-subscribe-card .subscribe-title {
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem;
+}
+
+.mailchimp-subscribe-card .subscribe-lede {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+  line-height: 1.45;
+}
+
+.mailchimp-subscribe-card .mc-field-group {
+  margin-bottom: 0.75rem;
+}
+
+.mailchimp-subscribe-card .mc-field-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-family: "Courier New", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.mailchimp-subscribe-card .mc-asterisk {
+  color: var(--color-brand);
+}
+
+.mailchimp-subscribe-card .mc-field-group input[type="email"],
+.mailchimp-subscribe-card .mc-field-group input[type="text"] {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--color-border-note);
+  border-radius: 2px;
+  background: rgb(255 255 255 / 0.6);
+  font-family: "Courier New", monospace;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  box-sizing: border-box;
+}
+
+.mailchimp-subscribe-card .mc-field-group input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+  border-color: var(--color-accent);
+}
+
+.mailchimp-subscribe-card .mc-submit-row {
+  margin-top: 1rem;
+}
+
+.mailchimp-subscribe-card .mc-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  padding: 0.45rem 1.25rem 0.3rem;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  font-family: "Special Elite", monospace;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.mailchimp-subscribe-card .mc-submit-btn:hover {
+  background: var(--color-accent-hover);
+}
+
+.mailchimp-subscribe-card .mc-response {
+  margin-top: 0.5rem;
+  font-size: 0.825rem;
+  font-family: "Courier New", monospace;
+  color: var(--color-text);
+}
+
 /* Footer */
 footer {
   position: relative;

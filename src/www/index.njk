@@ -67,9 +67,29 @@ title: Field Notes
         </span>
       {% endif %}
     </a>
+    {% if loop.index === 5 %}
+      {% include "mailchimp-card.njk" %}
+    {% endif %}
   {% else %}
     <p class="font-typewriter blog-grid__empty">
       No field notes filed yet.
     </p>
   {% endfor %}
+  {% if collections.posts | length < 5 %}
+    {% include "mailchimp-card.njk" %}
+  {% endif %}
 </div>
+
+<script src="//code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+<script src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+<script>
+(function($) {
+  window.fnames = new Array();
+  window.ftypes = new Array();
+  fnames[0] = 'EMAIL';
+  ftypes[0] = 'email';
+  fnames[1] = 'FNAME';
+  ftypes[1] = 'text';
+}(jQuery));
+var $mcj = jQuery.noConflict(true);
+</script>
