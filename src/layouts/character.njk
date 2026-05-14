@@ -40,7 +40,17 @@ category: Characters
             </div>
           </aside>
         {% endif %}
-        <div class="content stationary-body font-typewriter">{{ content | safe }}</div>
+        <div class="content stationary-body font-typewriter">
+          {% if links %}
+            <p class="character-nav" style="text-align: center;">
+              {%- for link in links -%}
+                {%- if not loop.first %} | {% endif -%}
+                <a href="{{ link.href }}">{{ link.label }}</a>
+              {%- endfor -%}
+            </p>
+          {% endif %}
+          {{ content | safe }}
+        </div>
       </div>
       <div class="stationary-footer">
         {% include "author.njk" %}

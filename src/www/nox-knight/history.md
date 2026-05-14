@@ -1,8 +1,19 @@
 ---
-layout: page.njk
+layout: character.njk
 title: History
 permalink: nox-knight/history/index.html
 category: Characters
+links:
+  - label: Character Sheet
+    href: /nox-knight/
+  - label: History
+    href: /nox-knight/history/
+  - label: Appearance & Personality
+    href: /nox-knight/details/
+  - label: The Loft
+    href: /nox-knight/home/
+  - label: The Drift Stack
+    href: /nox-knight/cloud/
 ---
 **The Forced Vessel**: Nox was born to parents who didn't know what he was. But the Shattered Axis who has eyes and ears in all the hospitals they know what to look for in babies. So they kidnapped him from his parents to use him to summon their planar entity. The ritual goes wrong, everyone is destroyed but Nox who absorbed enough of the Phoenix to survive the blast.
 

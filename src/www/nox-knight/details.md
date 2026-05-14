@@ -1,8 +1,19 @@
 ---
-layout: page.njk
+layout: character.njk
 title: Appearance & Personality
 permalink: nox-knight/details/index.html
 category: Characters
+links:
+  - label: Character Sheet
+    href: /nox-knight/
+  - label: History
+    href: /nox-knight/history/
+  - label: Appearance & Personality
+    href: /nox-knight/details/
+  - label: The Loft
+    href: /nox-knight/home/
+  - label: The Drift Stack
+    href: /nox-knight/cloud/
 ---
 ## Appearance
 

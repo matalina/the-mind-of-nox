@@ -1,8 +1,19 @@
 ---
-layout: page.njk
+layout: character.njk
 title: The Loft
 permalink: nox-knight/home/index.html
 category: Characters
+links:
+  - label: Character Sheet
+    href: /nox-knight/
+  - label: History
+    href: /nox-knight/history/
+  - label: Appearance & Personality
+    href: /nox-knight/details/
+  - label: The Loft
+    href: /nox-knight/home/
+  - label: The Drift Stack
+    href: /nox-knight/cloud/
 ---
 _Neighborhood:_ Direct Bay (I8)
 
