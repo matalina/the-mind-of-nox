@@ -1851,6 +1851,32 @@ a.blog-card {
   pointer-events: none;
 }
 
+/* Archived marker: brand-red variant of the category stamp */
+.evidence-stamp--archived,
+.manilla-folder .stationary-category-stamp--archived {
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+}
+
+/* Index note cards: archived stamp in the opposite (top-left) corner */
+.evidence-stamp--archived {
+  top: -0.75rem;
+  left: -0.75rem;
+  right: auto;
+  bottom: auto;
+  transform: rotate(-9deg);
+}
+
+/* Post letterhead: archived stamp top-right, clear of the category stamp */
+.manilla-folder .stationary-category-stamp--archived {
+  left: auto;
+  right: 0;
+  bottom: auto;
+  top: -0.6rem;
+  transform: rotate(8deg);
+  transform-origin: right top;
+}
+
 /* Mailchimp subscribe card — embedded as 3rd item of 2nd row in blog grid */
 .mailchimp-subscribe-card {
   cursor: default;
@@ -2068,6 +2094,15 @@ footer p {
     bottom: -0.85rem;
     transform: translateX(-50%) rotate(-12deg);
     transform-origin: center bottom;
+  }
+
+  .manilla-folder .stationary-category-stamp--archived {
+    left: auto;
+    right: 0.5rem;
+    bottom: auto;
+    top: -0.55rem;
+    transform: rotate(8deg);
+    transform-origin: right top;
   }
 
   .manilla-folder .stationary-header > .stationary-header-brand + div {

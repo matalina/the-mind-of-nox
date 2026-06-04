@@ -24,6 +24,11 @@ permalink: field-notes/{{ title | slugify }}/{{ session | padSuffix }}/index.htm
         <div class="stationary-category-stamp">
           <span class="category-stamp__text">{{ category | default("Field notes") }}</span>
         </div>
+        {% if archive %}
+          <div class="stationary-category-stamp stationary-category-stamp--archived">
+            <span class="category-stamp__text">Archived</span>
+          </div>
+        {% endif %}
       </div>
       <div class="stationary-content">
         {% if image %}

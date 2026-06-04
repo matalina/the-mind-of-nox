@@ -6,9 +6,10 @@ category: Archive
 ---
 
 <section class="content-index" aria-labelledby="cases-index-heading">
-  {% if collections.caseGroups | length %}
+  {% set visibleGroups = collections.caseGroups | rejectattr("archived") %}
+  {% if visibleGroups | length %}
     <ul class="content-index__list font-typewriter">
-      {% for group in collections.caseGroups %}
+      {% for group in visibleGroups %}
         {% set head = group.posts[0] %}
         <li class="content-index__item content-index__item--case{% if group.pinned %} content-index__item--pinned{% endif %}">
           <div class="content-index__item-main">

@@ -42,6 +42,8 @@ type CaseGroup = {
   latestDate?: Date;
   /** True if any session post has `pinned: true` in front matter. */
   pinned?: boolean;
+  /** True if any session post has `archive: true` in front matter. */
+  archived?: boolean;
 };
 
 /** First session = lowest session# after sort; its post `date` is the case start. */
@@ -58,6 +60,11 @@ function compareCaseGroupsByStartDateDesc(a: CaseGroup, b: CaseGroup): number {
 function isPinnedData(data: Record<string, unknown>): boolean {
   const p = data.pinned;
   return p === true || p === "true" || p === 1 || p === "1";
+}
+
+function isArchivedData(data: Record<string, unknown>): boolean {
+  const a = data.archive;
+  return a === true || a === "true" || a === 1 || a === "1";
 }
 
 /** Pinned groups first; within each bucket, same order as default case list. */
@@ -196,6 +203,7 @@ export default {
       group.posts.sort((a, b) => sessionNumber(a.data) - sessionNumber(b.data));
       group.latestDate = latestDateInGroup(group.posts);
       group.pinned = group.posts.some((p) => isPinnedData(p.data));
+      group.archived = group.posts.some((p) => isArchivedData(p.data));
     }
 
     return groups.sort(compareCaseGroupsForArchive);

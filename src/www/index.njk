@@ -61,6 +61,11 @@ title: Field Notes
           </div>
         </div>
       {% endif %}
+      {% if post.data.archive %}
+        <div class="evidence-stamp evidence-stamp--archived">
+          <span class="category-stamp__text">Archived</span>
+        </div>
+      {% endif %}
       {% if post.data.pinned %}
         <span class="blog-card__pin" aria-hidden="true">
           <img src="/images/pin.png" alt="" width="40" height="40" decoding="async"/>
