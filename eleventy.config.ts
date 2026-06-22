@@ -94,13 +94,13 @@ export default function (
     type: "rss",
     outputPath: "/feed/index.xml",
     collection: {
-      name: "posts",
+      name: "sessions",
       limit: 0,
     },
     metadata: {
       language: "en",
       title: "The Mind of Nox",
-      subtitle: "Field notes — authorized personnel only.",
+      subtitle: "Session logs from the vault.",
       base: siteBase,
       author: {
         name: "AJ Hunter",

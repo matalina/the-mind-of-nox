@@ -3,20 +3,19 @@
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>The Mind of Nox | {{ title }}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&family=Special+Elite&display=swap"
-      rel="stylesheet"/>
+    <title>The Mind of Nox — {{ title }}</title>
     <link rel="stylesheet" href="/css/fontawesome.min.css"/>
     <link rel="stylesheet" href="/css/main.css"/>
   </head>
   <body>
-    {% include "header.njk" %}
-    <main>
+    <header class="site-header">
+      <a class="site-title" href="/">The Mind of Nox</a>
+    </header>
+    <main class="site-main">
       {{ content | safe }}
     </main>
-    {% include "footer.njk" %}
+    <footer class="site-footer">
+      <p>The Mind of Nox</p>
+    </footer>
   </body>
 </html>

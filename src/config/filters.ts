@@ -1,10 +1,6 @@
 import slugify from "slugify";
 
-// A simple filter to ensure 3-digit padding
-function padSuffix(num: number): string {
-  return String(num).padStart(3, "0");
-}
-
+/** URL-safe slug. Also used by IdAttributePlugin / markdown-it-anchor. */
 function slugifyTitle(str: string): string {
   return slugify(str, {
     lower: true,
@@ -45,7 +41,7 @@ function dayOrdinal(day: number): string {
   }
 }
 
-/** Calendar date as "April 8th, 2026". Accepts YYYY-MM-DD or a Date (uses UTC calendar parts). */
+/** Calendar date as "April 8th, 2026". Accepts YYYY-MM-DD or a Date (UTC parts). */
 function longDate(value: Date | string | undefined | null): string {
   if (value == null || value === "") {
     return "";
@@ -71,47 +67,7 @@ function longDate(value: Date | string | undefined | null): string {
   return `${MONTH_NAMES[d.getUTCMonth()]} ${dayOrdinal(d.getUTCDate())}, ${d.getUTCFullYear()}`;
 }
 
-/**
- * Build-time coin flip (e.g. for Liquid). For Nunjucks `{% set x = randomBool() %}`
- * a `false` result can error; the home index uses `post.data.indexPolaroid` instead.
- */
-function randomBool(): boolean {
-  return Math.random() < 0.5;
-}
-
-const BOARD_TILT_PRESETS = [
-  "transform: rotate(-3deg); margin-top: 0",
-  "transform: rotate(2deg); margin-top: 20px",
-  "transform: rotate(-2deg); margin-top: 40px",
-  "transform: rotate(4deg); margin-top: 60px",
-  "transform: rotate(-4deg); margin-top: 0",
-  "transform: rotate(3deg); margin-top: 20px",
-] as const;
-
-/** Random modifier class for note-card blood spatter (build-time). Input ignored (use with pipe). */
-const BLOOD_DROP_PLACEMENTS = [
-  "note-blood-drop--1",
-  "note-blood-drop--2",
-  "note-blood-drop--3",
-  "note-blood-drop--4",
-  "note-blood-drop--5",
-] as const;
-
-function bloodDropPlacement(_value?: unknown): string {
-  const i = Math.floor(Math.random() * BLOOD_DROP_PLACEMENTS.length);
-  return BLOOD_DROP_PLACEMENTS[i] ?? BLOOD_DROP_PLACEMENTS[0];
-}
-
-/** Deterministic cork-board tilt from card index (0-based). */
-function boardTiltStyle(index: number | string): string {
-  const n = typeof index === "string" ? Number.parseInt(index, 10) : index;
-  const i =
-    Math.max(0, Math.floor(Number.isNaN(n) ? 0 : n)) %
-    BOARD_TILT_PRESETS.length;
-  return BOARD_TILT_PRESETS[i];
-}
-
-/** Plain-text excerpt from markdown/HTML body for note cards. */
+/** Plain-text excerpt from markdown/HTML body for index lists. */
 function plainExcerpt(
   content: string | undefined | null,
   maxLen: number = 220,
@@ -132,50 +88,8 @@ function plainExcerpt(
   return `${stripped.slice(0, maxLen - 1).trim()}…`;
 }
 
-/**
- * Polaroid / index card images: bare filenames map to `/images/…` (passthrough copy).
- * `https://…`, `http://…`, `//…`, and paths starting with `/` are left as-is.
- */
-function polaroidSrc(value: unknown): string {
-  if (value == null) {
-    return "";
-  }
-  const s = String(value).trim();
-  if (s === "") {
-    return "";
-  }
-  if (/^https?:\/\//i.test(s)) {
-    return s;
-  }
-  if (s.startsWith("//")) {
-    return s;
-  }
-  if (s.startsWith("/")) {
-    return s;
-  }
-  const rel = s.replace(/^\.\//, "");
-  if (rel.startsWith("images/")) {
-    return `/${rel}`;
-  }
-  return `/images/${rel}`;
-}
-
-/** JSON options for `eleventy-plugin-toc` (its filter parses a string). */
-function tocOptsJson(tags: unknown): string {
-  if (Array.isArray(tags) && tags.length > 0) {
-    return JSON.stringify({ tags: tags.map((t) => String(t)) });
-  }
-  return JSON.stringify({ tags: ["h2", "h3", "h4"] });
-}
-
 export default {
-  padSuffix,
   slugify: slugifyTitle,
   longDate,
-  randomBool,
-  bloodDropPlacement,
-  boardTiltStyle,
   plainExcerpt,
-  polaroidSrc,
-  tocOptsJson,
 };

@@ -7,9 +7,7 @@
     "serve": "eleventy --serve --port=8099",
     "typecheck": "tsc --noEmit",
     "dev": "netlify dev --internal-disable-edge-functions",
-    "new-post": "node scripts/new-post.mjs",
-    "publish": "node scripts/publish-post.mjs",
-    "republish": "node scripts/republish-page.mjs"
+    "sync": "node scripts/sync-vault.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.0",

@@ -1,0 +1,10 @@
+---
+layout: base.njk
+---
+<article class="session">
+  <h1 class="session__title">{{ title }}</h1>
+  {% if page.date %}
+    <p class="session__date">{{ page.date | longDate }}</p>
+  {% endif %}
+  {{ content | safe }}
+</article>

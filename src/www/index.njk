@@ -1,100 +1,33 @@
 ---
 layout: base.njk
-title: Field Notes
+title: Home
 ---
+<section class="home">
+  <h1>The Mind of Nox</h1>
 
-<div class="blog-grid blog-grid--field-notes">
-  <div class="blog-grid__pin" aria-hidden="true">
-    <img src="/images/pin.png" alt="" width="72" height="72" decoding="async"/>
-  </div>
-  {% for post in collections.posts %}
-    {% set tilt = loop.index0 | boardTiltStyle %}
-    {% set img = post.data.image | default("/images/logo.png") | polaroidSrc %}
-    <a class="blog-card{% if post.data.pinned %} blog-card--pinned{% endif %}" href="{{ post.url }}" style="{{ tilt }}">
-      {% if post.data.indexPolaroid %}
-        <div class="polaroid">
-          <div class="tape tape-left"></div>
-          <div class="tape tape-right"></div>
-          <div class="polaroid-image">
-            <img src="{{ img }}" alt="{{ post.data.title }}"/>
-          </div>
-          <div class="polaroid-caption font-handwriting">
-            <h3>{{ post.data.title }}</h3>
-          </div>
-        </div>
-      {% else %}
-        <div class="note-card">
-          <div class="tape tape-left"></div>
-          <div class="tape tape-right"></div>
-          <div class="note-header">
-            <img
-              class="note-blood-drop {{ '' | bloodDropPlacement }}"
-              src="/images/blood_drop.png"
-              alt=""
-              width="48"
-              height="48"
-              decoding="async"
-              aria-hidden="true"/>
-            <div class="note-header__copy">
-              <span class="case-label">
-                {{ post.data.year }}{{ post.data.case_type }}-{{ post.data.case_number | default(0) | padSuffix }}.{{ post.data.session | default(0) | padSuffix }}
-              </span>
-              <h2 class="note-title font-handwriting">{{ post.data.title }}</h2>
-            </div>
-            {% if post.data.image %}
-              <img src="{{ post.data.image | polaroidSrc }}" alt="" class="note-thumbnail" width="80" height="80"/>
-            {% endif %}
-          </div>
-          {% set manualExcerpt = post.data.excerpt | default(post.data.description) %}
-          <p class="note-excerpt font-typewriter">
-            {% if manualExcerpt %}
-              {{ manualExcerpt }}
-            {% else %}
-              {{ post.templateContent | plainExcerpt }}
-            {% endif %}
-          </p>
-          <div class="note-footer">
-            <span class="note-date">{{ post.date | longDate }}</span>
-          </div>
-          <div class="evidence-stamp">
-            <span class="category-stamp__text">{{ post.data.category | default("Field notes") }}</span>
-          </div>
-        </div>
-      {% endif %}
-      {% if post.data.archive %}
-        <div class="evidence-stamp evidence-stamp--archived">
-          <span class="category-stamp__text">Archived</span>
-        </div>
-      {% endif %}
-      {% if post.data.pinned %}
-        <span class="blog-card__pin" aria-hidden="true">
-          <img src="/images/pin.png" alt="" width="40" height="40" decoding="async"/>
-        </span>
-      {% endif %}
-    </a>
-    {% if loop.index === 5 %}
-      {% include "mailchimp-card.njk" %}
-    {% endif %}
+  <h2>Recent sessions</h2>
+  {% if collections.sessions | length %}
+    <ul class="session-list">
+      {% for s in collections.sessions %}
+        <li>
+          <a href="{{ s.url }}">{{ s.data.title }}</a>
+          {% if s.date %}<span class="muted">— {{ s.date | longDate }}</span>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
   {% else %}
-    <p class="font-typewriter blog-grid__empty">
-      No field notes filed yet.
-    </p>
-  {% endfor %}
-  {% if collections.posts | length < 5 %}
-    {% include "mailchimp-card.njk" %}
+    <p>No sessions synced yet. Run <code>npm run sync</code>.</p>
   {% endif %}
-</div>
 
-<script src="//code.jquery.com/jquery-3.7.1.slim.min.js"></script>
-<script src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
-<script>
-(function($) {
-  window.fnames = new Array();
-  window.ftypes = new Array();
-  fnames[0] = 'EMAIL';
-  ftypes[0] = 'email';
-  fnames[1] = 'FNAME';
-  ftypes[1] = 'text';
-}(jQuery));
-var $mcj = jQuery.noConflict(true);
-</script>
+  <h2>Sections</h2>
+  {% for section in collections.sections %}
+    <section class="section-group">
+      <h3>{{ section.title }}</h3>
+      <ul>
+        {% for p in section.pages %}
+          <li><a href="{{ p.url }}">{{ p.data.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+</section>

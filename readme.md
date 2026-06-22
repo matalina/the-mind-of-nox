@@ -1,63 +1,70 @@
 # The Mind of Nox
 
-Using 11ty, netlfiy functions (if necessary).
+An [Eleventy](https://www.11ty.dev/) static site generated from an Obsidian vault.
 
-## Case Files/Blog Posts
+## Source of truth
 
-Posts are stored in `www/posts` in the following format
+All content lives in the Obsidian vault:
 
-`[year]-[month]-[day]-[case_id].md`
+```
+D:\Personal\Dropbox\Notebook\Writing\Tag And Tally\The Mind of Nox
+```
 
-where:
+The site is a **mirror** of that vault — its URL structure follows the vault's folder
+structure. Edit notes in Obsidian, then run the sync to regenerate the site's content.
 
-- year is the 4 digit year: 2026
-- month is a 2 digit represetitation: 04
-- day is a 2 digit representation: 08
-- case_id is slugified
+## Workflow
 
-The case id is in the following format: `[year][type]-[case_number].[session_number]`
+```sh
+npm run sync     # mirror the vault into src/www/, converting Obsidian syntax
+npm run serve    # local preview at http://127.0.0.1:8099
+npm run build    # production build into _site/
+npm run dev      # netlify dev
+```
 
-where
+`npm run sync` is **idempotent** — it wipes the previously generated content and
+regenerates from scratch, so deletions and renames in the vault always propagate.
+Generated markdown is committed to the repo (Netlify builds from git and has no access
+to Dropbox).
 
-- year is a 2 digit representation: 26
-- type is one of several possible case types
-  - GEN - general topics (not case files)
-  - HST - backstory (not case files)
-  - EXT - extraction cases
-  - NEU - neutralization cases
-  - TRC - trace and surveillance cases
-  - REC - recovery cases
-  - SAN - sanitation cases
-  - VET - vetting cases
-  - CON - containment cases
-- case number is a 3 digit value representing how many cases of the type we've taken on starting at 001
-- session number is a 3 digit value representing how many 'posts' are made for the given case starting at 000 for session 0 notes.
+### What gets published
 
-The permalink of the post is defined in the post on the yaml data as follows:
+- Everything **except** paths with a segment starting with `_` or `.`
+  (`_archive`, `_system`, `_mechanics`, `.obsidian`, …). `secrets/` **is** published.
+- A note with `publish: false` in its front matter is skipped, even inside a published
+  folder.
+- The vault's root-level `index.md` is skipped — the site homepage is generated from
+  collections (recent sessions + a section index).
 
-`permalink: "field-notes/{{ title | slugify }}/{{ session_num | padSuffix }}/index.html"`
+### Vault → site conversions
 
-## Categories
+Handled by [`scripts/lib/convert.mjs`](scripts/lib/convert.mjs):
 
-- Example (GEN-001)
-- Announcement (GEN-000)
-- Off Topic (GEN-002)
-- Field Notes (Session Notes)
-- Surveillance (Recorded Actual Plays)
-- Incident Reports (Short Stories)
+- Obsidian callouts (`> [!npc]`, `> [!item]`, …) → `{% sentence %}` shortcodes
+  (`> [!ai]` → paired `{% note %}`), rendered as themeable `.callout` elements.
+- Tally code-spans (`` `boxes:3/5` ``, `circles`, `clocks`) → `{% tally %}` shortcodes.
+- Image embeds (`![[file.png]]`) → markdown images; the referenced files are copied out
+  of the vault into `src/assets/images/vault/` and served from `/images/vault/`.
+- `--` → em-dash (—), the vault's convention. Code spans and markdown `---` rules
+  are left untouched.
+- Wikilinks (`[[target|display]]`, `[[note#Heading]]`) → real markdown links,
+  resolved against every published note (Obsidian-style basename lookup) with heading
+  anchors slugified to match the site's generated heading ids. Targets that don't resolve
+  to a published page fall back to plain display text (no broken links).
 
-## Avatar Colors
+### Overriding the vault location
 
-- (no avatar field) Gray
-- blue
-- green
-- magenta
-- orange
-- pink
-- purple
-- red
-- teal
+Set `NOX_VAULT_DIR` to point the sync at a different vault path:
 
-# Publish
+```sh
+NOX_VAULT_DIR="/some/other/vault" npm run sync     # bash
+$env:NOX_VAULT_DIR="D:\other\vault"; npm run sync   # PowerShell
+```
 
-run npm publish to pull logs from The Mind of Nox obsidian vault and publish them.
+## Theme
+
+The current theme is an intentionally minimal, blank scaffold
+([`src/assets/css/main.css`](src/assets/css/main.css), layouts in
+[`src/layouts/`](src/layouts/)). Markup classes (`.callout`, `.callout--<type>`,
+`.tally`, `.session`, `.page`) are stable, so styling can be layered on without changing
+the content pipeline.
