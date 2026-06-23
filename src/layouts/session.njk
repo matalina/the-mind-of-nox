@@ -21,6 +21,11 @@ layout: base.njk
 
   <div class="layout">
     <article>
+      {% if image %}
+        <figure class="figure">
+          <img src="{{ image }}" alt="{{ title }}"/>
+        </figure>
+      {% endif %}
       <div class="prose">{{ content | safe }}</div>
     </article>
 

@@ -25,7 +25,7 @@ permalink: "/lore/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumbe
           <span class="card__tag">{{ p.data.title }}</span>
         </div>
         <h4 class="card__title">{{ p.data.title }}</h4>
-        <p class="card__excerpt">{{ p.templateContent | plainExcerpt(140) }}</p>
+        <p class="card__excerpt">{{ p | excerptOf(140) }}</p>
         <span class="card__date">Reference</span>
       </a>
     {% endfor %}

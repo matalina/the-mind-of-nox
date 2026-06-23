@@ -26,14 +26,20 @@ title: Home
   {% set latest = sessions[0] %}
   <section class="section section--lg">
     <div class="section-label"><span>Latest Entry</span><span class="rule"></span></div>
-    <article class="featured featured--noimg">
+    <article class="featured{% if not latest.data.image %} featured--noimg{% endif %}">
+      {% if latest.data.image %}
+        <div class="featured__media">
+          <img src="{{ latest.data.image }}" alt="{{ latest.data.title }}"/>
+          <span class="chip chip--iron">Session</span>
+        </div>
+      {% endif %}
       <div class="featured__body">
         <div class="eyebrow">
           {%- if latest.data.session %}Play Session {{ latest.data.session }} · {% endif -%}
           {{ latest.date | longDate }}
         </div>
         <h3 class="h-card"><a href="{{ latest.url }}">{{ latest.data.title }}</a></h3>
-        <p>{{ latest.templateContent | plainExcerpt(260) }}</p>
+        <p>{{ latest | excerptOf(260) }}</p>
         <a href="{{ latest.url }}" class="readmore">Read the entry →</a>
       </div>
     </article>
@@ -51,7 +57,7 @@ title: Home
           <span class="card__tag">Session {{ s.data.session }}</span>
         </div>
         <h4 class="card__title">{{ s.data.title }}</h4>
-        <p class="card__excerpt">{{ s.templateContent | plainExcerpt(140) }}</p>
+        <p class="card__excerpt">{{ s | excerptOf(140) }}</p>
         <span class="card__date">{{ s.date | longDate }}</span>
       </a>
     {% endfor %}

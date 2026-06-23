@@ -206,9 +206,28 @@ function resolveRelatedLinks(fm, resolveLink) {
   return out;
 }
 
+/**
+ * Resolve a note's `image:` field (featured image). Accepts a bare filename,
+ * an Obsidian embed `[[file.png]]`, an absolute `/path`, or an external URL.
+ * Vault files resolve to the copied `/images/vault/<file>` URL; the filename is
+ * returned so the caller copies it out. Returns `{ url, file }` or null.
+ */
+function resolveImageField(raw) {
+  if (typeof raw !== "string" || !raw.trim()) return null;
+  let v = raw
+    .trim()
+    .replace(/^!?\[\[/, "")
+    .replace(/\]\]$/, "")
+    .split("|")[0]
+    .trim();
+  if (/^https?:\/\//i.test(v) || v.startsWith("/")) return { url: v, file: null };
+  const file = v.split(/[\\/]/).pop();
+  return { url: `${IMAGE_BASE}${file}`, file };
+}
+
 // ---------- generation ----------
 
-function buildFrontMatter({ layout, title, date, section, fm, toc, related, order }) {
+function buildFrontMatter({ layout, title, date, section, fm, toc, related, order, image }) {
   const lines = ["---", `layout: ${layout}`, `title: ${yamlQuote(title)}`];
   if (date) lines.push(`date: ${date}`);
   lines.push(`section: ${yamlQuote(section)}`);
@@ -228,6 +247,11 @@ function buildFrontMatter({ layout, title, date, section, fm, toc, related, orde
     }
   }
   if (typeof order === "number") lines.push(`order: ${order}`);
+  const excerpt = fm.get("excerpt");
+  if (typeof excerpt === "string" && excerpt.trim()) {
+    lines.push(`excerpt: ${yamlQuote(excerpt.trim())}`);
+  }
+  if (image) lines.push(`image: ${yamlQuote(image)}`);
   const tags = fm.get("tags");
   if (Array.isArray(tags) && tags.length) {
     lines.push(`tags: [${tags.join(", ")}]`);
@@ -272,7 +296,9 @@ function main() {
   let skipped = 0;
 
   for (const note of notes) {
-    const text = fs.readFileSync(note.abs, "utf8");
+    // Normalize CRLF/CR → LF so the line-based parsers aren't tripped by
+    // Windows line endings (the regex `.*$` won't match a trailing \r).
+    const text = fs.readFileSync(note.abs, "utf8").replace(/\r\n?/g, "\n");
     const { frontMatterRaw, body, hasFrontMatter } = splitFrontMatter(text);
     const fm = hasFrontMatter ? parseFrontMatter(frontMatterRaw) : new Map();
     if (fm.get("publish") === false) {
@@ -371,6 +397,10 @@ function main() {
       title,
     });
 
+    // Featured image (front-matter `image:`) — copied like body embeds.
+    const featured = resolveImageField(fm.get("image"));
+    if (featured?.file) referenced.push(featured.file);
+
     // Copy referenced images out of the vault.
     for (const file of referenced) {
       if (copiedImages.has(file)) continue;
@@ -388,7 +418,10 @@ function main() {
 
     const related = resolveRelatedLinks(fm, resolveLink);
     const order = typeof fm.get("order") === "number" ? fm.get("order") : null;
-    const frontMatter = buildFrontMatter({ layout, title, date, section, fm, toc, related, order });
+    const frontMatter = buildFrontMatter({
+      layout, title, date, section, fm, toc, related, order,
+      image: featured ? featured.url : null,
+    });
     fs.mkdirSync(path.dirname(destAbs), { recursive: true });
     fs.writeFileSync(destAbs, frontMatter + converted, "utf8");
     generated.push(destRel);

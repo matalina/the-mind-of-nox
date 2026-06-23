@@ -6,6 +6,25 @@
    markdown (sessions, lore, callouts, tallies, maps) onto it.
    ========================================================= */
 
+@font-face {
+  font-family: "3rd Man";
+  src: url("/fonts/3rd-man.otf") format("opentype");
+  /* Single face covers the whole weight range so heading weights (800/900)
+     use the real glyphs instead of synthesized faux-bold. */
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Special Elite";
+  src: url("/fonts/special-elite.ttf") format("truetype");
+  /* Single regular weight; the browser synthesizes bold where 700 is used
+     (nav, buttons, body <strong>). */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg: #c8c7c1;
   --bg2: #d6d5cf;
@@ -21,8 +40,8 @@
   --wyld: #2f8f86;
   --accent: var(--rust);
   --maxw: 1180px;
-  --display: 'Big Shoulders Stencil Display', 'Big Shoulders Display', sans-serif;
-  --mono: 'Courier Prime', monospace;
+  --display: '3rd Man', 'Big Shoulders Stencil Display', 'Big Shoulders Display', sans-serif;
+  --mono: 'Special Elite', monospace;
   --type: 'Special Elite', monospace;
   --hand: 'IM Fell English', Georgia, serif;
   --tilt: -1.4deg;
@@ -278,9 +297,9 @@ a { color: inherit; }
   font-family: var(--display); font-weight: 800; color: var(--ink);
   text-transform: uppercase; line-height: 1; margin: 36px 0 16px;
 }
-.prose h1 { font-size: 34px; border-bottom: 2px solid var(--line); padding-bottom: 10px; }
-.prose h2 { font-size: 28px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
-.prose h3 { font-size: 22px; }
+.prose h1 { font-size: clamp(38px, 5.4vw, 62px); border-bottom: 2px solid var(--line); padding-bottom: 10px; }
+.prose h2 { font-size: 48px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.prose h3 { font-size: 36px; }
 .prose h5 { font-size: 18px; }
 .prose h6 { font-size: 15px; }
 .prose h4 {

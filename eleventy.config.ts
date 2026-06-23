@@ -26,6 +26,7 @@ export default function (
   eleventyConfig.addPassthroughCopy({ "src/assets/css": "css" });
   eleventyConfig.addPassthroughCopy({ "src/assets/images": "images" });
   eleventyConfig.addPassthroughCopy({ "src/assets/js": "js" });
+  eleventyConfig.addPassthroughCopy({ "src/assets/fonts": "fonts" });
   eleventyConfig.addPassthroughCopy({
     "node_modules/@fortawesome/fontawesome-free/css/all.min.css":
       "css/fontawesome.min.css",
