@@ -1,5 +1,5 @@
 ---
-layout: page.njk
+layout: map.njk
 title: "Lincoln Tunnel Checkpoint"
 section: "maps"
 vault: true

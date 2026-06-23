@@ -3,12 +3,10 @@ layout: page.njk
 title: "Eldritch Codex"
 section: "chorari-ledger"
 vault: true
+hasToc: true
+tocTags: [h2]
 ---
-```table-of-contents
-minLevel: 2
-maxLevel: 2
-style: inlineFirstLevel
-```
+
 
 ## A
 

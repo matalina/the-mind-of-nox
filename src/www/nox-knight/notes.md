@@ -1,9 +1,12 @@
 ---
 layout: page.njk
-title: "Appearance"
+title: "Notes"
 section: "nox-knight"
 vault: true
 ---
+
+# Appearance
+
 **Age:** Young Adult (21)
 **Height:** 6'0"
 **Build:** Lanky but Lithe

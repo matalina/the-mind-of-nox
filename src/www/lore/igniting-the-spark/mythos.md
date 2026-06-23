@@ -1,9 +1,12 @@
 ---
-layout: page.njk
-title: "The Mythos"
+layout: campaign.njk
+title: "Mythos"
 section: "lore"
 vault: true
+order: 4
 ---
+# The Mythos
+
 ## The Pantheon
 
 * The Goddess of Aether (magic) → Aethel

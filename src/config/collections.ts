@@ -29,6 +29,18 @@ function sortByTitle(a: Item, b: Item): number {
   );
 }
 
+function orderOf(i: Item): number {
+  const o = i.data.order;
+  return typeof o === "number" ? o : Number.MAX_SAFE_INTEGER;
+}
+
+/** Explicit front-matter `order` first (ascending), then title for ties. */
+function byOrderThenTitle(a: Item, b: Item): number {
+  const oa = orderOf(a);
+  const ob = orderOf(b);
+  return oa !== ob ? oa - ob : sortByTitle(a, b);
+}
+
 /** "chorari-ledger" → "Chorari Ledger". */
 function humanizeSection(slug: string): string {
   return slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
@@ -40,6 +52,62 @@ export default {
     return api
       .getFilteredByGlob("**/chorari-ledger/daybook/**/*.md")
       .sort((a, b) => dateMs(b) - dateMs(a));
+  },
+
+  /** Every synced lore page, alphabetical. Drives the paginated /lore/ listing. */
+  lore(api: CollectionApi) {
+    return api
+      .getFilteredByGlob("**/*.md")
+      .filter((i) => i.data.vault === true && i.data.section === "lore")
+      .sort(sortByTitle);
+  },
+
+  /**
+   * Campaign-guide pages (lore/Igniting the Spark), in numbered file order, for
+   * the auto-generated index in the campaign.njk sidebar.
+   */
+  campaign(api: CollectionApi) {
+    return api
+      .getFilteredByGlob("**/*.md")
+      .filter(
+        (i) =>
+          i.data.vault === true &&
+          String(i.url ?? "").startsWith("/lore/igniting-the-spark/"),
+      )
+      .sort(byOrderThenTitle);
+  },
+
+  /**
+   * Map pages grouped by sub-folder (regions / districts / wards / dungeons),
+   * for the auto-generated index in the map.njk sidebar. Empty groups dropped.
+   */
+  mapGroups(api: CollectionApi) {
+    const pages = api
+      .getFilteredByGlob("**/*.md")
+      .filter((i) => i.data.vault === true && i.data.section === "maps");
+    const buckets: Record<string, Item[]> = {
+      base: [],
+      districts: [],
+      wards: [],
+      dungeons: [],
+    };
+    for (const p of pages) {
+      const seg = String(p.url ?? "").split("/")[2] ?? ""; // /maps/<seg>/…
+      const key =
+        seg === "districts" || seg === "wards" || seg === "dungeons"
+          ? seg
+          : "base";
+      buckets[key].push(p);
+    }
+    const order: Array<[string, string]> = [
+      ["base", "Regions"],
+      ["districts", "Districts"],
+      ["wards", "Wards"],
+      ["dungeons", "Dungeons"],
+    ];
+    return order
+      .map(([key, title]) => ({ title, pages: buckets[key].sort(sortByTitle) }))
+      .filter((g) => g.pages.length > 0);
   },
 
   /** Every synced page grouped by top-level section, for the home index. */

@@ -1,0 +1,41 @@
+---
+layout: base.njk
+title: Lore
+pagination:
+  data: collections.lore
+  size: 9
+  alias: entries
+permalink: "/lore/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber + 1 }}/{% endif %}"
+---
+<div class="article-wrap">
+  <div class="breadcrumb"><a href="/">Home</a> &nbsp;/&nbsp; <span class="here">Lore</span></div>
+  <div class="entry-head">
+    <div class="kicker">Reference</div>
+    <h1 class="entry-title">Lore</h1>
+    <p class="lede">The world of the Iron Veil — its realms, factions, creatures, and history.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="grid">
+    {% for p in entries %}
+      <a href="{{ p.url }}" class="card card--nether">
+        <div class="card__top">
+          <span class="chip chip--nether">Lore</span>
+          <span class="card__tag">{{ p.data.title }}</span>
+        </div>
+        <h4 class="card__title">{{ p.data.title }}</h4>
+        <p class="card__excerpt">{{ p.templateContent | plainExcerpt(140) }}</p>
+        <span class="card__date">Reference</span>
+      </a>
+    {% endfor %}
+  </div>
+
+  {% if pagination.pages.length > 1 %}
+    <nav class="pager">
+      {% if pagination.href.previous %}<a href="{{ pagination.href.previous }}">← Previous</a>{% else %}<span></span>{% endif %}
+      <span>Page {{ pagination.pageNumber + 1 }} of {{ pagination.pages.length }}</span>
+      {% if pagination.href.next %}<a href="{{ pagination.href.next }}">Next →</a>{% else %}<span></span>{% endif %}
+    </nav>
+  {% endif %}
+</section>

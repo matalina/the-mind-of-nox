@@ -1,5 +1,5 @@
 ---
-layout: page.njk
+layout: map.njk
 title: "The Gate"
 section: "maps"
 vault: true

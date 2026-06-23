@@ -1,5 +1,5 @@
 ---
-layout: page.njk
+layout: map.njk
 title: "Battery"
 section: "maps"
 vault: true

@@ -3,6 +3,14 @@ layout: page.njk
 title: "Character Sheet"
 section: "nox-knight"
 vault: true
+related:
+  - { label: "Notes", url: "/nox-knight/notes/" }
+  - { label: "Grimoire", url: "/chorari-ledger/grimoire/" }
+  - { label: "Eldritch Codex", url: "/chorari-ledger/eldritch-codex/" }
+  - { label: "Factions Tally", url: "/tally-sheets/factions/" }
+  - { label: "NPC Tally", url: "/tally-sheets/npcs/" }
+  - { label: "Quest Tally", url: "/tally-sheets/quests/" }
+  - { label: "Daybook", url: "/sessions/" }
 ---
 **Nox Knight** is a \[Promethean] \[Chorari] \[Monster-wright] who \[Sees the Flows of Aether in All Things].
 
@@ -105,11 +113,11 @@ Lasting Scars {% tally "boxes", 0, 1 %}
 
 **Relationships**
 * (soul) [Alkaid (Alex) Darkstar](/lore/npcs/#alkaid-alex-darkstar) → \[Loyal] (+1)
-* (mentor) [Naoise Thornheart](/lore/igniting-the-spark/06-npcs/#naoise-thornheart) → \[Loyal] (+1)
+* (mentor) [Naoise Thornheart](/lore/igniting-the-spark/npcs/#naoise-thornheart) → \[Loyal] (+1)
 
 **Factions**
-* [The Empyrean Wardens](/lore/igniting-the-spark/05-factions/#the-empyrean-wardens) → \[Loyal] (+1): Part of since birth
-* [The Order of the First Breath](/lore/igniting-the-spark/07-the-wyld/#the-order-of-the-first-breath) → \[Loyal] (+1): Acolyte of the Faith
+* [The Empyrean Wardens](/lore/igniting-the-spark/factions/#the-empyrean-wardens) → \[Loyal] (+1): Part of since birth
+* [The Order of the First Breath](/lore/igniting-the-spark/the-wyld/#the-order-of-the-first-breath) → \[Loyal] (+1): Acolyte of the Faith
 
 ## History
 

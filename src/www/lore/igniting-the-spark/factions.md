@@ -1,8 +1,9 @@
 ---
-layout: page.njk
+layout: campaign.njk
 title: "Factions"
 section: "lore"
 vault: true
+order: 8
 ---
 ## World "Factions"
 

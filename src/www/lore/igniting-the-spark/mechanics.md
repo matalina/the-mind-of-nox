@@ -1,8 +1,9 @@
 ---
-layout: page.njk
+layout: campaign.njk
 title: "Mechanics"
 section: "lore"
 vault: true
+order: 7
 ---
 A list of other changed or new mechanics
 # Aged 

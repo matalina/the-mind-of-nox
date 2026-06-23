@@ -1,7 +1,43 @@
 ---
 layout: base.njk
 ---
-<article class="page">
-  <h1 class="page__title">{{ title }}</h1>
-  {{ content | safe }}
-</article>
+{% set sectionLabel = section | humanize %}
+<div class="article-wrap">
+  <div class="breadcrumb">
+    <a href="/">Home</a> &nbsp;/&nbsp; {{ sectionLabel }} &nbsp;/&nbsp;
+    <span class="here">{{ title }}</span>
+  </div>
+
+  <div class="entry-head">
+    {% if sectionLabel %}<div class="kicker">{{ sectionLabel }}</div>{% endif %}
+    <h1 class="entry-title">{{ title }}</h1>
+  </div>
+
+  <div class="layout">
+    <article>
+      <div class="prose">{{ content | safe }}</div>
+    </article>
+
+    <aside class="aside">
+      <div class="panel">
+        <div class="panel__label">Filed Under</div>
+        <div class="tags">
+          {% if sectionLabel %}<span class="tag tag--solid">{{ sectionLabel }}</span>{% endif %}
+          {% for t in (tags or []) %}<span class="tag">{{ t }}</span>{% endfor %}
+        </div>
+      </div>
+      {% if related %}
+        <div class="panel related">
+          <div class="panel__label panel__label--plain">Related</div>
+          {% for r in related %}<a href="{{ r.url }}">{{ r.label }} →</a>{% endfor %}
+        </div>
+      {% endif %}
+      {% if hasToc %}
+        <div class="panel">
+          <div class="panel__label panel__label--plain">In This Note</div>
+          <div class="toc-panel">{{ content | toc({ tags: tocTags }) | safe }}</div>
+        </div>
+      {% endif %}
+    </aside>
+  </div>
+</div>

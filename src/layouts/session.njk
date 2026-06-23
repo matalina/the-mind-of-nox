@@ -1,10 +1,55 @@
 ---
 layout: base.njk
 ---
-<article class="session">
-  <h1 class="session__title">{{ title }}</h1>
-  {% if page.date %}
-    <p class="session__date">{{ page.date | longDate }}</p>
-  {% endif %}
-  {{ content | safe }}
-</article>
+<div class="article-wrap">
+  <div class="breadcrumb">
+    <a href="/">Home</a> &nbsp;/&nbsp; <a href="/sessions/">Sessions</a> &nbsp;/&nbsp;
+    <span class="here">{{ title }}</span>
+  </div>
+
+  <div class="entry-head">
+    <div class="meta-row">
+      {% if session %}<span class="chip chip--iron">Session {{ session }}</span>{% endif %}
+      <span class="eyebrow" style="margin:0;">
+        {%- if session %}Play Session {{ session }}{% endif -%}
+        {%- if session and page.date %} · {% endif -%}
+        {%- if page.date %}{{ page.date | longDate }}{% endif -%}
+      </span>
+    </div>
+    <h1 class="entry-title">{{ title }}</h1>
+  </div>
+
+  <div class="layout">
+    <article>
+      <div class="prose">{{ content | safe }}</div>
+    </article>
+
+    <aside class="aside">
+      <div class="panel">
+        <div class="panel__label">Entry Record</div>
+        <dl class="record">
+          {% if page.date %}<dt>Date</dt><dd>{{ page.date | longDate }}</dd>{% endif %}
+          {% if session %}<dt>Session</dt><dd>{{ session }}</dd>{% endif %}
+          {% if character %}<dt>Character</dt><dd>{{ character | humanize }}</dd>{% endif %}
+        </dl>
+        {% if tags %}
+          <div class="tags">
+            {% for t in tags %}<span class="tag">{{ t }}</span>{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      {% if related %}
+        <div class="panel related">
+          <div class="panel__label panel__label--plain">Related</div>
+          {% for r in related %}<a href="{{ r.url }}">{{ r.label }} →</a>{% endfor %}
+        </div>
+      {% endif %}
+      {% if hasToc %}
+        <div class="panel">
+          <div class="panel__label panel__label--plain">In This Note</div>
+          <div class="toc-panel">{{ content | toc({ tags: tocTags }) | safe }}</div>
+        </div>
+      {% endif %}
+    </aside>
+  </div>
+</div>

@@ -1,8 +1,9 @@
 ---
-layout: page.njk
+layout: campaign.njk
 title: "The World"
 section: "lore"
 vault: true
+order: 2
 ---
 Genre: Grimdark Urban Fantasy — Industrial Noir
 Magic: Rising Magic

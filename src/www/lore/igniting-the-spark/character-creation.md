@@ -1,14 +1,15 @@
 ---
-layout: page.njk
+layout: campaign.njk
 title: "Character Creation"
 section: "lore"
 vault: true
+order: 5
 ---
 We will be using the base rules for Tag and Tally.
 
 ## Species
 
-To play as the intended chosen one designed for this campaign you should choose the [Chorari](/lore/igniting-the-spark/04a-character-options/#chorari) Species and pick or create your own soul.
+To play as the intended chosen one designed for this campaign you should choose the [Chorari](/lore/igniting-the-spark/character-options/#chorari) Species and pick or create your own soul.
 
 A Chorari may look like any species, as an Ashtari can be of any Gemini bloodline regardless of their looks.
 

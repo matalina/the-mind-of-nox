@@ -33,6 +33,11 @@ export default function (
   eleventyConfig.addPassthroughCopy({
     "node_modules/@fortawesome/fontawesome-free/webfonts": "webfonts",
   });
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/leaflet/dist/leaflet.css": "vendor/leaflet/leaflet.css",
+    "node_modules/leaflet/dist/leaflet.js": "vendor/leaflet/leaflet.js",
+    "node_modules/leaflet/dist/images": "vendor/leaflet/images",
+  });
 
   Object.keys(filters).forEach((filterName) => {
     eleventyConfig.addFilter(

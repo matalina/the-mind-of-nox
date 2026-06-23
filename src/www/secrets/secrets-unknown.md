@@ -1,9 +1,11 @@
 ---
 layout: page.njk
-title: "Creatures"
+title: "Secrets Unknown"
 section: "secrets"
 vault: true
 ---
+# Creatures
+
 ## Unknown Creature
 
 * Location: {% tally "boxes", 0, 5 %}

@@ -3,12 +3,10 @@ layout: page.njk
 title: "Creatures"
 section: "lore"
 vault: true
+hasToc: true
+tocTags: [h2]
 ---
-```table-of-contents
-minLevel: 2
-maxLevel: 2
-style: inlineFirstLevel
-```
+
 ## H
 
 ### Haunted Fleshgrinder

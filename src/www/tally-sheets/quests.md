@@ -3,11 +3,10 @@ layout: page.njk
 title: "Quests"
 section: "tally-sheets"
 vault: true
+hasToc: true
+tocTags: [h2, h3]
 ---
-```table-of-contents
-minLevel: 2
-maxLevel: 3
-```
+
 ## Character Arcs
 ### Vow: To never let unnecessary brutality happen again
 * Goal: Save the Innocent {% tally "boxes", 0, 5 %}

@@ -1,5 +1,5 @@
 ---
-layout: page.njk
+layout: map.njk
 title: "Dead End Nine"
 section: "maps"
 vault: true

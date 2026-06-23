@@ -181,13 +181,53 @@ function buildResolver(byPath, byName) {
   };
 }
 
+/**
+ * Resolve a note's `related:` front-matter list (curated sidebar links) into
+ * `{ label, url }` pairs. Each item is either an Obsidian wikilink
+ * `[[target|Label]]` (resolved like any other link) or a literal markdown link
+ * `[Label](/url/)` for site-only pages (e.g. the generated /sessions/ index).
+ */
+function resolveRelatedLinks(fm, resolveLink) {
+  const raw = fm.get("related");
+  if (!Array.isArray(raw)) return [];
+  const out = [];
+  for (const item of raw) {
+    const s = String(item).trim().replace(/^["']|["']$/g, "");
+    let m = s.match(/^\[\[([^\]|]+?)(?:\|([^\]]+))?\]\]$/);
+    if (m) {
+      const url = resolveLink(m[1].trim());
+      const label = (m[2] || m[1].split("/").pop()).trim();
+      if (url) out.push({ label, url });
+      continue;
+    }
+    m = s.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (m) out.push({ label: m[1].trim(), url: m[2].trim() });
+  }
+  return out;
+}
+
 // ---------- generation ----------
 
-function buildFrontMatter({ layout, title, date, section, fm }) {
+function buildFrontMatter({ layout, title, date, section, fm, toc, related, order }) {
   const lines = ["---", `layout: ${layout}`, `title: ${yamlQuote(title)}`];
   if (date) lines.push(`date: ${date}`);
   lines.push(`section: ${yamlQuote(section)}`);
   lines.push("vault: true");
+  if (toc) {
+    const min = Math.min(Math.max(toc.minLevel, 2), 4);
+    const max = Math.min(Math.max(toc.maxLevel, min), 4);
+    const tocTags = [];
+    for (let lvl = min; lvl <= max; lvl++) tocTags.push(`h${lvl}`);
+    lines.push("hasToc: true");
+    lines.push(`tocTags: [${tocTags.join(", ")}]`);
+  }
+  if (related && related.length) {
+    lines.push("related:");
+    for (const r of related) {
+      lines.push(`  - { label: ${yamlQuote(r.label)}, url: ${yamlQuote(r.url)} }`);
+    }
+  }
+  if (typeof order === "number") lines.push(`order: ${order}`);
   const tags = fm.get("tags");
   if (Array.isArray(tags) && tags.length) {
     lines.push(`tags: [${tags.join(", ")}]`);
@@ -277,6 +317,24 @@ function main() {
 
   // --- Pass 2: convert bodies (resolving wikilinks) + write. ---
   const resolveLink = buildResolver(byPath, byName);
+
+  // Loads a zoom-map's sidecar `<image>.markers.json` from the vault.
+  const makeLoadMarkers = (relPosix) => (imageRef, markersRef) => {
+    let imgPath = path.join(VAULT_DIR, imageRef.replace(/[\\/]/g, path.sep));
+    if (!fs.existsSync(imgPath)) {
+      const byBasename = imageIndex.get(imageRef.split(/[\\/]/).pop());
+      if (byBasename) imgPath = byBasename;
+    }
+    const markersPath = markersRef
+      ? path.join(VAULT_DIR, markersRef.replace(/[\\/]/g, path.sep))
+      : `${imgPath}.markers.json`;
+    try {
+      return JSON.parse(fs.readFileSync(markersPath, "utf8"));
+    } catch {
+      warnings.push(`zoommap: no markers found for "${imageRef}" in ${relPosix}`);
+      return null;
+    }
+  };
   const generated = []; // project-relative paths, for the manifest
   const copiedImages = new Set();
 
@@ -287,18 +345,30 @@ function main() {
     const isSession =
       relPosix.startsWith("chorari-ledger/daybook/") ||
       (Array.isArray(fm.get("tags")) && fm.get("tags").includes("session"));
-    const layout = isSession ? "session.njk" : "page.njk";
+    const isMap = slugDirs[0] === "maps";
+    const isCampaign =
+      slugDirs[0] === "lore" && slugDirs[1] === "igniting-the-spark";
+    const layout = isSession
+      ? "session.njk"
+      : isMap
+        ? "map.njk"
+        : isCampaign
+          ? "campaign.njk"
+          : "page.njk";
 
     const title =
       (typeof fm.get("title") === "string" && fm.get("title").trim()) ||
+      humanizeStem(stem) ||
       firstHeading(body) ||
-      humanizeStem(stem);
+      stem;
     const date = resolveDate(fm, stem);
     const section = slugDirs[0] ?? slugName;
 
-    const { body: converted, referenced } = convertBody(body, {
+    const { body: converted, referenced, toc } = convertBody(body, {
       imageBase: IMAGE_BASE,
       resolveLink,
+      loadMarkers: makeLoadMarkers(relPosix),
+      title,
     });
 
     // Copy referenced images out of the vault.
@@ -316,7 +386,9 @@ function main() {
       generated.push(path.relative(PROJECT_DIR, outAbs));
     }
 
-    const frontMatter = buildFrontMatter({ layout, title, date, section, fm });
+    const related = resolveRelatedLinks(fm, resolveLink);
+    const order = typeof fm.get("order") === "number" ? fm.get("order") : null;
+    const frontMatter = buildFrontMatter({ layout, title, date, section, fm, toc, related, order });
     fs.mkdirSync(path.dirname(destAbs), { recursive: true });
     fs.writeFileSync(destAbs, frontMatter + converted, "utf8");
     generated.push(destRel);

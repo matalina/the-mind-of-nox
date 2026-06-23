@@ -1,5 +1,5 @@
 ---
-layout: page.njk
+layout: map.njk
 title: "Old Harlem"
 section: "maps"
 vault: true

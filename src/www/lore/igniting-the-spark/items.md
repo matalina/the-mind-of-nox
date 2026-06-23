@@ -1,8 +1,9 @@
 ---
-layout: page.njk
+layout: campaign.njk
 title: "Items"
 section: "lore"
 vault: true
+order: 10
 ---
 ## Weapon Types
 

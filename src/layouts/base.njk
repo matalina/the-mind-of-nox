@@ -1,21 +1,52 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>The Mind of Nox — {{ title }}</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{{ title }} — The Mind of Nox</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Big+Shoulders+Stencil+Display:wght@500;700;800;900&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/fontawesome.min.css"/>
+    <link rel="stylesheet" href="/vendor/leaflet/leaflet.css"/>
     <link rel="stylesheet" href="/css/main.css"/>
   </head>
   <body>
+    {% set u = page.url %}
     <header class="site-header">
-      <a class="site-title" href="/">The Mind of Nox</a>
+      <div class="container">
+        <div class="dateline">
+          <span>Chorari Ledger</span><span>Old New York · The Iron Veil · 2026</span><span>Solo Campaign</span>
+        </div>
+        <h1 class="masthead"><a href="/">The Mind of Nox</a></h1>
+        <div class="tagline">an actual-play journal for Tag &amp; Tally</div>
+        <nav class="mainnav">
+          <a href="/"{% if u == '/' %} class="active"{% endif %}>Home</a>
+          <a href="/sessions/"{% if u.startsWith('/sessions') or u.startsWith('/chorari-ledger') %} class="active"{% endif %}>Sessions</a>
+          <a href="/lore/"{% if u.startsWith('/lore') %} class="active"{% endif %}>Lore</a>
+          <a href="/maps/old-new-york/"{% if u.startsWith('/maps') %} class="active"{% endif %}>Maps</a>
+          <a href="/nox-knight/character-sheet/"{% if u.startsWith('/nox-knight') %} class="active"{% endif %}>Nox Knight</a>
+        </nav>
+      </div>
     </header>
-    <main class="site-main">
+
+    <main>
       {{ content | safe }}
     </main>
+
     <footer class="site-footer">
-      <p>The Mind of Nox</p>
+      <div class="container">
+        <div class="footer-mark">The Mind of Nox</div>
+        <div class="footer-mid">An actual-play journal for Tag &amp; Tally · Old New York, 2026 · Built with 11ty</div>
+        <div class="legend">
+          <span><span class="dot dot--iron"></span>Iron</span>
+          <span><span class="dot dot--wyld"></span>Wyld</span>
+          <span><span class="dot dot--nether"></span>Nether</span>
+        </div>
+      </div>
     </footer>
+
+    <script src="/vendor/leaflet/leaflet.js" defer></script>
+    <script src="/js/zoommap.js" defer></script>
   </body>
 </html>

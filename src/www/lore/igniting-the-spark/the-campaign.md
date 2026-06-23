@@ -1,9 +1,12 @@
 ---
-layout: page.njk
-title: "Igniting the Spark"
+layout: campaign.njk
+title: "The Campaign"
 section: "lore"
 vault: true
+order: 1
 ---
+# Igniting the Spark
+
 The Mortal Realm has been invaded by Nether forces, forcing humanity into the cities. As the years pass the cities become fortified and scale up instead of out as the masses retreat into what are now known to be prison-cities. 
 
 Old New York, once called New York City, leads the charge against the Nether forces with the silent help of the Wyld. 

@@ -1,9 +1,12 @@
 ---
-layout: page.njk
-title: "Species"
+layout: campaign.njk
+title: "Character Options"
 section: "lore"
 vault: true
+order: 6
 ---
+# Species
+
 ## Aelith
 _Fey Elf_
 

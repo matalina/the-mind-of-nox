@@ -1,10 +1,9 @@
 ---
-layout: page.njk
+layout: map.njk
 title: "The Sleeping Mammoth"
 section: "maps"
 vault: true
 ---
-## The Sleeping Mammoth
 _[The Mound](/maps/districts/the-mound/)_
 
 This location is a \[descriptive] \[location type] that \[distinctive feature or role in the world]

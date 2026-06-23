@@ -1,6 +1,6 @@
 ---
-layout: page.njk
-title: "The Warden's Watch"
+layout: map.njk
+title: "The Warden'S Watch"
 section: "maps"
 vault: true
 ---

@@ -1,14 +1,12 @@
 ---
 layout: page.njk
-title: "NPCs"
+title: "Npcs"
 section: "tally-sheets"
 vault: true
+hasToc: true
+tocTags: [h2]
 ---
-```table-of-contents
-minLevel: 2
-maxLevel: 2
-style: inlineFirstLevel
-```
+
 ## A
 
 ### Alkaid (Alex) Darkstar
@@ -129,7 +127,7 @@ _Faction:_ The Broken Gear
 * Goal: Deliver a message {% tally "boxes", 0, 5 %}
 * Secret: `boxes:0/1
 
-_Faction:_ [The Order of the First Breath](/lore/igniting-the-spark/07-the-wyld/#the-order-of-the-first-breath)
+_Faction:_ [The Order of the First Breath](/lore/igniting-the-spark/the-wyld/#the-order-of-the-first-breath)
 
 ## M
 

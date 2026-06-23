@@ -1,8 +1,9 @@
 ---
-layout: page.njk
+layout: campaign.njk
 title: "NPCs"
 section: "lore"
 vault: true
+order: 9
 ---
 ## Mentors
 

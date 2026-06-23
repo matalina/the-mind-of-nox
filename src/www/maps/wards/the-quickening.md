@@ -1,5 +1,5 @@
 ---
-layout: page.njk
+layout: map.njk
 title: "The Quickening"
 section: "maps"
 vault: true

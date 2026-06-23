@@ -3,12 +3,10 @@ layout: page.njk
 title: "Grimoire"
 section: "chorari-ledger"
 vault: true
+hasToc: true
+tocTags: [h2]
 ---
-```table-of-contents
-minLevel: 2
-maxLevel:
-style: inlineFirstLevel
-````
+
 
 ## A
 
@@ -53,7 +51,7 @@ Final Spell Level: 8
 
 ## D
 
-## Disposal Fire Ritual
+### Disposal Fire Ritual
 
 **Disposal Fire Ritual** is a \[ritual] \[Order] spell that \[burns only a corpse to ash].
 

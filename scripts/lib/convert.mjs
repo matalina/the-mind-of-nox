@@ -119,12 +119,22 @@ export function firstHeading(body) {
   return null;
 }
 
-/** Strip a leading `# Title` line (plus the blank line that follows, if any). */
-export function stripLeadingHeading(body) {
+function normHeading(s) {
+  return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+/**
+ * Strip a leading heading line only when it duplicates the page `title` (so a
+ * `# Creatures` title is removed, but a note that opens straight into a
+ * `# Appearance` *section* keeps that header). Without a title, nothing is
+ * stripped.
+ */
+export function stripLeadingHeading(body, title) {
   const lines = body.split("\n");
   let i = 0;
   while (i < lines.length && lines[i].trim() === "") i++;
-  if (i < lines.length && /^#\s+\S/.test(lines[i])) {
+  const m = i < lines.length ? lines[i].match(/^#{1,6}\s+(\S.*?)\s*$/) : null;
+  if (m && title != null && normHeading(m[1]) === normHeading(title)) {
     let j = i + 1;
     if (j < lines.length && lines[j].trim() === "") j++;
     return lines.slice(j).join("\n");
@@ -291,21 +301,135 @@ export function convertWikilinks(body, resolveLink) {
   );
 }
 
+// ---------- zoom-map blocks ----------
+
+/** Parse a ```zoommap` block's `key: value` config (ignoring `#` comments). */
+function parseZoomConfig(inner) {
+  const cfg = {};
+  for (const raw of inner.split("\n")) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const m = line.match(/^([A-Za-z][\w-]*)\s*:\s*(.*)$/);
+    if (!m) continue;
+    cfg[m[1].toLowerCase()] = m[2].replace(/\s+#.*$/, "").trim();
+  }
+  return cfg;
+}
+
+function numOrNull(v) {
+  const n = Number.parseFloat(v);
+  return Number.isFinite(n) ? n : null;
+}
+
 /**
- * Full body conversion pipeline used by the sync. Returns the converted body
- * plus the list of referenced image filenames (for copy-out).
+ * Convert ```zoommap` code blocks (the zoom-map Obsidian plugin) into a
+ * `<div class="zoommap">` carrying its config + resolved markers as JSON, for
+ * the client-side Leaflet renderer ([src/assets/js/zoommap.js]).
  *
- * Options: `imageBase` (embed URL prefix) and `resolveLink` (wikilink resolver;
- * when omitted, wikilinks are stripped to plain text).
+ * `loadMarkers(imageRef, markersRef)` is supplied by the caller (it reads the
+ * sidecar `<image>.markers.json` from the vault — the lib stays fs-free).
+ * Marker `link`s are resolved to site URLs via `resolveLink`. Returns the
+ * converted body plus the base-image filenames referenced (for copy-out).
+ *
+ * Runs last in the pipeline so no earlier text pass touches the emitted JSON.
  */
-export function convertBody(rawBody, { imageBase = "/images/", resolveLink } = {}) {
-  let out = stripLeadingHeading(rawBody);
+export function convertZoomMaps(body, { imageBase = "/images/", resolveLink, loadMarkers }) {
+  const referenced = [];
+  const converted = body.replace(
+    /```+[ \t]*zoommap[^\n]*\n([\s\S]*?)\n```+/g,
+    (whole, inner) => {
+      const cfg = parseZoomConfig(inner);
+      if (!cfg.image) return whole;
+      const filename = cfg.image.split(/[\\/]/).pop();
+      referenced.push(filename);
+
+      const doc = (loadMarkers && loadMarkers(cfg.image, cfg.markers)) || {};
+      const size = doc.size || {};
+      const markers = (doc.markers || [])
+        .filter((m) => m && typeof m.x === "number" && typeof m.y === "number")
+        .map((m) => ({
+          x: m.x,
+          y: m.y,
+          label: m.link || "",
+          url: (m.link && resolveLink && resolveLink(m.link)) || null,
+          tooltip: m.tooltip || "",
+        }));
+      const lines = (doc.drawings || [])
+        .filter((d) => d && d.kind === "polyline" && Array.isArray(d.polyline))
+        .map((d) => ({
+          points: d.polyline.map((p) => ({ x: p.x, y: p.y })),
+          color: (d.style && d.style.strokeColor) || "#ff0000",
+          width: (d.style && d.style.strokeWidth) || 2,
+        }));
+
+      const data = {
+        image: `${imageBase}${filename}`,
+        w: typeof size.w === "number" ? size.w : null,
+        h: typeof size.h === "number" ? size.h : null,
+        minZoom: numOrNull(cfg.minzoom),
+        maxZoom: numOrNull(cfg.maxzoom),
+        height: cfg.height || "560px",
+        markers,
+        lines,
+      };
+      const height = String(data.height).replace(/[^\w%.\-]/g, "") || "560px";
+      // Escape `<` so the JSON can't break out of the <script> / confuse markdown.
+      const json = JSON.stringify(data).replace(/</g, "\\u003c");
+      return `<div class="zoommap" style="height:${height}"><script type="application/json">${json}</script></div>`;
+    },
+  );
+  return { body: converted, referenced };
+}
+
+/**
+ * Remove ```table-of-contents` blocks (the automatic-table-of-contents plugin).
+ * The TOC is rendered from the page's headings in the layout sidebar instead, so
+ * here we just strip the block and report the requested heading levels.
+ * Returns `{ body, toc }` where `toc` is `{ minLevel, maxLevel }` or null.
+ */
+export function extractTableOfContents(body) {
+  let toc = null;
+  const stripped = body.replace(
+    /```+[ \t]*table-of-contents[^\n]*\n([\s\S]*?)\n```+/g,
+    (_m, inner) => {
+      const cfg = parseZoomConfig(inner); // shared key: value parser
+      const min = Number.parseInt(cfg.minlevel, 10);
+      const max = Number.parseInt(cfg.maxlevel, 10);
+      toc = {
+        minLevel: Number.isFinite(min) ? min : 2,
+        maxLevel: Number.isFinite(max) ? max : 3,
+      };
+      return "";
+    },
+  );
+  return { body: stripped, toc };
+}
+
+/**
+ * Full body conversion pipeline used by the sync. Returns the converted body,
+ * the list of referenced image filenames (for copy-out), and any table-of-
+ * contents request (`{ minLevel, maxLevel }` or null).
+ *
+ * Options: `imageBase` (embed URL prefix), `resolveLink` (wikilink resolver;
+ * when omitted, wikilinks are stripped to plain text), and `loadMarkers`
+ * (zoom-map sidecar loader; when omitted, ```zoommap` blocks are left as-is).
+ */
+export function convertBody(rawBody, { imageBase = "/images/", resolveLink, loadMarkers, title } = {}) {
+  let out = stripLeadingHeading(rawBody, title);
+  const tocInfo = extractTableOfContents(out);
+  out = tocInfo.body;
   out = convertCallouts(out);
   out = convertTallies(out);
   const embeds = convertImageEmbeds(out, imageBase);
-  out = resolveLink
-    ? convertWikilinks(embeds.body, resolveLink)
-    : stripWikilinks(embeds.body);
+  out = embeds.body;
+  out = resolveLink ? convertWikilinks(out, resolveLink) : stripWikilinks(out);
   out = convertDashes(out);
-  return { body: out, referenced: embeds.referenced };
+
+  const referenced = [...embeds.referenced];
+  if (loadMarkers) {
+    const maps = convertZoomMaps(out, { imageBase, resolveLink, loadMarkers });
+    out = maps.body;
+    referenced.push(...maps.referenced);
+  }
+  return { body: out, referenced, toc: tocInfo.toc };
 }

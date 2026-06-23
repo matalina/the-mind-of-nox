@@ -88,8 +88,17 @@ function plainExcerpt(
   return `${stripped.slice(0, maxLen - 1).trim()}…`;
 }
 
+/** "chorari-ledger" → "Chorari Ledger". */
+function humanize(value: string | undefined | null): string {
+  return String(value ?? "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .trim();
+}
+
 export default {
   slugify: slugifyTitle,
   longDate,
   plainExcerpt,
+  humanize,
 };

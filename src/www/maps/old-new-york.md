@@ -1,5 +1,5 @@
 ---
-layout: page.njk
+layout: map.njk
 title: "Old New York"
 section: "maps"
 vault: true
@@ -10,94 +10,16 @@ This location is a \[grim] \[prison-city] that \[stands as humanity's first line
 
 This location is a \[claustrophobic] \[city] where \[humanity built up instead of out].
 
-```zoommap
-image: _images/TheSurface.jpg
-# markers is optional; defaults to <image>.markers.json
-# markers: Assets/Map.jpg.markers.json
-
-# Map view limits
-minZoom: .18
-maxZoom: 8
-
-# Size & interactivity
-height: 560px
-width: 100%
-resizable: true
-resizeHandle: native     # left | right | both | native
-render: canvas           # or: dom
-
-# Responsive display (fit into width, no wheel/pinch/dblclick pan/zoom)
-responsive: false        # true → always fit; disables pan/zoom gestures
-
-# Storage (optional)
-# storage: note          # default is json; use "note" to store markers inline
-id: surface              # optional stable id for inline storage (per code block)
-
-# Alignment / wrapping (optional)
-align: right             # left | center | right
-wrap: true               # wrap text; useful with left/right alignment
-```
+<div class="zoommap" style="height:560px"><script type="application/json">{"image":"/images/vault/TheSurface.jpg","w":4000,"h":6000,"minZoom":0.18,"maxZoom":8,"height":"560px","markers":[{"x":0.23597248221723893,"y":0.6602504236938991,"label":"Lincoln Tunnel Checkpoint","url":"/maps/wards/lincoln-tunnel-checkpoint/","tooltip":""},{"x":0.317249591641737,"y":0.8304633678556546,"label":"The Throat","url":"/maps/wards/the-throat/","tooltip":""},{"x":0.1781060557802005,"y":0.6379761590984317,"label":"Old Lincoln Tunnel","url":"/maps/wards/old-lincoln-tunnel/","tooltip":""},{"x":0.2709490458170573,"y":0.6810281638745909,"label":"The Iron Citadel","url":"/maps/wards/the-iron-citadel/","tooltip":""}],"lines":[{"points":[{"x":0.17915612647866733,"y":0.6394663142827851},{"x":0.23168938175690038,"y":0.6596373110351867},{"x":0.23135689279944321,"y":0.6596373110351867}],"color":"#ff0000","width":2}]}</script></div>
 
 ## The Underworld
 
 This location is a \[collapsing] \[maze] that \[contains dangers and the city's infrastructure].
 
-```zoommap
-image: _images/TheUnderworld.jpg
-# markers is optional; defaults to <image>.markers.json
-# markers: Assets/Map.jpg.markers.json
-
-# Map view limits
-minZoom: 0.18
-maxZoom: 8
-
-# Size & interactivity
-height: 560px
-width: 100%
-resizable: true
-resizeHandle: native     # left | right | both | native
-render: canvas           # or: dom
-
-# Responsive display (fit into width, no wheel/pinch/dblclick pan/zoom)
-responsive: false        # true → always fit; disables pan/zoom gestures
-
-# Storage (optional)
-# storage: note          # default is json; use "note" to store markers inline
-id: underworld              # optional stable id for inline storage (per code block)
-
-# Alignment / wrapping (optional)
-align: right             # left | center | right
-wrap: true               # wrap text; useful with left/right alignment
-```
+<div class="zoommap" style="height:560px"><script type="application/json">{"image":"/images/vault/TheUnderworld.jpg","w":4000,"h":6000,"minZoom":0.18,"maxZoom":8,"height":"560px","markers":[{"x":0.2988047281901042,"y":0.7489917207647253,"label":"The Quickening","url":"/maps/wards/the-quickening/","tooltip":""},{"x":0.3157919989691841,"y":0.8261997081615308,"label":"The Throat","url":"/maps/wards/the-throat/","tooltip":""}],"lines":[]}</script></div>
 
 ## The Deep Roots 
 
 This location is a \[hidden] \[cavern system] where \[the purified wellsprings are protected].
 
-```zoommap
-image: _images/TheMound.jpg
-# markers is optional; defaults to <image>.markers.json
-# markers: Assets/Map.jpg.markers.json
-
-# Map view limits
-minZoom: 0.18
-maxZoom: 8
-
-# Size & interactivity
-height: 560px
-width: 100%
-resizable: true
-resizeHandle: native     # left | right | both | native
-render: canvas           # or: dom
-
-# Responsive display (fit into width, no wheel/pinch/dblclick pan/zoom)
-responsive: false        # true → always fit; disables pan/zoom gestures
-
-# Storage (optional)
-# storage: note          # default is json; use "note" to store markers inline
-id: mound              # optional stable id for inline storage (per code block)
-
-# Alignment / wrapping (optional)
-align: right             # left | center | right
-wrap: true               # wrap text; useful with left/right alignment
-```
+<div class="zoommap" style="height:560px"><script type="application/json">{"image":"/images/vault/TheMound.jpg","w":4000,"h":6000,"minZoom":0.18,"maxZoom":8,"height":"560px","markers":[{"x":0.3823914190735479,"y":0.633921528358798,"label":"The Elysian Threshold","url":"/maps/wards/the-elysian-threshold/","tooltip":""},{"x":0.2988047281901042,"y":0.7476718302126284,"label":"The Quickening","url":"/maps/wards/the-quickening/","tooltip":""},{"x":0.39631048173015543,"y":0.6427235748503516,"label":"The Warden's Watch","url":"/maps/wards/the-wardens-watch/","tooltip":""}],"lines":[]}</script></div>
