@@ -101,7 +101,7 @@ export default function (
     outputPath: "/feed/index.xml",
     collection: {
       name: "sessions",
-      limit: 0,
+      limit: 10,
     },
     metadata: {
       language: "en",

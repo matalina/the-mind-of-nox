@@ -67,7 +67,7 @@ a { color: inherit; }
 /* ===== HEADER ===== */
 .site-header {
   background: linear-gradient(180deg, var(--bg2), var(--bg));
-  padding-top: 22px;
+  padding-top: 10px;
 }
 .site-header .container { text-align: center; }
 .dateline {
@@ -276,12 +276,13 @@ a { color: inherit; }
 .site-footer .container { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-top: 26px; padding-bottom: 26px; }
 .footer-mark { font-family: var(--display); font-weight: 900; font-size: 20px; letter-spacing: .05em; color: var(--ink); text-transform: uppercase; }
 .footer-mid { font-family: var(--type); font-size: 10.5px; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; text-align: center; }
-.legend { display: flex; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-.legend span { display: flex; align-items: center; gap: 5px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.dot--iron { background: var(--rust); }
-.dot--wyld { background: var(--wyld); }
-.dot--nether { background: var(--nether); }
+/* icon rows (header social links + footer "built with") ----------------- */
+.iconbar { display: flex; align-items: center; gap: 14px; }
+.iconbar--header { justify-content: flex-end; margin-bottom: 10px; }
+.iconbar__link { display: inline-flex; opacity: .65; transition: opacity .15s ease; line-height: 0; }
+.iconbar__link:hover { opacity: 1; }
+.iconbar img { display: block; width: auto; height: 20px; max-width: 64px; max-height: 64px; }
+.iconbar--footer img { height: 22px; }
 
 /* =========================================================
    PROSE — maps generated markdown onto the design

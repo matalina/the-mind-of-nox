@@ -4,9 +4,20 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>{{ title }} — The Mind of Nox</title>
+    {% if env.isProduction %}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4RY54NSYKG"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4RY54NSYKG');
+    </script>
+    {% endif %}
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Big+Shoulders+Stencil+Display:wght@500;700;800;900&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
+    <link rel="alternate" type="application/rss+xml" title="The Mind of Nox" href="/feed/index.xml"/>
     <link rel="stylesheet" href="/css/fontawesome.min.css"/>
     <link rel="stylesheet" href="/vendor/leaflet/leaflet.css"/>
     <link rel="stylesheet" href="/css/main.css"/>
@@ -15,6 +26,13 @@
     {% set u = page.url %}
     <header class="site-header">
       <div class="container">
+        <div class="iconbar iconbar--header">
+          {% for s in social.header %}
+          <a class="iconbar__link" href="{{ s.url }}" aria-label="{{ s.label }}" title="{{ s.label }}"{% if s.url[0] != '/' and s.url[0] != '#' and 'mailto:' not in s.url %} target="_blank" rel="noopener"{% endif %}>
+            <img src="/images/icons/{{ s.icon }}" alt="{{ s.label }}" width="20" height="20"/>
+          </a>
+          {% endfor %}
+        </div>
         <div class="dateline">
           <span>Chorari Ledger</span><span>Old New York · The Iron Veil · 2026</span><span>Solo Campaign</span>
         </div>
@@ -37,11 +55,13 @@
     <footer class="site-footer">
       <div class="container">
         <div class="footer-mark">The Mind of Nox</div>
-        <div class="footer-mid">An actual-play journal for Tag &amp; Tally · Old New York, 2026 · Built with 11ty</div>
-        <div class="legend">
-          <span><span class="dot dot--iron"></span>Iron</span>
-          <span><span class="dot dot--wyld"></span>Wyld</span>
-          <span><span class="dot dot--nether"></span>Nether</span>
+        <div class="footer-mid">An actual-play journal for Tag &amp; Tally · Old New York, 2026 · Last updated <time datetime="{{ build.iso }}">{{ build.formatted }} UTC</time></div>
+        <div class="iconbar iconbar--footer">
+          {% for s in social.footer %}
+          <a class="iconbar__link" href="{{ s.url }}" aria-label="{{ s.label }}" title="{{ s.label }}" target="_blank" rel="noopener">
+            <img src="/images/icons/{{ s.icon }}" alt="{{ s.label }}" width="22" height="22"/>
+          </a>
+          {% endfor %}
         </div>
       </div>
     </footer>
