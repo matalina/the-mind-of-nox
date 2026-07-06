@@ -29,6 +29,15 @@ function sortByTitle(a: Item, b: Item): number {
   );
 }
 
+/** Sort key that ignores a leading "The " so "The Gate" alphabetizes under G. */
+function titleKey(i: Item): string {
+  return String(i.data.title ?? "").replace(/^the\s+/i, "");
+}
+
+function sortByTitleIgnoringThe(a: Item, b: Item): number {
+  return titleKey(a).localeCompare(titleKey(b), "en", { sensitivity: "base" });
+}
+
 function orderOf(i: Item): number {
   const o = i.data.order;
   return typeof o === "number" ? o : Number.MAX_SAFE_INTEGER;
@@ -78,36 +87,16 @@ export default {
   },
 
   /**
-   * Map pages grouped by sub-folder (regions / districts / wards / dungeons),
-   * for the auto-generated index in the map.njk sidebar. Empty groups dropped.
+   * Every map page in one alphabetical "Locations" group for the map.njk
+   * sidebar. The vault flattened maps into `maps/locations/`, so there are no
+   * sub-folders left to bucket by; titles sort ignoring a leading "The".
    */
   mapGroups(api: CollectionApi) {
     const pages = api
       .getFilteredByGlob("**/*.md")
-      .filter((i) => i.data.vault === true && i.data.section === "maps");
-    const buckets: Record<string, Item[]> = {
-      base: [],
-      districts: [],
-      wards: [],
-      dungeons: [],
-    };
-    for (const p of pages) {
-      const seg = String(p.url ?? "").split("/")[2] ?? ""; // /maps/<seg>/…
-      const key =
-        seg === "districts" || seg === "wards" || seg === "dungeons"
-          ? seg
-          : "base";
-      buckets[key].push(p);
-    }
-    const order: Array<[string, string]> = [
-      ["base", "Regions"],
-      ["districts", "Districts"],
-      ["wards", "Wards"],
-      ["dungeons", "Dungeons"],
-    ];
-    return order
-      .map(([key, title]) => ({ title, pages: buckets[key].sort(sortByTitle) }))
-      .filter((g) => g.pages.length > 0);
+      .filter((i) => i.data.vault === true && i.data.section === "maps")
+      .sort(sortByTitleIgnoringThe);
+    return pages.length ? [{ title: "Locations", pages }] : [];
   },
 
   /** Every synced page grouped by top-level section, for the home index. */
