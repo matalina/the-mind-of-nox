@@ -54,3 +54,9 @@ The child was born on the Iron Veil — a thing that was never allowed by either
 
 They like their mother would be trained to fight the Nether, but no one new how powerful they could become because the gods had their fingers in this one little child.
 
+# The Aftermath
+_For Soulmates Short Stories_
+
+When the war is won, or the Chosen one has passed from this world, Aeleth, the Goddess of Aether creates another world for her hero to live. Each time the two souls pass back into the Aether, Aeleth creates a new world — an apology for tearing the soul, and being unable to make it whole. 
+
+It's a love story where they can meet, fall in love and find hope and peace together. Even if they can never be whole.

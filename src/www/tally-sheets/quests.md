@@ -37,5 +37,5 @@ tocTags: [h2, h3]
 ### Deliver Message
 * Source: [Lachlan Ashglen](/lore/npcs/#lachlan-ashglen)
 * Deliver Message to Daughter at Ordinarie 
-* Location: [The Gate](/maps/districts/the-gate/) outside [The Iron Citadel](/maps/wards/the-iron-citadel/)
+* Location: [The Gate](/maps/locations/the-gate/) outside [The Iron Citadel](/maps/locations/the-iron-citadel/)
 * Rewards: Faction +1, New Tag ← _(1d20: [18] = 18)_ 

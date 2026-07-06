@@ -123,7 +123,7 @@ _Faction:_ The Broken Gear
 ### Lachlan Ashglen
 
 * Relationship: Indifferent (+0)
-* Location: [The First Breath Ordinarie](/maps/wards/the-elysian-threshold/#the-first-breath-ordinarie)
+* Location: [The First Breath Ordinarie](/maps/locations/the-elysian-threshold/#the-first-breath-ordinarie)
 * Goal: Deliver a message {% tally "boxes", 0, 5 %}
 * Secret: `boxes:0/1
 

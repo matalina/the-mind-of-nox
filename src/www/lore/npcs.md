@@ -38,6 +38,6 @@ _Faction:_ [The Order of the First Breath](/lore/igniting-the-spark/the-wyld/#th
 
 **Simon** is an \[observant] \[human] \[tavern hand] who \[keeps his ears open for local rumors]. He is motivated by \[safety for the establishment] and wants to \[influence a person]. In combat, they deal \[physical] damage with \[a heavy wooden serving tray], but they \[has a hidden past].
 
-* Location: [The First Breath Ordinarie](/maps/wards/the-elysian-threshold/#the-first-breath-ordinarie)
+* Location: [The First Breath Ordinarie](/maps/locations/the-elysian-threshold/#the-first-breath-ordinarie)
 * Secret: {% tally "boxes", 0, 1 %}
 * Goal: Influence a Person {% tally "boxes", 0, 5 %}
