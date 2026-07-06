@@ -4,6 +4,7 @@ title: "NPCs"
 section: "lore"
 vault: true
 order: 9
+excerpt: "Mentors Cian Nightglen Cian Nightglen is a \\[volatile] \\[Chorari] Arcane Sapper who \\[sabotages enemy fortifications and magical grids]. They are motivated by \\[desperation for survival] and want to \\[investigate a secret]. In combat, they deal \\[Chaos] damage with \\[custom-made volatile explosive…"
 ---
 ## Mentors
 

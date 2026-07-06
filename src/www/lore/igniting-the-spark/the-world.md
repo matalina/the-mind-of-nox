@@ -4,6 +4,7 @@ title: "The World"
 section: "lore"
 vault: true
 order: 2
+excerpt: "Genre: Grimdark Urban Fantasy — Industrial Noir Magic: Rising Magic PCs have access to Magic, Magic is aggressively taking over the material plane Technology: High Tech Everyone has access to technology Time For math simplicity and since this is an alternate world we don't have to play exactly to…"
 ---
 Genre: Grimdark Urban Fantasy — Industrial Noir
 Magic: Rising Magic

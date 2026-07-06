@@ -103,9 +103,22 @@ function plainExcerpt(
   return `${stripped.slice(0, maxLen - 1).trim()}…`;
 }
 
+/** Trim to `maxLen`, cutting on a word boundary and appending an ellipsis. */
+function clip(text: string, maxLen: number): string {
+  const t = text.trim();
+  if (t.length <= maxLen) {
+    return t;
+  }
+  const cut = t.slice(0, maxLen - 1);
+  const lastSpace = cut.lastIndexOf(" ");
+  const base = lastSpace > maxLen * 0.6 ? cut.slice(0, lastSpace) : cut;
+  return `${base.trim()}…`;
+}
+
 /**
- * Excerpt for a collection item: the note's front-matter `excerpt` if set,
- * otherwise an auto-generated plain-text excerpt of its rendered content.
+ * Excerpt for a collection item: the note's front-matter `excerpt` if set
+ * (the sync pre-computes one for every shown page), otherwise an auto-generated
+ * plain-text excerpt of its rendered content.
  */
 function excerptOf(
   item: { data?: Record<string, unknown>; templateContent?: string },
@@ -113,9 +126,19 @@ function excerptOf(
 ): string {
   const ex = item?.data?.excerpt;
   if (typeof ex === "string" && ex.trim()) {
-    return ex.trim();
+    return clip(ex, maxLen);
   }
-  return plainExcerpt(item?.templateContent, maxLen);
+  // Fallback to rendered content. Reading `templateContent` before the item has
+  // rendered throws (TemplateContentPrematureUseError) — guard it so a page that
+  // somehow lacks a pre-computed excerpt degrades to empty instead of failing
+  // the entire build.
+  let content = "";
+  try {
+    content = item?.templateContent ?? "";
+  } catch {
+    content = "";
+  }
+  return plainExcerpt(content, maxLen);
 }
 
 /** "chorari-ledger" → "Chorari Ledger". */

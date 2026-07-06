@@ -5,6 +5,7 @@ section: "lore"
 vault: true
 hasToc: true
 tocTags: [h2]
+excerpt: "A Alkaid (Alex) Darkstar Alkaid \"Alex\" Darkstar is a \\[vigilant] \\[Chorari] \\[Aether-soul] who \\[turns magic awry]. They are motivated by \\[an intense drive to protect their shared physical vessel] and want to \\[collect contacts]. In combat, they deal \\[physic] damage with \\[kinetic momentum…"
 ---
 
 ## A

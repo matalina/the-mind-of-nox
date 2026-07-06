@@ -4,6 +4,7 @@ title: "The Wyld"
 section: "lore"
 vault: true
 order: 3
+excerpt: "The Wyld is a realm of intense emotion, hyper-saturated colors, and untamed, magical nature that exists as a vibrant reflection of the Material Plane. The sun never fully sets or rises, locking geographic regions into perpetual states of twilight, dawn, or midday sun. Geography mirrors the mortal…"
 ---
 The Wyld is a realm of intense emotion, hyper-saturated colors, and untamed, magical nature that exists as a vibrant reflection of the Material Plane. The sun never fully sets or rises, locking geographic regions into perpetual states of twilight, dawn, or midday sun. Geography mirrors the mortal world but on an exaggerated scale — mountains are steeper, forests are dizzyingly dense with massive, glowing flora, and rivers run with crystalline, sometimes intoxicating waters. It is a place where raw magic saturates the environment, driven by the volatile moods of its powerful rulers, the Aelith, making the landscape itself as unpredictable and dangerous as the capricious creatures who inhabit it.
 

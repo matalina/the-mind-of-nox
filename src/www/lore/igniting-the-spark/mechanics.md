@@ -4,6 +4,7 @@ title: "Mechanics"
 section: "lore"
 vault: true
 order: 7
+excerpt: "A list of other changed or new mechanics Aged Long-lived | Age | Life Stage | Physical | Mental | | ------- | ----------- | --------------- | --------------- | | 0-2 | Infancy | Growing | Growing | | 3-7 | Toddler | | | | 8-10 | Child | Puberty | | | 11-13 | Tween | | Puberty | | 14-17 | Teenager…"
 ---
 A list of other changed or new mechanics
 # Aged 

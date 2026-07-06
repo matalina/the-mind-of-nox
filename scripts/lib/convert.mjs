@@ -108,6 +108,36 @@ export function escapeQuotes(s) {
   return s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
 
+/**
+ * Plain-text excerpt from a converted body (markdown + our shortcodes). Used to
+ * pre-compute the `excerpt:` front matter at sync time, so the rendered site
+ * never has to read a collection item's `templateContent` (which is render-order
+ * fragile in Eleventy and will otherwise fail the whole build). Drops code
+ * blocks, embedded HTML (e.g. zoommap `<script>`), shortcodes, images and link
+ * targets, then collapses to running prose and truncates on a word boundary.
+ */
+export function excerptFromMarkdown(body, maxLen = 300) {
+  if (!body) return "";
+  const text = body
+    .replace(/```[\s\S]*?```/g, " ") // fenced code blocks
+    .replace(/~~~[\s\S]*?~~~/g, " ")
+    .replace(/<script[\s\S]*?<\/script>/gi, " ") // zoommap JSON payloads
+    .replace(/<[^>]+>/g, " ") // any other embedded HTML
+    .replace(/\{%[\s\S]*?%\}/g, " ") // sentence / note / tally shortcodes
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ") // images
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // links → their label
+    .replace(/^\s{0,3}#{1,6}\s+/gm, "") // heading markers
+    .replace(/^\s{0,3}[-+*]\s+/gm, "") // list bullets
+    .replace(/[*`_~>#]/g, "") // stray inline markdown
+    .replace(/\s+/g, " ")
+    .trim();
+  if (text.length <= maxLen) return text;
+  const clipped = text.slice(0, maxLen - 1);
+  const lastSpace = clipped.lastIndexOf(" ");
+  const base = lastSpace > maxLen * 0.6 ? clipped.slice(0, lastSpace) : clipped;
+  return `${base.trim()}…`;
+}
+
 /** First `# Heading` text in the body, or null. Used as a title fallback. */
 export function firstHeading(body) {
   const lines = body.split("\n");

@@ -4,6 +4,7 @@ title: "Character Options"
 section: "lore"
 vault: true
 order: 6
+excerpt: "Species Aelith Fey Elf The Aelith are a \\[Long-lived] \\[enigmatic] people who \\[have a strong connection to magic] and \\[are elegant and beautiful]. Languages: Aelith, English Innate Natural Magics - (pick an aspect) MAI: 5 Aged: Long-lived pick 3 experiences (flaw) Vulnerable to Iron Makes…"
 ---
 # Species
 

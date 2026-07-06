@@ -4,6 +4,7 @@ title: "Mythos"
 section: "lore"
 vault: true
 order: 4
+excerpt: "The Mythos The Pantheon The Goddess of Aether (magic) → Aethel The God of Souls (death) → Kaelos The Goddess of Love → Lyra The God of War → Garos The Goddess of Whimsy (twin) → Sariya The God of Darkness (twin) → Tenor The God of Iron (oldest) → Ferrum Aethel and Kaelos beget Lyra who marries…"
 ---
 # The Mythos
 

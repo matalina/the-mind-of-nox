@@ -4,6 +4,7 @@ title: "Factions"
 section: "lore"
 vault: true
 order: 8
+excerpt: "World \"Factions\" The World factions are at war with one another. The Wyld is trying to thwart the Nether, and the Nether is trying to thwart the Wyld. The Thwart mechanics should be used for these two factions. The Hollowed The Nether's Iron Veil Forces The Hollowed is an \\[oppressive] \\[hive…"
 ---
 ## World "Factions"
 

@@ -33,8 +33,8 @@ function git(args) {
 }
 
 /** Run a command with inherited stdio (streams output live). */
-function run(cmd, args) {
-  execFileSync(cmd, args, { cwd: PROJECT_DIR, stdio: "inherit" });
+function run(cmd, args, opts = {}) {
+  execFileSync(cmd, args, { cwd: PROJECT_DIR, stdio: "inherit", ...opts });
 }
 
 function fail(msg) {
@@ -56,23 +56,29 @@ if (branch !== DEPLOY_BRANCH) {
 console.log("→ Syncing vault…");
 run(process.execPath, [path.join(__dirname, "sync-vault.mjs")]);
 
-// 2. Stage everything.
+// 2. Build the whole site locally to prove it compiles. Netlify runs this exact
+//    command, so a template error caught here means we never push a deploy that
+//    would fail on Netlify (and silently leave the live site un-updated).
+console.log("\n→ Building site…");
+run("npm", ["run", "build"], { shell: true });
+
+// 3. Stage everything.
 run("git", ["add", "-A"]);
 
-// 3. Anything to publish?
+// 4. Anything to publish?
 if (!git(["status", "--porcelain"])) {
   console.log("\n✓ Nothing to publish — site already up to date.");
   process.exit(0);
 }
 
-// 4. Commit.
+// 5. Commit.
 const message =
   process.argv.slice(2).join(" ").trim() ||
   `Publish site (${new Date().toISOString().replace(/\.\d+Z$/, "Z")})`;
 console.log(`\n→ Committing on ${branch}…`);
 run("git", ["commit", "-m", message]);
 
-// 5. Push → triggers the Netlify build.
+// 6. Push → triggers the Netlify build.
 console.log(`→ Pushing ${branch} to origin…`);
 run("git", ["push", "origin", branch]);
 

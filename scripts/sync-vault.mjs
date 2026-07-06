@@ -28,6 +28,7 @@ import {
   parseFrontMatter,
   firstHeading,
   convertBody,
+  excerptFromMarkdown,
   yamlQuote,
 } from "./lib/convert.mjs";
 
@@ -112,16 +113,7 @@ function indexImages(dir, index, warn) {
   }
 }
 
-// ---------- manifest (idempotent cleanup) ----------
-
-function readManifest() {
-  try {
-    const parsed = JSON.parse(fs.readFileSync(MANIFEST, "utf8"));
-    return Array.isArray(parsed.files) ? parsed.files : [];
-  } catch {
-    return [];
-  }
-}
+// ---------- full-rebuild cleanup ----------
 
 const STOP_DIRS = new Set([WWW_DIR, IMAGES_OUT, PROJECT_DIR]);
 
@@ -137,6 +129,35 @@ function deleteAndPrune(absPath) {
     if (fs.existsSync(dir) && fs.readdirSync(dir).length > 0) break;
     if (fs.existsSync(dir)) fs.rmdirSync(dir);
     dir = path.dirname(dir);
+  }
+}
+
+/** Collect every `.md` file under `dir` (recursively). */
+function collectMarkdown(dir, out) {
+  if (!fs.existsSync(dir)) return;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const abs = path.join(dir, entry.name);
+    if (entry.isDirectory()) collectMarkdown(abs, out);
+    else if (entry.isFile() && entry.name.toLowerCase().endsWith(".md")) {
+      out.push(abs);
+    }
+  }
+}
+
+/**
+ * Remove every previously generated file so each run is a clean, full rebuild —
+ * independent of the manifest. Generated content is every `.md` under WWW_DIR
+ * (all carry `vault: true`; hand-authored pages are `.njk` and are left alone)
+ * plus the whole copied-image tree under IMAGES_OUT. Wiping unconditionally,
+ * rather than trusting the manifest, guarantees renamed / deleted / restructured
+ * pages can never linger in the published site.
+ */
+function wipeGenerated() {
+  const mdFiles = [];
+  collectMarkdown(WWW_DIR, mdFiles);
+  for (const abs of mdFiles) deleteAndPrune(abs);
+  if (fs.existsSync(IMAGES_OUT)) {
+    fs.rmSync(IMAGES_OUT, { recursive: true, force: true });
   }
 }
 
@@ -227,7 +248,7 @@ function resolveImageField(raw) {
 
 // ---------- generation ----------
 
-function buildFrontMatter({ layout, title, date, section, fm, toc, related, order, image }) {
+function buildFrontMatter({ layout, title, date, section, fm, toc, related, order, image, excerpt }) {
   const lines = ["---", `layout: ${layout}`, `title: ${yamlQuote(title)}`];
   if (date) lines.push(`date: ${date}`);
   lines.push(`section: ${yamlQuote(section)}`);
@@ -247,10 +268,7 @@ function buildFrontMatter({ layout, title, date, section, fm, toc, related, orde
     }
   }
   if (typeof order === "number") lines.push(`order: ${order}`);
-  const excerpt = fm.get("excerpt");
-  if (typeof excerpt === "string" && excerpt.trim()) {
-    lines.push(`excerpt: ${yamlQuote(excerpt.trim())}`);
-  }
+  if (excerpt) lines.push(`excerpt: ${yamlQuote(excerpt)}`);
   if (image) lines.push(`image: ${yamlQuote(image)}`);
   const tags = fm.get("tags");
   if (Array.isArray(tags) && tags.length) {
@@ -275,10 +293,8 @@ function main() {
 
   const warnings = [];
 
-  // 1. Clean previous output.
-  for (const rel of readManifest()) {
-    deleteAndPrune(path.join(PROJECT_DIR, rel));
-  }
+  // 1. Clean ALL previously generated output for a guaranteed full rebuild.
+  wipeGenerated();
 
   // 2. Build the vault image index (covers `_images/` and module images).
   const imageIndex = new Map();
@@ -418,9 +434,22 @@ function main() {
 
     const related = resolveRelatedLinks(fm, resolveLink);
     const order = typeof fm.get("order") === "number" ? fm.get("order") : null;
+
+    // Excerpt: honour an author-written `excerpt`, else auto-generate one for the
+    // pages that display it (sessions + lore). Pre-computing it here keeps the
+    // site from reading `templateContent` at render, which fails the build.
+    const authoredExcerpt = fm.get("excerpt");
+    const excerpt =
+      typeof authoredExcerpt === "string" && authoredExcerpt.trim()
+        ? authoredExcerpt.trim()
+        : isSession || section === "lore"
+          ? excerptFromMarkdown(converted) || null
+          : null;
+
     const frontMatter = buildFrontMatter({
       layout, title, date, section, fm, toc, related, order,
       image: featured ? featured.url : null,
+      excerpt,
     });
     fs.mkdirSync(path.dirname(destAbs), { recursive: true });
     fs.writeFileSync(destAbs, frontMatter + converted, "utf8");

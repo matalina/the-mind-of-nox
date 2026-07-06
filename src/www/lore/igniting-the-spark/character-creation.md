@@ -4,6 +4,7 @@ title: "Character Creation"
 section: "lore"
 vault: true
 order: 5
+excerpt: "We will be using the base rules for Tag and Tally. Species To play as the intended chosen one designed for this campaign you should choose the Chorari Species and pick or create your own soul. A Chorari may look like any species, as an Ashtari can be of any Gemini bloodline regardless of their…"
 ---
 We will be using the base rules for Tag and Tally.
 

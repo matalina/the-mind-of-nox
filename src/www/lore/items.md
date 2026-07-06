@@ -5,6 +5,7 @@ section: "lore"
 vault: true
 hasToc: true
 tocTags: [h2]
+excerpt: "A Aether Focus Lenses Aether Focus Lenses are a \\[Aetherium] \\[pair of glasses] that \\[calms the Aetheric flows in view]. B Blink Dagger Blink Dagger is a \\[shadowy] \\[bone] \\[dagger] that does \\[psychic] damage and \\[teleports the wielder a short distance away]. P Phase Fluid Phase fluid is a…"
 ---
 
 ## A

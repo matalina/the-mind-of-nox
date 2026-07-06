@@ -5,6 +5,7 @@ section: "lore"
 vault: true
 hasToc: true
 tocTags: [h2]
+excerpt: "H Haunted Fleshgrinder Haunted Fleshgrinder (\\[loyal] \\[cracked] \\[monstrosity]): This creature \\[seeks knowledge] and attacks with \\[possession] for \\[psychic] damage. It features a unique ability to \\[blink across short distances]. It \\[wields a prehensile tail] and \\[must consume shiny objects…"
 ---
 
 ## H

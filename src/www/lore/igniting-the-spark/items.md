@@ -4,6 +4,7 @@ title: "Items"
 section: "lore"
 vault: true
 order: 10
+excerpt: "Weapon Types Melee Weapons An Axe is a \\[Close Range] weapon that does \\[Physical] damage and can \\[Cleave]. A Club is a \\[Close Range] weapon that does \\[Physical] damage and can \\[Stun]. A Hammer is a \\[Close Range] weapon that does \\[Physical] damage and can \\[Sunder]. A Mace is a \\[Close…"
 ---
 ## Weapon Types
 
