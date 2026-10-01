@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /**
- * Print the image prompt for an existing notebook page.
+ * Build the image prompt for an existing notebook page from its creature and
+ * doodles, write it into the page's front matter as imagePrompt (replacing
+ * any old one), and print it.
  *
  * Usage:
  *   npm run image-prompt -- 01/001
@@ -35,4 +37,16 @@ const creature = Object.fromEntries(
 );
 if (!Object.values(creature).every(Boolean)) fail("The entry is missing creature name fields.");
 
-console.log(`\n${imagePrompt({ notebook, age: ageOn(nightMs(notebook, pageNo)), creature })}\n`);
+const doodlesLine = /^doodles:\s*(\[.*\])\s*$/m.exec(text);
+if (!doodlesLine) fail("The entry has no doodles. Run npm run roll-night first.");
+const doodles = JSON.parse(doodlesLine[1]);
+
+const prompt = imagePrompt({ notebook, age: ageOn(nightMs(notebook, pageNo)), creature, doodles });
+
+// Replace the imagePrompt block, or add one at the end of the front matter.
+const block = ["imagePrompt: |", ...prompt.split("\n").map((l) => (l ? `  ${l}` : ""))].join("\n") + "\n";
+const end = text.indexOf("\n---", 3) + 1;
+const front = text.slice(0, end).replace(/^imagePrompt: \|\n(?:(?: {2}.*)?\n)*/m, "");
+fs.writeFileSync(file, front + block + text.slice(end), "utf8");
+
+console.log(`\n${prompt}\n\n(Written to the page's imagePrompt.)\n`);

@@ -5,6 +5,7 @@
  */
 
 import { handFor } from "../../src/config/notebook-math.js";
+import { doodlePrompts, hasRunes, runesPrompt, allowsNumbers } from "./doodles.mjs";
 
 /**
  * How well he draws, by notebook handwriting band. Image models draw too well
@@ -25,7 +26,7 @@ const SKILL = {
  * looking at the page.
  */
 const POINT_OF_VIEW =
-  "Drawn from his own point of view, the instant before he woke up: the monster is lunging straight at the viewer, mid-attack and about to hit, so close it fills the picture and spills past the edges. It is the last image seared into his mind as he jolted awake. He does not draw himself, and there are no people in the drawing.";
+  "Drawn from his own point of view, the instant before he woke up: the monster is lunging straight at the viewer, mid-attack and about to hit, so close it fills the picture and spills past the edges. It is the last image seared into his mind as he jolted awake. He does not draw himself, and there are no people with the monster.";
 
 /**
  * Before every nightmare he dreams of his soulmate, Alex, and forgets it. What
@@ -97,7 +98,18 @@ const article = (word) => (/^[aeiou]/i.test(word) ? "an" : "a");
 const drawer = (age) =>
   `a ${age}-year-old ${age >= 18 ? "man" : age >= 13 ? "teenager" : "boy"}`;
 
-export function imagePrompt({ notebook, age, creature: c }) {
+/**
+ * The rest of the page: marginalia in the white space, so the bird is just
+ * another thing on a kid's notebook page and not an exhibit.
+ */
+function doodles(names, notebook, age) {
+  const items = doodlePrompts(names, age);
+  if (hasRunes(notebook)) items.push(runesPrompt());
+  if (!items.length) return null;
+  return `In the leftover white space around the monster and the bird, he has doodled in the margins, the way a notebook page fills up: ${items.join("; ")}. The doodles are small, scattered, unrelated to the monster, smaller than the bird, and drawn in the same hand and ink as everything else.`;
+}
+
+export function imagePrompt({ notebook, age, creature: c, doodles: names = [] }) {
   const band = handFor(notebook);
   const form = c.form.toLowerCase();
   return [
@@ -106,6 +118,11 @@ export function imagePrompt({ notebook, age, creature: c }) {
     "Black ink lines only, on a plain white background that fills the whole image edge to edge. No color, no grey shading, no shadows.",
     POINT_OF_VIEW,
     bird(band),
-    "No text anywhere in the picture: no words, no letters, no sound effects, no labels, no title, no signature.",
-  ].join("\n\n");
+    doodles(names, notebook, age),
+    allowsNumbers(names)
+      ? "No words anywhere in the picture: no letters, no sound effects, no labels, no title, no signature. The only writing is the scribbled numbers in the doodle."
+      : "No text anywhere in the picture: no words, no letters, no sound effects, no labels, no title, no signature.",
+  ]
+    .filter(Boolean)
+    .join("\n\n");
 }

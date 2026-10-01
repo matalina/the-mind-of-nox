@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Add any rolls an entry is missing, for pages written before the roll
- * existed: Nox's magic (after the creature) and the coffee stain (1d6).
+ * existed: Nox's magic (after the creature), the coffee stain (1d6) and
+ * the doodles. Run npm run image-prompt afterwards to refresh the prompt.
  * Rolls already in the entry are kept.
  *
  * Usage:
@@ -11,9 +12,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { pad } from "../src/config/notebook-math.js";
+import { pad, nightMs, ageOn } from "../src/config/notebook-math.js";
 import { rollMagic, magicFrontMatter, describeMagic } from "./lib/magic.mjs";
 import { rollCoffeeStain, describeCoffeeStain } from "./lib/stains.mjs";
+import { rollDoodles, describeDoodles } from "./lib/doodles.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const NOTEBOOK_DIR = path.join(__dirname, "..", "src", "www", "notebook");
@@ -50,6 +52,13 @@ if (!/^coffeeStain:/m.test(text)) {
   const roll = rollCoffeeStain();
   insertAfter(/^manifested:.*\n(?:gmNote:.*\n)?/m, [`coffeeStain: ${roll}`]);
   report.push(describeCoffeeStain(roll));
+}
+
+if (!/^doodles:/m.test(text)) {
+  const notebook = Number(m[1]);
+  const doodles = rollDoodles(ageOn(nightMs(notebook, Number(m[2]))));
+  insertAfter(/^coffeeStain:.*\n/m, [`doodles: ${JSON.stringify(doodles)}`]);
+  report.push(describeDoodles(doodles, notebook));
 }
 
 if (!report.length) fail(`${where} already has every roll.`);

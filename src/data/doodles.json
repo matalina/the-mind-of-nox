@@ -1,0 +1,33 @@
+{
+  "_note": "Nox's nightmare journal doodles, from the journal tables. How many by age, then 1d20 each (no repeats on a page). Results 17-20 are his future tattoos. Knives only from age 15. Sarethai runes appear in the margins of the earliest notebooks only, before he was six, and never again. Each entry's prompt is what the image generator is asked to draw.",
+  "count": [
+    { "maxAge": 7, "dice": "1d4", "sides": 4, "plus": 0 },
+    { "maxAge": 12, "dice": "1d4+1", "sides": 4, "plus": 1 },
+    { "maxAge": 17, "dice": "1d4", "sides": 4, "plus": 0 },
+    { "maxAge": 99, "dice": "1d2", "sides": 2, "plus": 0 }
+  ],
+  "runeNotebooks": 4,
+  "runes": "a few small, angular, made-up symbols down the margin, like a secret code only he knows",
+  "table": [
+    { "roll": 1, "name": "Tally marks", "prompt": "rows of tally marks bundled in groups of seven strokes" },
+    { "roll": 2, "name": "A hand", "prompt": "a study of a hand" },
+    { "roll": 3, "name": "An eye", "prompt": "a single eye, wide open" },
+    { "roll": 4, "name": "A clock face", "prompt": "a clock face with no numbers on it, the hour hand just short of four and the minute hand near eleven" },
+    { "roll": 5, "name": "A door", "prompt": "a door standing ajar, seen from inside the room" },
+    { "roll": 6, "name": "Crosshatching", "prompt": "a patch of crosshatching filling a corner" },
+    { "roll": 7, "name": "A spiral", "prompt": "a spiral drawn out from the center, gone round too many times" },
+    { "roll": 8, "name": "Birds", "prompt": "a few ordinary birds, like pigeons, crows or gulls, or birds sitting on a wire" },
+    { "roll": 9, "name": "Teeth", "prompt": "a row of teeth with no face around them" },
+    { "roll": 10, "name": "A room from the corner", "prompt": "an empty room seen from a top corner: the ceiling and two walls, nothing in it" },
+    { "roll": 11, "name": "The same shape, seven times", "prompt": "the same simple shape drawn seven times in a row, each one slightly better than the last", "adultPrompt": "one simple shape drawn once, perfectly" },
+    { "roll": 12, "name": "A small figure", "prompt": "a tiny person far away, facing away, left unfinished" },
+    { "roll": 13, "name": "Knives", "prompt": "knife blades: blade shapes, bolsters, the angle of an edge", "minAge": 15 },
+    { "roll": 14, "name": "A window", "prompt": "a window with light outside it" },
+    { "roll": 15, "name": "Numbers", "prompt": "scribbled numbers, like dates, times or a running count", "numbers": true },
+    { "roll": 16, "name": "Stairs", "prompt": "a staircase going up, sometimes with no top" },
+    { "roll": 17, "name": "A crow", "prompt": "a crow, drawn with real care and attention" },
+    { "roll": 18, "name": "A scarred palm", "prompt": "an open palm with a scar running across it" },
+    { "roll": 19, "name": "Musical notation", "prompt": "four or five bars of musical notes on a staff" },
+    { "roll": 20, "name": "A jack-o'-lantern or a silly ghost", "prompt": "a jack-o'-lantern or a very silly cartoon ghost" }
+  ]
+}

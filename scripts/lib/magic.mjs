@@ -1,9 +1,10 @@
 /**
  * Nox's magic on a night: the Sussuri Innate Trait from Breaking the Cycle.
- * Roll 1d4 for the state (content, no bleed, or both active); unless he is
- * content, roll 1d10 for the emotion driving his magic. On a Pain night the
- * creature manifested into the world. Nox never knows, so it is recorded only
- * as a GM note in the front matter.
+ * Roll 1d4 for the state (content, taint only, or both active); unless he is
+ * content, roll 1d10 for the emotion driving his magic. Pain with both active
+ * is a manifestation, one night in twenty: the creature caught him and hurt
+ * him, he lashed out with raw magic, and it was cast out into the world. Nox
+ * never knows, so it is recorded only as a GM note in the front matter.
  */
 
 import fs from "node:fs";
@@ -28,13 +29,13 @@ export function rollMagic() {
   const magic = { stateRoll, state, emotionRoll, emotion: e.emotion };
   if (state === "both active") magic.bleed = e.bleed;
   magic.tinge = e.tinge;
-  const manifested = e.emotion === "Pain";
+  const manifested = state === "both active" && e.emotion === "Pain";
   return {
     magic,
     manifested,
     ...(manifested && {
       gmNote:
-        "The emotion was Pain: this creature manifested into the world. Nox does not know.",
+        "Pain, with both active: this creature manifested. It caught him and hurt him, he lashed out with raw magic, and it was cast out into the world somewhere far from him. He woke cracked. Nox does not know.",
     }),
   };
 }
@@ -55,6 +56,6 @@ export function describeMagic({ magic: m, manifested }) {
   if (m.state === "content") return `Magic: d4 ${m.stateRoll}, content. Nothing happens.`;
   const effects = [m.bleed && `bleeds ${m.bleed}`, `tinged ${m.tinge}`].filter(Boolean).join(", ");
   return `Magic: d4 ${m.stateRoll}, ${m.state}; d10 ${m.emotionRoll}, ${m.emotion} (${effects}).${
-    manifested ? "\nGM NOTE: Pain. The creature manifested into the world." : ""
+    manifested ? "\nGM NOTE: Pain with both active. The creature manifested into the world." : ""
   }`;
 }

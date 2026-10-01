@@ -1,8 +1,8 @@
 {
-  "_note": "Nox's Sussuri Innate Trait, rolled once per night. Mirrored from the New Mechanics page in Dabble (Breaking the Cycle). Roll 1d4 for the state; unless it is content, roll 1d10 for the emotion. A night whose emotion is Pain is a night the creature manifested into the world.",
+  "_note": "Nox's Sussuri Innate Trait, rolled once per night. Mirrored from the New Mechanics page in Dabble (Breaking the Cycle). Roll 1d4 for the state; unless it is content, roll 1d10 for the emotion. Pain with both active (a 3 or 4) is a night the creature manifested into the world: one night in twenty. Pain on a taint-only night leaks nothing.",
   "state": {
     "1": "content",
-    "2": "no bleed",
+    "2": "taint only",
     "3": "both active",
     "4": "both active"
   },

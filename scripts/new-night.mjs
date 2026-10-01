@@ -7,8 +7,9 @@
  *   npm run new-night              # a random unwritten night
  *   npm run new-night -- 07/059    # a specific notebook and page
  *
- * Each night also rolls Nox's magic (scripts/lib/magic.mjs) and a coffee
- * stain (scripts/lib/stains.mjs).
+ * Each night also rolls Nox's magic (scripts/lib/magic.mjs) a coffee stain
+ * (scripts/lib/stains.mjs) and the doodles around the drawing
+ * (scripts/lib/doodles.mjs).
  *
  * Creature names never repeat: a roll whose name is already used by any
  * entry is rerolled. The tables live in src/data/creatureTables.json.
@@ -28,6 +29,7 @@ import {
 import { imagePrompt } from "./lib/image-prompt.mjs";
 import { rollMagic, magicFrontMatter, describeMagic } from "./lib/magic.mjs";
 import { rollCoffeeStain, describeCoffeeStain } from "./lib/stains.mjs";
+import { rollDoodles, describeDoodles } from "./lib/doodles.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = path.join(__dirname, "..");
@@ -137,7 +139,8 @@ const ms = nightMs(night.notebook, night.pageNo);
 const where = key(night.notebook, night.pageNo);
 const file = path.join(NOTEBOOK_DIR, pad(night.notebook, 2), `${pad(night.pageNo, 3)}.md`);
 
-const prompt = imagePrompt({ notebook: night.notebook, age: ageOn(ms), creature });
+const doodles = rollDoodles(ageOn(ms));
+const prompt = imagePrompt({ notebook: night.notebook, age: ageOn(ms), creature, doodles });
 
 // The image prompt sits in front matter so it never shows on the site.
 // Delete it once the drawing is made.
@@ -153,6 +156,7 @@ const frontMatter = [
   ...Object.entries(creature).map(([k, v]) => `  ${k}: ${q(v)}`),
   ...magicFrontMatter(magic),
   `coffeeStain: ${coffeeStain}`,
+  `doodles: ${q(doodles)}`,
   "imagePrompt: |",
   ...prompt.split("\n").map((line) => (line ? `  ${line}` : "")),
   "---",
@@ -178,6 +182,7 @@ ${nameOf(c)} ([${c.disposition}] [Monstrosity]): This creature [${c.motivation}]
 
 ${describeMagic(magic)}
 ${describeCoffeeStain(coffeeStain)}
+${describeDoodles(doodles, night.notebook)}
 
 Image prompt:
 
