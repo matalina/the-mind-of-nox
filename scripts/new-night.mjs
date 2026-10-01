@@ -145,7 +145,9 @@ const q = (v) => JSON.stringify(v);
 const frontMatter = [
   "---",
   `date: ${todayLocal()}`,
-  // For reference while writing. The site works his age out from the page.
+  // For reference while writing: the morning he woke from this night, and
+  // his age. The site works both out from the page number.
+  `night: ${q(isoDate(ms))}`,
   `age: ${ageOn(ms)}`,
   "creature:",
   ...Object.entries(creature).map(([k, v]) => `  ${k}: ${q(v)}`),
