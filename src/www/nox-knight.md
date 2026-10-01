@@ -6,8 +6,7 @@ paper: true
 ---
 
 # Nox Knight
-
-## Protagonist
+_Protagonist_
 
 ### Identity
 
@@ -252,7 +251,7 @@ From an early age Nox always woke with nightmares, he slept little for most of h
 
 (experience) **Hail Marco** — At 15, Nox tried to run away from his foster home. He found himself outside Fioré where the owner and chef corralled him and brought him into the kitchen and taught him to cook and gave him a job. Nox has done everything from washing dishes to his current position as a sous-chef.
 
-***Story Note:*** <i>Dorian Vega was following up on an report that was followed and found the young boy loitering outside his partner’s restaurant, instead of filing his report he talked Marco into putting the boy to work to keep him out of trouble.</i>
+***Story Note:*** _Dorian Vega was following up on an report that was followed and found the young boy loitering outside his partner’s restaurant, instead of filing his report he talked Marco into putting the boy to work to keep him out of trouble._
 
 (young adult) **Aged Out** — Nox aged out of the system at 18 and spend the first few months homeless on the street trying to make ends meet. He first found a tattoo shop looking to hire and auditioned with a drawing a customer absolutely loved.
 
