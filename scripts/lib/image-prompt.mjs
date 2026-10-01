@@ -16,10 +16,20 @@ const SKILL = {
 
 /**
  * He never draws himself (he can't see himself). The drawing is from his own
- * point of view, so the creature comes at whoever is looking at the page.
+ * point of view, at the moment he woke: the creature lunging at whoever is
+ * looking at the page.
  */
 const POINT_OF_VIEW =
-  "Drawn from his own point of view: the monster is coming straight toward the viewer, close and filling the page. He does not draw himself, and there are no people in the drawing.";
+  "Drawn from his own point of view, the instant before he woke up: the monster is lunging straight at the viewer, mid-attack and about to hit, so close it fills the page and spills past the edges. It is the last image seared into his mind as he jolted awake. He does not draw himself, and there are no people in the drawing.";
+
+/**
+ * Before every nightmare he dreams of his soulmate, Alex, and forgets it. What
+ * lingers is the phoenix tattooed on Alex's inner wrist, so a bird turns up in
+ * every drawing without him knowing why. Described, never copied: it is his
+ * own doodle of it, in the same hand as the monster.
+ */
+const BIRD =
+  "Somewhere on the page, small and apart from the monster, he has also drawn a bird, without knowing why: a phoenix rising with both wings swept up and outward, its long feathers curving like flames, a small hooked beak and a curled crest on its head, and a long tail that flows down in S-shaped ribbons like smoke. It is calm, not part of the nightmare, and drawn in the same hand and ink as the rest.";
 
 /** What each surface looks like in black ink. */
 const SURFACE_HINT = {
@@ -83,6 +93,8 @@ export function imagePrompt({ notebook, age, creature: c }) {
     `A drawing by ${drawer(age)} of a monster from his nightmare: ${name}. It is ${c.surface.toLowerCase()}: ${SURFACE_HINT[c.surface]}. It is shaped like ${article(form)} ${form}: ${FORM_HINT[c.form]}. It is covered in ${c.features.toLowerCase()}, and it moves by ${c.movement.toLowerCase()}.`,
     SKILL[band],
     "Black ink lines only, on plain flat white paper. No color, no grey shading, no shadows, no paper texture. Not a photo of paper.",
-    `${POINT_OF_VIEW} No words or labels, except sounds the monster makes.`,
+    POINT_OF_VIEW,
+    BIRD,
+    `No words or labels, except sounds the monster makes.`,
   ].join("\n\n");
 }
