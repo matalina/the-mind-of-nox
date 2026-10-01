@@ -142,6 +142,21 @@ function ledgerChildren(tree, ledgerId) {
   return found;
 }
 
+/**
+ * The notebook tree. Some keys are refused the notebook listing itself, so
+ * fall back to the project outline, which carries the notebook too.
+ */
+async function notebookTree(call, project) {
+  try {
+    return await call("GET", `/projects/${project}/notebook`);
+  } catch (err) {
+    if (!/answered 403/.test(err.message)) throw err;
+    console.log("  … notebook listing refused, using the project outline instead");
+    const outline = await call("GET", `/projects/${project}/outline`);
+    return { notebook: outline.notebook ?? [] };
+  }
+}
+
 async function readPage(call, project, pageId) {
   let text = "";
   let offset = 0;
@@ -205,7 +220,7 @@ export async function syncLedger({ dryRun = false } = {}) {
     byNotebook.get(e.notebook).push(e.line);
   }
 
-  const pages = ledgerChildren(await call("GET", `/projects/${project}/notebook`), ledger);
+  const pages = ledgerChildren(await notebookTree(call, project), ledger);
   const report = { updated: [], unchanged: [], missing: [] };
 
   for (const [notebook, lines] of [...byNotebook].sort((a, b) => a[0] - b[0])) {
