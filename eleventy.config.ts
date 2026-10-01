@@ -116,7 +116,7 @@ export default function (
       includes: "../layouts",
       layouts: "../layouts",
       data: "../data",
-      markdownTemplateEngine: "njk",
     },
+    markdownTemplateEngine: "njk",
   };
 }

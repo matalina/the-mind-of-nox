@@ -149,6 +149,13 @@ const frontMatter = [
   ...prompt.split("\n").map((line) => (line ? `  ${line}` : "")),
   "---",
   "",
+  // The questions every entry answers. A Nunjucks comment, so it never shows.
+  "{#- Write the entry in Nox's voice. Answer these (this note never shows on the site):",
+  "    How does this creature make you feel?",
+  "    What did you wake up feeling?",
+  "    What were you doing in the dream?",
+  "-#}",
+  "",
   "",
 ].join("\n");
 
