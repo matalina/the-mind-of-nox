@@ -1,17 +1,22 @@
 /**
  * The prompt for an AI drawing of a night's creature, as Nox would have drawn
- * it at that age. Only the creature's appearance goes in: the game tags would
- * end up written on the drawing.
+ * it at that age. Only the creature's appearance goes in, not its name or game
+ * tags: anything named ends up written on the drawing.
  */
 
 import { handFor } from "../../src/config/notebook-math.js";
 
-/** How well he draws, by notebook handwriting band. */
+/**
+ * How well he draws, by notebook handwriting band. Image models draw too well
+ * by default, so the child band spells out what a real small child's drawing
+ * looks like, and that it is not an adult imitating one.
+ */
 const SKILL = {
-  child: "Wobbly scribbled lines and uneven shapes, like a small child.",
-  kid: "A kid who draws every night: more detail, still unsure proportions.",
-  teen: "A teenager who draws every night and is getting good: confident lines, some hatching.",
-  adult: "A skilled young artist: clean, precise ink linework and cross-hatching, like a tattoo sketch.",
+  child:
+    "It must look like a real drawing by a small child, the kind stuck on a fridge, not an adult or an artist imitating a child's style. Drawn with a fat black marker gripped in a fist: shaky, wobbly lines that overshoot and don't meet, lopsided circles, stick legs, a few scribbled patches, wrong proportions and no perspective. Everything is flat and simple. No hatching, no shading, no fine detail, no neat outlines.",
+  kid: "Drawn by a kid who draws every night: more detail than a small child, but still stiff, uneven lines and unsure proportions. Simple scribbled hatching at most.",
+  teen: "Drawn by a teenager who draws every night and is getting good: confident lines, some hatching, mostly right proportions.",
+  adult: "Drawn by a skilled young artist: clean, precise ink linework and cross-hatching, like a tattoo sketch.",
 };
 
 /**
@@ -28,8 +33,15 @@ const POINT_OF_VIEW =
  * every drawing without him knowing why. Described, never copied: it is his
  * own doodle of it, in the same hand as the monster.
  */
-const BIRD =
-  "Somewhere on the page, small and apart from the monster, he has also drawn a bird, without knowing why: a phoenix rising with both wings swept up and outward, its long feathers curving like flames, a small hooked beak and a curled crest on its head, and a long tail that flows down in S-shaped ribbons like smoke. It is calm, not part of the nightmare, and drawn in the same hand and ink as the rest.";
+const PHOENIX =
+  "a phoenix rising with both wings swept up and outward, its long feathers curving like flames, a small hooked beak and a curled crest on its head, and a long tail that flows down in S-shaped ribbons like smoke";
+
+/** The same phoenix, as a small child can draw it. */
+const CHILD_PHOENIX =
+  "a simple bird with two big wings pointing up like flames, a little curl on its head, and a long wavy tail";
+
+const bird = (band) =>
+  `Somewhere on the page, small and apart from the monster, he has also drawn a bird, without knowing why: ${band === "child" ? CHILD_PHOENIX : PHOENIX}. It is calm, not part of the nightmare, and drawn in the same hand and ink as the rest, no better.`;
 
 /** What each surface looks like in black ink. */
 const SURFACE_HINT = {
@@ -87,14 +99,13 @@ const drawer = (age) =>
 
 export function imagePrompt({ notebook, age, creature: c }) {
   const band = handFor(notebook);
-  const name = `The ${c.movement} ${c.surface} ${c.form} of ${c.features}`;
   const form = c.form.toLowerCase();
   return [
-    `A drawing by ${drawer(age)} of a monster from his nightmare: ${name}. It is ${c.surface.toLowerCase()}: ${SURFACE_HINT[c.surface]}. It is shaped like ${article(form)} ${form}: ${FORM_HINT[c.form]}. It is covered in ${c.features.toLowerCase()}, and it moves by ${c.movement.toLowerCase()}.`,
+    `A drawing by ${drawer(age)} of a monster from his nightmare. It is ${c.surface.toLowerCase()}: ${SURFACE_HINT[c.surface]}. It is shaped like ${article(form)} ${form}: ${FORM_HINT[c.form]}. It is covered in ${c.features.toLowerCase()}, and it moves by ${c.movement.toLowerCase()}.`,
     SKILL[band],
     "Black ink lines only, on plain flat white paper. No color, no grey shading, no shadows, no paper texture. Not a photo of paper.",
     POINT_OF_VIEW,
-    BIRD,
-    `No words or labels, except sounds the monster makes.`,
+    bird(band),
+    "No text anywhere in the picture: no words, no letters, no sound effects, no labels, no title, no signature.",
   ].join("\n\n");
 }
