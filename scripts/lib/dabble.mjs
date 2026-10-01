@@ -172,6 +172,21 @@ function merge(current, wanted) {
 }
 
 /**
+ * What the key can see: its account, app and scopes, and the project with the
+ * role the account holds on it. For working out a 403.
+ */
+export async function checkAccess() {
+  loadDotEnv();
+  const key = process.env.DABBLE_API_KEY;
+  if (!key) return { skipped: "DABBLE_API_KEY is not set" };
+  const project = process.env.DABBLE_PROJECT_ID || DEFAULT_PROJECT;
+  const call = client(key);
+  const me = await call("GET", "/me");
+  const { projects = [] } = await call("GET", "/projects?limit=200");
+  return { me, project, found: projects.find((p) => p.id === project) ?? null, count: projects.length };
+}
+
+/**
  * Sync the ledger. Returns a short report. With dryRun, reads Dabble and
  * reports what would change without writing.
  */
