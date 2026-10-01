@@ -13,7 +13,7 @@ import { handFor } from "../../src/config/notebook-math.js";
  */
 const SKILL = {
   child:
-    "It must look like a real drawing by a small child, the kind stuck on a fridge, not an adult or an artist imitating a child's style. Drawn with a fat black marker gripped in a fist: shaky, wobbly lines that overshoot and don't meet, lopsided circles, stick legs, a few scribbled patches, wrong proportions and no perspective. Everything is flat and simple. No hatching, no shading, no fine detail, no neat outlines.",
+    "It must look like a real drawing by a small child, not an adult or an artist imitating a child's style. Drawn with a fat black marker gripped in a fist: shaky, wobbly lines that overshoot and don't meet, lopsided circles, stick legs, a few scribbled patches, wrong proportions and no perspective. Everything is flat and simple. No hatching, no shading, no fine detail, no neat outlines.",
   kid: "Drawn by a kid who draws every night: more detail than a small child, but still stiff, uneven lines and unsure proportions. Simple scribbled hatching at most.",
   teen: "Drawn by a teenager who draws every night and is getting good: confident lines, some hatching, mostly right proportions.",
   adult: "Drawn by a skilled young artist: clean, precise ink linework and cross-hatching, like a tattoo sketch.",
@@ -25,7 +25,7 @@ const SKILL = {
  * looking at the page.
  */
 const POINT_OF_VIEW =
-  "Drawn from his own point of view, the instant before he woke up: the monster is lunging straight at the viewer, mid-attack and about to hit, so close it fills the page and spills past the edges. It is the last image seared into his mind as he jolted awake. He does not draw himself, and there are no people in the drawing.";
+  "Drawn from his own point of view, the instant before he woke up: the monster is lunging straight at the viewer, mid-attack and about to hit, so close it fills the picture and spills past the edges. It is the last image seared into his mind as he jolted awake. He does not draw himself, and there are no people in the drawing.";
 
 /**
  * Before every nightmare he dreams of his soulmate, Alex, and forgets it. What
@@ -41,7 +41,7 @@ const CHILD_PHOENIX =
   "a simple bird with two big wings pointing up like flames, a little curl on its head, and a long wavy tail";
 
 const bird = (band) =>
-  `Somewhere on the page, small and apart from the monster, he has also drawn a bird, without knowing why: ${band === "child" ? CHILD_PHOENIX : PHOENIX}. It is calm, not part of the nightmare, and drawn in the same hand and ink as the rest, no better.`;
+  `Somewhere in the picture, small and apart from the monster, he has also drawn a bird, without knowing why: ${band === "child" ? CHILD_PHOENIX : PHOENIX}. It is calm, not part of the nightmare, and drawn in the same hand and ink as the rest, no better.`;
 
 /** What each surface looks like in black ink. */
 const SURFACE_HINT = {
@@ -103,7 +103,7 @@ export function imagePrompt({ notebook, age, creature: c }) {
   return [
     `A drawing by ${drawer(age)} of a monster from his nightmare. It is ${c.surface.toLowerCase()}: ${SURFACE_HINT[c.surface]}. It is shaped like ${article(form)} ${form}: ${FORM_HINT[c.form]}. It is covered in ${c.features.toLowerCase()}, and it moves by ${c.movement.toLowerCase()}.`,
     SKILL[band],
-    "Black ink lines only, on plain flat white paper. No color, no grey shading, no shadows, no paper texture. Not a photo of paper.",
+    "Black ink lines only, on a plain white background that fills the whole image edge to edge. No color, no grey shading, no shadows.",
     POINT_OF_VIEW,
     bird(band),
     "No text anywhere in the picture: no words, no letters, no sound effects, no labels, no title, no signature.",
