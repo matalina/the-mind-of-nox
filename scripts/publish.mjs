@@ -76,18 +76,30 @@ try {
 // 2. Stage everything.
 run("git", ["add", "-A"]);
 
-// 3. Anything to publish?
-if (!git(["status", "--porcelain"])) {
+// 3. Anything to publish? Uncommitted changes, or commits made by hand that
+//    were never pushed.
+const hasChanges = Boolean(git(["status", "--porcelain"]));
+let unpushed = 0;
+try {
+  unpushed = Number(git(["rev-list", "--count", `origin/${branch}..HEAD`]));
+} catch {
+  unpushed = 1; // No remote branch yet: push whatever is here.
+}
+if (!hasChanges && !unpushed) {
   console.log("\n✓ Nothing to publish — site already up to date.");
   process.exit(0);
 }
 
-// 4. Commit.
-const message =
-  process.argv.slice(2).join(" ").trim() ||
-  `Publish site (${new Date().toISOString().replace(/\.\d+Z$/, "Z")})`;
-console.log(`\n→ Committing on ${branch}…`);
-run("git", ["commit", "-m", message]);
+// 4. Commit, if there is anything uncommitted.
+if (hasChanges) {
+  const message =
+    process.argv.slice(2).join(" ").trim() ||
+    `Publish site (${new Date().toISOString().replace(/\.\d+Z$/, "Z")})`;
+  console.log(`\n→ Committing on ${branch}…`);
+  run("git", ["commit", "-m", message]);
+} else {
+  console.log(`\n→ ${unpushed} commit(s) waiting to be pushed.`);
+}
 
 // 5. Push → triggers the Netlify build.
 console.log(`→ Pushing ${branch} to origin…`);
