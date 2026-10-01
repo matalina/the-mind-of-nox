@@ -8,6 +8,9 @@
  *   npm run publish                 # auto commit message
  *   npm run publish -- "message"    # custom commit message
  *
+ * Along the way it syncs the creatures to the Creature Ledger in Dabble
+ * (scripts/lib/dabble.mjs), when DABBLE_API_KEY is set.
+ *
  * The deploy branch defaults to `master`; override with NOX_DEPLOY_BRANCH.
  * Publishing is only allowed from that branch (guards against shipping a
  * feature branch by accident).
@@ -16,6 +19,7 @@
 import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { syncLedger } from "./lib/dabble.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = path.join(__dirname, "..");
@@ -54,6 +58,20 @@ if (branch !== DEPLOY_BRANCH) {
 //    would fail on Netlify (and silently leave the live site un-updated).
 console.log("\n→ Building site…");
 run("npm", ["run", "build"], { shell: true });
+
+// 1b. Push the creatures to the Creature Ledger in Dabble. Never blocks a
+//     publish: without a key it is skipped, and a failure is only reported.
+console.log("\n→ Syncing the Creature Ledger in Dabble…");
+try {
+  const r = await syncLedger();
+  if (r.skipped) console.log(`  – skipped: ${r.skipped}.`);
+  else {
+    console.log(`  ✓ updated: ${r.updated.join(", ") || "nothing"}`);
+    if (r.missing.length) console.log(`  ! no ledger page for: ${r.missing.join(", ")}`);
+  }
+} catch (err) {
+  console.warn(`  ! Dabble sync failed, publishing anyway: ${err.message}`);
+}
 
 // 2. Stage everything.
 run("git", ["add", "-A"]);
