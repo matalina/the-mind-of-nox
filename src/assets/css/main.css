@@ -235,6 +235,16 @@ main {
   color: var(--ink);
 }
 
+/* Out-of-world note under the page number, as quiet as the notebook label. */
+.sheet__disclaimer {
+  margin: 0;
+  color: var(--pencil);
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
 /* ---------- stains on the paper ----------
    Under the writing (the sheet's transform makes it a stacking context, so
    z-index -1 stays above the paper) and clipped to the page edge. */

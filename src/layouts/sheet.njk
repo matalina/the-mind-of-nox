@@ -40,5 +40,10 @@
     <span>Notebook {{ d.notebookLabel }}</span>
     <span class="sheet__page">{{ d.pageLabel }}</span>
   </footer>
+
+  {% if d.image %}
+    {#- Out of world: the drawings are not really his. -#}
+    <p class="sheet__disclaimer">The drawing on this page is AI-generated.</p>
+  {% endif %}
 </article>
 {% endmacro %}
