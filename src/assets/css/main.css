@@ -11,6 +11,7 @@
   --ink: #d8d0c3;
   --pencil: #8d867c;
   --ember: #ff7a3d;
+  --ice: #8fc1dc;
   --card: #221e1b;
   --tape: rgba(214, 200, 170, 0.18);
 
@@ -316,9 +317,35 @@ main {
 
 /* ---------- plain pages ---------- */
 
-.prose img {
+/* Images dropped into a page's text shrink to fit inside the page. */
+.prose img,
+.sheet__body img,
+.plain__body img {
+  display: block;
   max-width: 100%;
   height: auto;
+}
+
+/* ---------- bold and italics ----------
+   The handwriting fonts barely show bold or italics, so they get color:
+   bold in ember, italics in an ice blue. Bold italics stay ember. Icon <i>s
+   carry a class and keep their own color. */
+
+strong,
+b {
+  color: var(--ember);
+}
+
+em,
+i:not([class]) {
+  color: var(--ice);
+}
+
+strong em,
+em strong,
+b i:not([class]),
+i:not([class]) b {
+  color: var(--ember);
 }
 
 @media (max-width: 30rem) {
