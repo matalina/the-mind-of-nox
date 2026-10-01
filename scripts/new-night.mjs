@@ -145,6 +145,8 @@ const q = (v) => JSON.stringify(v);
 const frontMatter = [
   "---",
   `date: ${todayLocal()}`,
+  // For reference while writing. The site works his age out from the page.
+  `age: ${ageOn(ms)}`,
   "creature:",
   ...Object.entries(creature).map(([k, v]) => `  ${k}: ${q(v)}`),
   ...magicFrontMatter(magic),
