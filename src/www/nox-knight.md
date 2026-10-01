@@ -5,10 +5,7 @@ permalink: /nox-knight/
 paper: true
 ---
 
-# Nox Knight
-_Protagonist_
-
-### Identity
+<small><strong>→</strong> <a href="#description">Description</a> | <a href="#personality">Personality</a> | <a href="#cornerstones">The Four Corner Stones</a> | <a href="#pillars">The Four Pillars</a> | <a href="#favorites">Favorites</a> | <a href="#sheet">Character Sheet</a> | <a href="#history">History</a> | <a href="#portrait">Portrait</a></small>  
 
 **Name:** Nox Knight  
 **Case ID Number:** N0x-Kn19h7-1123  
@@ -25,6 +22,7 @@ _Protagonist_
 * **Biological Father:** Kai Viddens (unknown)
 * **Biological Mother:** Leanne Sétanta (unknown & deceased)
 
+<a name="description"></a>  
 ### Description
 
 **Hair:** Long textured quiff with low taper, widow’s peak, a red not normal for humans  
@@ -43,6 +41,7 @@ _Protagonist_
 **Coordination:** Highly coordinated and graceful  
 **Weaknesses:** body dysmorphia
 
+<a name="personality"></a>  
 ### Personality
 
 **Zodiac**: Cancer  
@@ -89,6 +88,7 @@ _Protagonist_
     * In bed at 12:07.
     * Woken at 3:53.
 
+<a name="cornerstones"></a>  
 ### The Four Cornerstones
 
 **The Fear:** that he isn’t keepable.
@@ -101,6 +101,7 @@ _Protagonist_
 
 **The Lie:** if he’s useful enough, they’ll keep him.
 
+<a name="pillars"></a>  
 ### The Four Pillars
 
 **The Desire:** to sleep
@@ -113,6 +114,7 @@ _Protagonist_
 
 **What changes:** he starts having to earn every room and ends by letting himself be kept
 
+<a name="favorites"></a>  
 ### Favorites:
 
 * **song:** The Sound of Silence (performed by Alex but Disturbed is close)
@@ -132,6 +134,7 @@ _Protagonist_
 * **kink:** submission
 * **mode of transportation:** subway
 
+<a name="sheet"></a>  
 # Character Sheet
 
 **Nox Knight** is a [graceful] [mundane] [Feras] [Improviser] who [can see patterns].
@@ -229,6 +232,7 @@ _Protagonist_
 
 **Kan** _[level 6 → chaos, space, summon, pm 2]_: A conjured spell that allows Nox to bring a small object to his hand across a room.
 
+<a name="history"></a>  
 # History
 
 (childhood) **Orphaned under Dying Stars** — Nox was born under twin stars dying. A three day stretch of mystical energies bathing the earth and cracking the veil that keeps magic hidden from the world.
@@ -259,4 +263,6 @@ It wasn’t enough to get his own place, but now he had some cash. And he still 
 
 He was able to move into a better place in Hell’s Kitchen where he can do his art, cook and is within walking or subway distance of all his favorite places.
 
-![image](https://files.dabblewriter.com/content/images/d4f88fbef8a04a74ac7a18c5dd2d9b795c7c30fc.png)
+<a name="portrait"></a>  
+![image](https://files.dabblewriter.com/content/images/0e79e83260984d5989685ab318df7721eb055a0a.jpg)
+
