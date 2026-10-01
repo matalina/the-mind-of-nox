@@ -3,6 +3,15 @@
 
 {% macro sheet(d, body, heading="h1", url="") %}
 <article class="sheet hand--{{ d.hand }}">
+  {#- Marks on the paper, under the writing: blood on a night the creature
+      manifested, and a coffee ring on an even coffee stain roll. -#}
+  {% set coffee = d.coffeeStain if d.coffeeStain in [2, 4, 6] else false %}
+  {% if d.manifested or coffee %}
+    <div class="sheet__stains" aria-hidden="true">
+      {% if coffee %}<img class="stain stain--coffee stain--coffee-{{ coffee }}" src="/images/coffee_stain.png" alt=""/>{% endif %}
+      {% if d.manifested %}<img class="stain stain--blood" src="/images/blood_drop.png" alt=""/>{% endif %}
+    </div>
+  {% endif %}
   <header class="sheet__head">
     <span class="sheet__time">3:53</span>
     <time class="sheet__date" datetime="{{ d.night }}">{{ d.night | longDate }}</time>

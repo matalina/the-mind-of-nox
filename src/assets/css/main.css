@@ -235,6 +235,41 @@ main {
   color: var(--ink);
 }
 
+/* ---------- stains on the paper ----------
+   Under the writing (the sheet's transform makes it a stacking context, so
+   z-index -1 stays above the paper) and clipped to the page edge. */
+
+.sheet__stains {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.stain {
+  position: absolute;
+  height: auto;
+}
+
+/* Tan on dark paper reads as a dried water ring, not fresh coffee. */
+.stain--coffee {
+  width: 11rem;
+  opacity: 0.32;
+}
+
+.stain--coffee-2 { top: -2.5rem; right: -2.5rem; transform: rotate(18deg); }
+.stain--coffee-4 { top: 45%; left: -3.5rem; transform: rotate(-40deg); }
+.stain--coffee-6 { bottom: -3rem; right: -2rem; transform: rotate(95deg); }
+
+/* The night he bled: a spatter by the time he woke, across the margin. */
+.stain--blood {
+  top: 0.75rem;
+  left: -0.75rem;
+  width: 7.5rem;
+  transform: rotate(-12deg);
+}
+
 /* ---------- a sketch on the page ---------- */
 
 .sketch {
