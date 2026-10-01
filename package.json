@@ -7,8 +7,9 @@
     "serve": "eleventy --serve --port=8099",
     "typecheck": "tsc --noEmit",
     "dev": "netlify dev --internal-disable-edge-functions",
-    "sync": "node scripts/sync-vault.mjs",
-    "publish": "node scripts/publish.mjs"
+    "publish": "node scripts/publish.mjs",
+    "new-night": "node scripts/new-night.mjs",
+    "image-prompt": "node scripts/image-prompt.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.0",
@@ -22,7 +23,6 @@
     "@11ty/eleventy-plugin-rss": "^3.0.0",
     "@fortawesome/fontawesome-free": "^7.2.0",
     "eleventy-plugin-toc": "^1.1.5",
-    "leaflet": "^1.9.4",
     "markdown-it-anchor": "^9.2.0",
     "slugify": "^1.6.9"
   }

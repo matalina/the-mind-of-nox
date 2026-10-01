@@ -34,11 +34,6 @@ export default function (
   eleventyConfig.addPassthroughCopy({
     "node_modules/@fortawesome/fontawesome-free/webfonts": "webfonts",
   });
-  eleventyConfig.addPassthroughCopy({
-    "node_modules/leaflet/dist/leaflet.css": "vendor/leaflet/leaflet.css",
-    "node_modules/leaflet/dist/leaflet.js": "vendor/leaflet/leaflet.js",
-    "node_modules/leaflet/dist/images": "vendor/leaflet/images",
-  });
 
   Object.keys(filters).forEach((filterName) => {
     eleventyConfig.addFilter(
@@ -100,13 +95,13 @@ export default function (
     type: "rss",
     outputPath: "/feed/index.xml",
     collection: {
-      name: "sessions",
+      name: "written",
       limit: 10,
     },
     metadata: {
       language: "en",
       title: "The Mind of Nox",
-      subtitle: "Session logs from the vault.",
+      subtitle: "Notes from the vault.",
       base: siteBase,
       author: {
         name: "AJ Hunter",

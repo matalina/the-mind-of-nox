@@ -1,0 +1,35 @@
+{#- One notebook page. Used by the entry layout and the home page. -#}
+{% macro t(value) %}<span class="tag">[{{ value }}]</span>{% endmacro %}
+
+{% macro sheet(d, body, heading="h1", url="") %}
+<article class="sheet hand--{{ d.hand }}">
+  <header class="sheet__head">
+    <span class="sheet__time">3:53</span>
+    <time class="sheet__date" datetime="{{ d.night }}">{{ d.night | longDate }}</time>
+  </header>
+
+  <{{ heading }} class="sheet__title">{% if url %}<a href="{{ url }}">{{ d.title }}</a>{% else %}{{ d.title }}{% endif %}</{{ heading }}>
+
+  {% if d.image %}
+    <figure class="sketch">
+      <img src="{{ d.image }}" alt="{{ d.imageAlt or d.title }}"/>
+    </figure>
+  {% endif %}
+
+  <div class="sheet__body">
+    {{ body | safe }}
+  </div>
+
+  {% if d.creature %}
+    {% set c = d.creature %}
+    <aside class="card" aria-label="Creature">
+      <p class="card__line"><span class="card__name">{{ d.title }}</span> ({{ t(c.disposition) }} {{ t("Monstrosity") }}): This creature {{ t(c.motivation) }} and attacks with {{ t(c.attack) }} for {{ t(c.damage) }} damage. It features a unique ability to {{ t(c.special) }}. It {{ t(c.strength) }} and {{ t(c.weakness) }}.</p>
+    </aside>
+  {% endif %}
+
+  <footer class="sheet__foot">
+    <span>Notebook {{ d.notebookLabel }}</span>
+    <span class="sheet__page">{{ d.pageLabel }}</span>
+  </footer>
+</article>
+{% endmacro %}

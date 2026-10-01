@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 /**
- * Publish the site: sync the vault into src/www, commit the result, and push so
- * Netlify rebuilds and deploys. Cross-platform (pure Node + git, no shell), so
- * it runs identically on Windows and Linux.
- *
- * Netlify builds from the deploy branch and has no access to the Obsidian vault,
- * so the generated content has to be committed — that's what this does.
+ * Publish the site: build it, commit the result, and push so Netlify rebuilds
+ * and deploys. Cross-platform (pure Node + git, no shell), so it runs
+ * identically on Windows and Linux.
  *
  * Usage:
  *   npm run publish                 # auto commit message
@@ -52,33 +49,29 @@ if (branch !== DEPLOY_BRANCH) {
   );
 }
 
-// 1. Sync the vault into the site.
-console.log("→ Syncing vault…");
-run(process.execPath, [path.join(__dirname, "sync-vault.mjs")]);
-
-// 2. Build the whole site locally to prove it compiles. Netlify runs this exact
+// 1. Build the whole site locally to prove it compiles. Netlify runs this exact
 //    command, so a template error caught here means we never push a deploy that
 //    would fail on Netlify (and silently leave the live site un-updated).
 console.log("\n→ Building site…");
 run("npm", ["run", "build"], { shell: true });
 
-// 3. Stage everything.
+// 2. Stage everything.
 run("git", ["add", "-A"]);
 
-// 4. Anything to publish?
+// 3. Anything to publish?
 if (!git(["status", "--porcelain"])) {
   console.log("\n✓ Nothing to publish — site already up to date.");
   process.exit(0);
 }
 
-// 5. Commit.
+// 4. Commit.
 const message =
   process.argv.slice(2).join(" ").trim() ||
   `Publish site (${new Date().toISOString().replace(/\.\d+Z$/, "Z")})`;
 console.log(`\n→ Committing on ${branch}…`);
 run("git", ["commit", "-m", message]);
 
-// 6. Push → triggers the Netlify build.
+// 5. Push → triggers the Netlify build.
 console.log(`→ Pushing ${branch} to origin…`);
 run("git", ["push", "origin", branch]);
 

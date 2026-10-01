@@ -1,0 +1,16 @@
+---
+layout: base.njk
+---
+{% from "sheet.njk" import sheet %}
+{% set prev = collections.nights | getPreviousCollectionItem(page) %}
+{% set next = collections.nights | getNextCollectionItem(page) %}
+
+{{ sheet({
+  hand: hand, night: night, title: title, image: image, imageAlt: imageAlt,
+  creature: creature, notebookLabel: notebookLabel, pageLabel: pageLabel
+}, content) }}
+
+<nav class="pager" aria-label="Nights">
+  {% if prev %}<a class="pager__prev" href="{{ prev.url }}">← an earlier night</a>{% else %}<span></span>{% endif %}
+  {% if next %}<a class="pager__next" href="{{ next.url }}">a later night →</a>{% endif %}
+</nav>

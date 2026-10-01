@@ -1,0 +1,64 @@
+---
+layout: base.njk
+pagination:
+  data: notebooks
+  size: 1
+  alias: nb
+permalink: "/notebook/{{ nb.label }}/"
+eleventyComputed:
+  title: "Notebook {{ nb.label }}"
+---
+{% set pages = collections.byNotebook[nb.number - 1] %}
+{% set placeName = { "box-1": "Box 1", "box-2": "Box 2", "bag": "His bag" }[nb.place] %}
+
+<section class="notebook">
+  <div class="notebook__head">
+    <span class="cover cover--large hand--{{ nb.hand }}" style="--wear: {{ nb.wear }}">
+      <span class="cover__band" aria-hidden="true"></span>
+      <span class="cover__label">{{ nb.label }}</span>
+    </span>
+    <div class="notebook__facts">
+      <h1 class="plain__title">Notebook {{ nb.label }}</h1>
+      <p>{{ nb.firstNight | longDate }} to {{ nb.lastNight | longDate }}</p>
+      <p>Age {{ nb.ageStart }}{% if nb.ageEnd != nb.ageStart %}–{{ nb.ageEnd }}{% endif %}</p>
+      <p>Kept in: {{ placeName }}</p>
+      <p>{{ pages | length }} of {{ nb.pages }} pages written</p>
+    </div>
+  </div>
+
+  <p class="home-label">Pages</p>
+  <ol class="slots" aria-label="All 104 pages">
+    {% for n in range(1, 105) %}
+      {% set found = pages | pageNumbered(n) %}
+      {% if found %}
+        <li class="slot slot--written"><a href="{{ found.url }}" title="Page {{ found.data.pageLabel }}: {{ found.data.title }}"><span class="visually-hidden">Page {{ found.data.pageLabel }}</span></a></li>
+      {% elif n > nb.pages %}
+        <li class="slot slot--after" aria-hidden="true"></li>
+      {% else %}
+        <li class="slot" aria-hidden="true"></li>
+      {% endif %}
+    {% endfor %}
+  </ol>
+
+  {% if pages | length %}
+    <p class="home-label">Contents</p>
+    <ul class="contents hand--{{ nb.hand }}">
+      {% for p in pages %}
+        <li>
+          <a href="{{ p.url }}">
+            <span class="contents__page">{{ p.data.pageLabel }}</span>
+            <span class="contents__name">{{ p.data.title }}</span>
+            <span class="contents__date">{{ p.data.night | longDate }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="notebook__empty">Nothing written in this notebook yet.</p>
+  {% endif %}
+
+  <nav class="pager" aria-label="Notebooks">
+    {% if nb.number > 1 %}<a href="/notebook/{{ notebooks[nb.number - 2].label }}/">← Notebook {{ notebooks[nb.number - 2].label }}</a>{% else %}<span></span>{% endif %}
+    {% if nb.number < 60 %}<a href="/notebook/{{ notebooks[nb.number].label }}/">Notebook {{ notebooks[nb.number].label }} →</a>{% endif %}
+  </nav>
+</section>

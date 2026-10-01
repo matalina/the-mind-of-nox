@@ -2,79 +2,39 @@
 layout: base.njk
 title: Home
 ---
-{% set sessions = collections.sessions %}
+{% from "sheet.njk" import sheet %}
+{% set written = collections.written | reverse %}
+{% set latest = written | first %}
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero__frame">
-    <img src="/images/wallpaper.jpg" alt="Old New York under Nether smog"/>
-    <div class="hero__scrim"></div>
-    <div class="hero__body">
-      <div class="hero__kicker">The Campaign</div>
-      <h2 class="hero__title">Igniting the Spark</h2>
-      {% set firstEntry = sessions | last %}
-      <div class="hero__actions">
-        {% if firstEntry %}<a href="{{ firstEntry.url }}" class="btn">Start Here →</a>{% endif %}
-        <a href="/lore/igniting-the-spark/01-the-campaign/" class="btn btn--ghost">Learn More</a>
-      </div>
-    </div>
-  </div>
+<section class="intro">
+  <p>Intro text goes here.</p>
 </section>
 
-<!-- FEATURED LATEST -->
-{% if sessions | length %}
-  {% set latest = sessions[0] %}
-  <section class="section section--lg">
-    <div class="section-label"><span>Latest Entry</span><span class="rule"></span></div>
-    <article class="featured{% if not latest.data.image %} featured--noimg{% endif %}">
-      {% if latest.data.image %}
-        <div class="featured__media">
-          <img src="{{ latest.data.image }}" alt="{{ latest.data.title }}"/>
-          <span class="chip chip--iron">Session</span>
-        </div>
-      {% endif %}
-      <div class="featured__body">
-        <div class="eyebrow">
-          {%- if latest.data.session %}Play Session {{ latest.data.session }} · {% endif -%}
-          {{ latest.date | longDate }}
-        </div>
-        <h3 class="h-card"><a href="{{ latest.url }}">{{ latest.data.title }}</a></h3>
-        <p>{{ latest | excerptOf(260) }}</p>
-        <a href="{{ latest.url }}" class="readmore">Read the entry →</a>
-      </div>
-    </article>
-  </section>
-{% endif %}
+{% if latest %}
+  <p class="home-label">Latest</p>
+  {{ sheet(latest.data, latest.templateContent, "h2", latest.url) }}
 
-<!-- ARCHIVE GRID (9 most recent sessions after the featured one) -->
-<section class="section">
-  <div class="section-label"><span>From the Archive</span><span class="rule"></span></div>
-  <div class="grid">
-    {% for s in sessions.slice(1, 10) %}
-      <a href="{{ s.url }}" class="card">
-        <div class="card__top">
-          <span class="chip chip--iron">Session</span>
-          <span class="card__tag">Session {{ s.data.session }}</span>
-        </div>
-        <h4 class="card__title">{{ s.data.title }}</h4>
-        <p class="card__excerpt">{{ s | excerptOf(140) }}</p>
-        <span class="card__date">{{ s.date | longDate }}</span>
-      </a>
-    {% endfor %}
-  </div>
-  {% if sessions | length > 1 %}
-    <p class="archive-more"><a href="/sessions/" class="readmore">View all sessions →</a></p>
+  {% set recent = written.slice(1, 8) %}
+  {% if recent | length %}
+    <section class="strips" aria-labelledby="recent-label">
+      <p class="home-label" id="recent-label">Recently written</p>
+      <ul class="strips__list">
+        {% for n in recent %}
+          <li class="strip hand--{{ n.data.hand }}">
+            <a href="{{ n.url }}">
+              <span class="strip__date">{{ n.data.night | longDate }}</span>
+              <span class="strip__name">{{ n.data.title }}</span>
+              <span class="strip__where">{{ n.data.notebookLabel }} · {{ n.data.pageLabel }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
   {% endif %}
-</section>
 
-<!-- ABOUT -->
-<section class="section">
-  <div class="about">
-    <div class="about__photo"><img src="/images/nox_outfitted.png" alt="Nox of the Wyld"/></div>
-    <div>
-      <div class="kicker">The Author</div>
-      <h3>Nox Knight</h3>
-      <p>Born Ciaran Nightscale under the watchful eyes of gods who orchestrated their very birth, they stepped into adulthood as Nox Knight to face a hidden war within the Iron Veil. These are their pages—kept on parchment that remembers, because ink and blood are the only things that hold a soul’s weight.</p>
-    </div>
-  </div>
-</section>
+  <nav class="home-links" aria-label="Reading">
+    <a href="/notebook/01/001/">Start from the first page →</a>
+  </nav>
+{% else %}
+  <p>Nothing here yet.</p>
+{% endif %}

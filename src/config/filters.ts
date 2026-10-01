@@ -141,7 +141,7 @@ function excerptOf(
   return plainExcerpt(content, maxLen);
 }
 
-/** "chorari-ledger" → "Chorari Ledger". */
+/** "nox-knight" → "Nox Knight". */
 function humanize(value: string | undefined | null): string {
   return String(value ?? "")
     .replace(/[-_]+/g, " ")
@@ -149,8 +149,17 @@ function humanize(value: string | undefined | null): string {
     .trim();
 }
 
+/** The notebook page numbered `pageNo` from a notebook's pages, if written. */
+function pageNumbered(
+  pages: { data: { pageNo?: number } }[] | undefined,
+  pageNo: number,
+) {
+  return (pages ?? []).find((p) => p.data.pageNo === pageNo);
+}
+
 export default {
   slugify: slugifyTitle,
+  pageNumbered,
   longDate,
   plainExcerpt,
   excerptOf,

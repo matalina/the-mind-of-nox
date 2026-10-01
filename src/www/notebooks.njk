@@ -1,0 +1,41 @@
+---
+layout: base.njk
+title: The Notebooks
+permalink: /notebooks/
+---
+{% set places = [
+  { key: "box-1", title: "Box 1" },
+  { key: "box-2", title: "Box 2" },
+  { key: "bag", title: "The Bag" }
+] %}
+
+<section class="shelf">
+  <h1 class="plain__title">The Notebooks</h1>
+
+  {% for place in places %}
+    <section class="shelf__group" aria-labelledby="place-{{ place.key }}">
+      <p class="home-label" id="place-{{ place.key }}">{{ place.title }}</p>
+      <ul class="covers">
+        {% for nb in notebooks %}
+          {% if nb.place == place.key %}
+            {% set pages = collections.byNotebook[nb.number - 1] %}
+            <li class="covers__item">
+              {% if pages | length %}
+                <a class="cover hand--{{ nb.hand }}" style="--wear: {{ nb.wear }}" href="/notebook/{{ nb.label }}/" aria-label="Notebook {{ nb.label }}">
+                  <span class="cover__band" aria-hidden="true"></span>
+                  <span class="cover__label">{{ nb.label }}</span>
+                </a>
+              {% else %}
+                <span class="cover cover--closed hand--{{ nb.hand }}" style="--wear: {{ nb.wear }}" aria-label="Notebook {{ nb.label }}, nothing written yet">
+                  <span class="cover__band" aria-hidden="true"></span>
+                  <span class="cover__label">{{ nb.label }}</span>
+                </span>
+              {% endif %}
+              <span class="cover__meta">Age {{ nb.ageStart }}{% if nb.ageEnd != nb.ageStart %}–{{ nb.ageEnd }}{% endif %}</span>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+</section>
