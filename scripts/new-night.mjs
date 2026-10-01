@@ -7,6 +7,8 @@
  *   npm run new-night              # a random unwritten night
  *   npm run new-night -- 07/059    # a specific notebook and page
  *
+ * Each night also rolls Nox's magic (scripts/lib/magic.mjs).
+ *
  * Creature names never repeat: a roll whose name is already used by any
  * entry is rerolled. The tables live in src/data/creatureTables.json.
  */
@@ -23,6 +25,7 @@ import {
   ageOn,
 } from "../src/config/notebook-math.js";
 import { imagePrompt } from "./lib/image-prompt.mjs";
+import { rollMagic, magicFrontMatter, describeMagic } from "./lib/magic.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = path.join(__dirname, "..");
@@ -126,6 +129,7 @@ if (arg) {
 // ---------- roll and write ----------
 
 const creature = rollCreature(names);
+const magic = rollMagic();
 const ms = nightMs(night.notebook, night.pageNo);
 const where = key(night.notebook, night.pageNo);
 const file = path.join(NOTEBOOK_DIR, pad(night.notebook, 2), `${pad(night.pageNo, 3)}.md`);
@@ -140,6 +144,7 @@ const frontMatter = [
   `date: ${todayLocal()}`,
   "creature:",
   ...Object.entries(creature).map(([k, v]) => `  ${k}: ${q(v)}`),
+  ...magicFrontMatter(magic),
   "imagePrompt: |",
   ...prompt.split("\n").map((line) => (line ? `  ${line}` : "")),
   "---",
@@ -156,6 +161,8 @@ Notebook ${pad(night.notebook, 2)}, page ${pad(night.pageNo, 3)}
 ${isoDate(ms)}, 3:53am. Nox is ${ageOn(ms)}.
 
 ${nameOf(c)} ([${c.disposition}] [Monstrosity]): This creature [${c.motivation}] and attacks with [${c.attack}] for [${c.damage}] damage. It features a unique ability to [${c.special}]. It [${c.strength}] and [${c.weakness}].
+
+${describeMagic(magic)}
 
 Image prompt:
 

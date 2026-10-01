@@ -9,7 +9,8 @@
     "dev": "netlify dev --internal-disable-edge-functions",
     "publish": "node scripts/publish.mjs",
     "new-night": "node scripts/new-night.mjs",
-    "image-prompt": "node scripts/image-prompt.mjs"
+    "image-prompt": "node scripts/image-prompt.mjs",
+    "roll-magic": "node scripts/roll-magic.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.0",

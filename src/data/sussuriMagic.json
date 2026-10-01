@@ -1,0 +1,21 @@
+{
+  "_note": "Nox's Sussuri Innate Trait, rolled once per night. Mirrored from the New Mechanics page in Dabble (Breaking the Cycle). Roll 1d4 for the state; unless it is content, roll 1d10 for the emotion. A night whose emotion is Pain is a night the creature manifested into the world.",
+  "state": {
+    "1": "content",
+    "2": "no bleed",
+    "3": "both active",
+    "4": "both active"
+  },
+  "emotions": [
+    { "emotion": "Anger", "bleed": "thermal bleed", "tinge": "directed and volatile" },
+    { "emotion": "Happiness/Joy", "bleed": "floral bloom", "tinge": "bigger and softer" },
+    { "emotion": "Fear", "bleed": "sonic static", "tinge": "unpredictable" },
+    { "emotion": "Sadness/Grief", "bleed": "energy sink", "tinge": "heavy and draining" },
+    { "emotion": "Lustful", "bleed": "magnetic pull", "tinge": "clinging and irresistible" },
+    { "emotion": "Embarrassment/Shame", "bleed": "the blur", "tinge": "reduction and transparent" },
+    { "emotion": "Envy/Jealousy", "bleed": "corrosive aura", "tinge": "parasitic" },
+    { "emotion": "Isolation/Loneliness", "bleed": "void echo", "tinge": "hollow and tetherless" },
+    { "emotion": "Anxious", "bleed": "jittery/temporal displacement", "tinge": "fragmented and erratic" },
+    { "emotion": "Pain", "bleed": "cracking", "tinge": "high pressure and explosive" }
+  ]
+}
