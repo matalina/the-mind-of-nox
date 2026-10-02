@@ -1,6 +1,9 @@
 {#- One notebook page. Used by the entry layout and the home page. -#}
 {% macro t(value) %}<span class="tag">[{{ value }}]</span>{% endmacro %}
 
+{#- How many creatures are posted: "7 Creatures and counting". -#}
+{% macro tally(n) %}<span class="tally-count">{{ n }} {{ "Creature" if n == 1 else "Creatures" }} and counting</span>{% endmacro %}
+
 {% macro sheet(d, body, heading="h1", url="") %}
 <article class="sheet hand--{{ d.hand }}">
   {#- Marks on the paper, under the writing: blood on a night the creature

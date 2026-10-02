@@ -2,7 +2,7 @@
 layout: base.njk
 title: Home
 ---
-{% from "sheet.njk" import sheet %}
+{% from "sheet.njk" import sheet, tally %}
 {% set written = collections.written | reverse %}
 {% set latest = written | first %}
 
@@ -33,6 +33,7 @@ title: Home
   {% endif %}
 
   <nav class="home-links" aria-label="Reading">
+    {{ tally(written | length) }}
     <a href="/notebook/01/001/">Start from the first page →</a>
   </nav>
 {% else %}
