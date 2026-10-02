@@ -270,12 +270,13 @@ async function isLive(url) {
  *   waitMinutes: how long to wait for a new page to go live (after a push).
  *   dryRun: print what would be posted, change nothing.
  *   only: announce just this NN/PPP, even if it was announced before.
+ *   platform: use only this platform (e.g. "facebook"), for testing one.
  *   markDone: record every live entry not yet in the record as announced,
  *     without posting (to stop old entries going out).
  */
-export async function announce({ waitMinutes = 0, dryRun = false, only = null, markDone = false } = {}) {
+export async function announce({ waitMinutes = 0, dryRun = false, only = null, markDone = false, platform = null } = {}) {
   loadDotEnv();
-  const ready = Object.keys(PLATFORMS).filter((p) => PLATFORMS[p].ready());
+  const ready = Object.keys(PLATFORMS).filter((p) => PLATFORMS[p].ready() && (!platform || p === platform));
   if (!ready.length) return { skipped: "no social accounts are set up in .env" };
 
   const entries = readEntries();
@@ -340,6 +341,7 @@ export async function announce({ waitMinutes = 0, dryRun = false, only = null, m
         console.log(`  ✓ ${e.key} on ${p}`);
       } catch (err) {
         result[p] = `error: ${err.message}`;
+        console.log(`  ✗ ${e.key} on ${p}: ${err.message}`);
         report.failed.push(`${e.key} on ${p}: ${err.message}`);
       }
     }
