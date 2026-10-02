@@ -1,7 +1,7 @@
 ---
 layout: base.njk
 ---
-{% from "sheet.njk" import sheet %}
+{% from "sheet.njk" import sheet, tally %}
 {% set prev = collections.nights | getPreviousCollectionItem(page) %}
 {% set next = collections.nights | getNextCollectionItem(page) %}
 
@@ -13,5 +13,6 @@ layout: base.njk
 
 <nav class="pager" aria-label="Nights">
   {% if prev %}<a class="pager__prev" href="{{ prev.url }}">← an earlier night</a>{% else %}<span></span>{% endif %}
-  {% if next %}<a class="pager__next" href="{{ next.url }}">a later night →</a>{% endif %}
+  {{ tally(collections.nights | length) }}
+  {% if next %}<a class="pager__next" href="{{ next.url }}">a later night →</a>{% else %}<span></span>{% endif %}
 </nav>

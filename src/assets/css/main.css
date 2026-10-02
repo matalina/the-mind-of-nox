@@ -107,6 +107,16 @@ main {
   color: var(--pencil);
 }
 
+/* The logo is ink on white like the drawings, so it gets the same treatment:
+   inverted to light lines, white crushed to black, screened onto the page. */
+.masthead__logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: grayscale(1) invert(1) contrast(1.8) brightness(0.85) sepia(0.15);
+  mix-blend-mode: screen;
+}
+
 .mainnav {
   display: flex;
   flex-wrap: wrap;
@@ -356,6 +366,33 @@ main {
   text-decoration: none;
 }
 
+/* "7 Creatures and counting", between the pager links and opposite the
+   first-page link on the home page. */
+.tally-count {
+  color: var(--pencil);
+  font-family: var(--font-label);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.home-links .tally-count {
+  text-align: left;
+}
+
+/* On a phone, the count gets its own line above the links. */
+@media (max-width: 30rem) {
+  .pager,
+  .home-links {
+    flex-wrap: wrap;
+  }
+
+  .pager .tally-count,
+  .home-links .tally-count {
+    order: -1;
+    flex-basis: 100%;
+  }
+}
+
 .home-latest {
   margin-top: 3rem;
 }
@@ -486,7 +523,8 @@ i:not([class]) b {
 
 .home-links {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: baseline;
   gap: 1.5rem;
   margin-top: 2rem;
   font-size: 0.85rem;
