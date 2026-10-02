@@ -380,7 +380,13 @@ main {
 /* "7 Creatures and counting", between the pager links and opposite the
    first-page link on the home page. */
 .tally-count {
-  color: var(--pencil);
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  /* A dark wash behind it, so the lit path in the background photo
+     doesn't wash it out. */
+  background: rgba(7, 6, 6, 0.72);
+  box-shadow: 0 0 12px 4px rgba(7, 6, 6, 0.55);
+  color: var(--ink);
   font-family: var(--font-label);
   font-size: 0.92rem;
   text-align: center;
@@ -388,19 +394,27 @@ main {
 
 .home-links .tally-count {
   text-align: left;
+  margin-left: -0.7rem;
 }
 
 /* On a phone, the count gets its own line above the links. */
 @media (max-width: 30rem) {
-  .pager,
-  .home-links {
-    flex-wrap: wrap;
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    row-gap: 0.75rem;
   }
 
-  .pager .tally-count,
-  .home-links .tally-count {
-    order: -1;
-    flex-basis: 100%;
+  .pager .tally-count {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: center;
+  }
+
+  .home-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
 }
 
@@ -467,7 +481,7 @@ i:not([class]) b {
 .intro {
   margin: 1rem 0 2.5rem;
   color: var(--pencil);
-  font-size: 0.9rem;
+  font-size: 1.1rem;
 }
 
 .home-label {
