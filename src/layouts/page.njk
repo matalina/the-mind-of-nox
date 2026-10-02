@@ -4,7 +4,7 @@ layout: base.njk
 {#- A standalone page. `paper: true` puts it on a notebook page (in-world);
     otherwise it uses the plain site style (out-of-world). -#}
 {% if paper %}
-<article class="sheet hand--{{ hand or 'adult' }}">
+<article class="sheet sheet--page hand--{{ hand or 'adult' }}">
   <h1 class="sheet__title">{{ title }}</h1>
   <div class="sheet__body">{{ content | safe }}</div>
 </article>

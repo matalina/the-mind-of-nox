@@ -3,17 +3,19 @@
    archive/igniting-the-spark. */
 
 :root {
-  --void: #070606;
-  --paper: #161413;
-  --paper-edge: #1e1b19;
-  --rule: rgba(160, 150, 140, 0.09);
-  --margin: rgba(255, 122, 61, 0.28);
-  --ink: #d8d0c3;
-  --pencil: #8d867c;
-  --ember: #ff7a3d;
-  --ice: #8fc1dc;
-  --card: #221e1b;
-  --tape: rgba(214, 200, 170, 0.18);
+  /* Colors from the logo: dark purples for the night, and the gold of the
+     candle flame for anything lit. */
+  --void: #08060b;
+  --paper: #17121d;
+  --paper-edge: #221a2b;
+  --rule: rgba(170, 150, 195, 0.09);
+  --margin: rgba(242, 181, 74, 0.28);
+  --ink: #ddd4e4;
+  --pencil: #978ca4;
+  --ember: #f2b54a;
+  --ice: #bda4ea;
+  --card: #241b2e;
+  --tape: rgba(210, 195, 232, 0.16);
 
   --line: 2rem;
   --sheet-max: 42rem;
@@ -66,7 +68,7 @@ body::before {
   z-index: -1;
   background:
     radial-gradient(ellipse at 50% 40%, transparent 35%, rgba(0, 0, 0, 0.75) 100%),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55)),
+    linear-gradient(to bottom, rgba(26, 10, 40, 0.42), rgba(14, 6, 24, 0.58)),
     url("/images/field.jpg") center 30% / cover no-repeat,
     var(--void);
 }
@@ -80,7 +82,7 @@ a {
 a:hover,
 a:focus-visible {
   color: var(--ember);
-  text-shadow: 0 0 12px rgba(255, 122, 61, 0.45);
+  text-shadow: 0 0 12px rgba(242, 181, 74, 0.45);
 }
 
 .container,
@@ -143,7 +145,7 @@ main {
 
 .mainnav a.active {
   color: var(--ember);
-  text-shadow: 0 0 10px rgba(255, 122, 61, 0.45);
+  text-shadow: 0 0 10px rgba(242, 181, 74, 0.45);
 }
 
 .iconbar {
@@ -207,6 +209,12 @@ main {
   line-height: var(--line);
 }
 
+/* Long reference pages (Nox Knight, AJ Hunter) stay straight: over that much
+   height even a small tilt swings the ends past the edge of a phone screen. */
+.sheet--page {
+  transform: none;
+}
+
 /* A scratch along the top edge, as if the page was torn out and put back. */
 .sheet::before {
   content: "";
@@ -229,7 +237,7 @@ main {
 
 .sheet__time {
   color: var(--ember);
-  text-shadow: 0 0 10px rgba(255, 122, 61, 0.55);
+  text-shadow: 0 0 10px rgba(242, 181, 74, 0.55);
   letter-spacing: 0.1em;
 }
 
@@ -390,8 +398,8 @@ main {
   border-radius: 999px;
   /* A dark wash behind it, so the lit path in the background photo
      doesn't wash it out. */
-  background: rgba(7, 6, 6, 0.72);
-  box-shadow: 0 0 12px 4px rgba(7, 6, 6, 0.55);
+  background: rgba(8, 6, 11, 0.72);
+  box-shadow: 0 0 12px 4px rgba(8, 6, 11, 0.55);
   color: var(--ink);
   font-family: var(--font-label);
   font-size: 0.92rem;
@@ -496,7 +504,7 @@ i:not([class]) b {
   font-size: 0.75rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(255, 122, 61, 0.45);
+  text-shadow: 0 0 10px rgba(242, 181, 74, 0.45);
 }
 
 .sheet__title a {
@@ -577,7 +585,7 @@ i:not([class]) b {
 .plain {
   margin: 1rem 0 2rem;
   padding: 1.5rem 1.25rem;
-  background: rgba(7, 6, 6, 0.82);
+  background: rgba(8, 6, 11, 0.82);
   border: 1px solid var(--paper-edge);
   font-size: 0.95rem;
 }
@@ -638,7 +646,7 @@ i:not([class]) b {
   background:
     var(--grain),
     radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, calc(0.03 + var(--wear, 0) * 0.05)), transparent 60%),
-    #0e0d0d;
+    #110d16;
   box-shadow:
     inset 3px 0 0 rgba(255, 255, 255, 0.04),
     inset 0 0 0 1px rgba(255, 255, 255, calc(0.03 + var(--wear, 0) * 0.08)),
@@ -653,9 +661,9 @@ a.cover:focus-visible {
   transform: translateY(-4px) rotate(-1deg);
   box-shadow:
     inset 3px 0 0 rgba(255, 255, 255, 0.04),
-    inset 0 0 0 1px rgba(255, 122, 61, 0.35),
+    inset 0 0 0 1px rgba(242, 181, 74, 0.35),
     0 14px 30px rgba(0, 0, 0, 0.9),
-    0 0 24px rgba(255, 122, 61, 0.15);
+    0 0 24px rgba(242, 181, 74, 0.15);
 }
 
 /* The elastic band down the right edge. */
@@ -666,7 +674,7 @@ a.cover:focus-visible {
   right: 14%;
   width: 5%;
   min-width: 3px;
-  background: #1c1a19;
+  background: #1d1724;
   box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.05);
 }
 
@@ -699,7 +707,7 @@ a.cover:focus-visible {
   gap: 1.5rem;
   align-items: start;
   padding: 1.25rem;
-  background: rgba(7, 6, 6, 0.82);
+  background: rgba(8, 6, 11, 0.82);
   border: 1px solid var(--paper-edge);
 }
 
@@ -721,7 +729,7 @@ a.cover:focus-visible {
   display: grid;
   grid-template-columns: repeat(13, 1fr);
   gap: 4px;
-  background: rgba(7, 6, 6, 0.82);
+  background: rgba(8, 6, 11, 0.82);
   border: 1px solid var(--paper-edge);
 }
 
@@ -752,14 +760,14 @@ a.cover:focus-visible {
 .slot--written a:focus-visible {
   background: var(--ember);
   opacity: 1;
-  box-shadow: 0 0 10px rgba(255, 122, 61, 0.6);
+  box-shadow: 0 0 10px rgba(242, 181, 74, 0.6);
 }
 
 .contents {
   list-style: none;
   margin: 0 0 2rem;
   padding: 0.5rem 1rem;
-  background: rgba(7, 6, 6, 0.82);
+  background: rgba(8, 6, 11, 0.82);
   border: 1px solid var(--paper-edge);
 }
 
@@ -822,12 +830,12 @@ a:focus-visible,
 a:hover *,
 a:focus-visible * {
   color: var(--ember);
-  text-shadow: 0 0 12px rgba(255, 122, 61, 0.45);
+  text-shadow: 0 0 12px rgba(242, 181, 74, 0.45);
 }
 
 .iconbar__link:hover img,
 .iconbar__link:focus-visible img {
-  filter: invert(1) grayscale(1) drop-shadow(0 0 6px rgba(255, 122, 61, 0.8));
+  filter: invert(1) grayscale(1) drop-shadow(0 0 6px rgba(242, 181, 74, 0.8));
 }
 
 .iconbar__link:hover,
