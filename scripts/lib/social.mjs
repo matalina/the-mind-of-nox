@@ -270,8 +270,10 @@ async function isLive(url) {
  *   waitMinutes: how long to wait for a new page to go live (after a push).
  *   dryRun: print what would be posted, change nothing.
  *   only: announce just this NN/PPP, even if it was announced before.
+ *   markDone: record every live entry not yet in the record as announced,
+ *     without posting (to stop old entries going out).
  */
-export async function announce({ waitMinutes = 0, dryRun = false, only = null } = {}) {
+export async function announce({ waitMinutes = 0, dryRun = false, only = null, markDone = false } = {}) {
   loadDotEnv();
   const ready = Object.keys(PLATFORMS).filter((p) => PLATFORMS[p].ready());
   if (!ready.length) return { skipped: "no social accounts are set up in .env" };
@@ -279,16 +281,28 @@ export async function announce({ waitMinutes = 0, dryRun = false, only = null } 
   const entries = readEntries();
   let record = readRecord();
 
-  // First run on this machine: everything already live counts as announced.
-  if (!record && !only) {
-    record = { entries: {} };
+  // First run on this machine (or markDone): everything already live counts
+  // as announced, except an entry asked for by name.
+  if (!record || markDone) {
+    record ??= { entries: {} };
+    let marked = 0;
     for (const e of entries) {
-      if (await isLive(e.url)) record.entries[e.key] = { seeded: new Date().toISOString() };
+      if (e.key === only) continue;
+      // markDone also gives up on old failed attempts, so they never retry.
+      const done = record.entries[e.key];
+      if (done && markDone) {
+        for (const [p, v] of Object.entries(done)) if (String(v).startsWith("error")) done[p] = "skipped";
+      }
+      if (done) continue;
+      if (await isLive(e.url)) {
+        record.entries[e.key] = { seeded: new Date().toISOString() };
+        marked++;
+      }
     }
     if (!dryRun) writeRecord(record);
-    console.log(`  … first run: ${Object.keys(record.entries).length} entries already live, recorded without posting`);
+    console.log(`  … ${marked} live entries recorded as already announced, without posting`);
+    if (markDone) return { posted: [], ready };
   }
-  record ??= { entries: {} };
 
   // New entries go to every platform; an entry tried before retries only the
   // platforms that failed.
