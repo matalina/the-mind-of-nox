@@ -2,7 +2,6 @@
 layout: page.njk
 title: Nox Knight
 permalink: /nox-knight/
-paper: true
 ---
 
 <small><strong>→</strong> <a href="#description">Description</a> | <a href="#personality">Personality</a> | <a href="#cornerstones">The Four Corner Stones</a> | <a href="#pillars">The Four Pillars</a> | <a href="#favorites">Favorites</a> | <a href="#sheet">Character Sheet</a> | <a href="#history">History</a> | <a href="#portrait">Portrait</a></small>  
