@@ -18,7 +18,10 @@
   --line: 2rem;
   --sheet-max: 42rem;
 
-  --font-label: "Special Elite", "Courier New", monospace;
+  /* Old engraved print, to match the logo: small caps for labels and the
+     site's chrome, a readable book face for running text and the card. */
+  --font-label: "IM Fell English SC", Georgia, serif;
+  --font-book: "IM Fell DW Pica", Georgia, serif;
   --font-hand: "Caveat", cursive;
   --hand-size: 1.6rem;
 
@@ -50,7 +53,7 @@ body {
   min-height: 100vh;
   color: var(--ink);
   background: transparent;
-  font-family: var(--font-label);
+  font-family: var(--font-book);
   line-height: 1.6;
 }
 
@@ -117,11 +120,14 @@ main {
   mix-blend-mode: screen;
 }
 
+/* Small caps for the lowercase letters, like the logo's subtitle. */
 .mainnav {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1.25rem;
-  font-size: 0.85rem;
+  font-family: var(--font-label);
+  font-size: 0.98rem;
+  letter-spacing: 0.04em;
 }
 
 .mainnav a {
@@ -138,6 +144,11 @@ main {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+/* Header icons sit at the right, above the logo. */
+.iconbar--header {
+  justify-content: flex-end;
 }
 
 .iconbar__link {
@@ -207,7 +218,7 @@ main {
   height: var(--line);
   color: var(--pencil);
   font-family: var(--font-label);
-  font-size: 0.8rem;
+  font-size: 0.92rem;
 }
 
 .sheet__time {
@@ -235,7 +246,7 @@ main {
   margin-top: var(--line);
   color: var(--pencil);
   font-family: var(--font-label);
-  font-size: 0.75rem;
+  font-size: 0.86rem;
   line-height: var(--line);
 }
 
@@ -250,7 +261,7 @@ main {
   margin: 0;
   color: var(--pencil);
   font-family: var(--font-label);
-  font-size: 0.7rem;
+  font-size: 0.81rem;
   line-height: 1.4;
   opacity: 0.8;
 }
@@ -316,8 +327,8 @@ main {
   background: var(--grain), var(--card);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   transform: rotate(-0.8deg);
-  font-family: var(--font-label);
-  font-size: 0.85rem;
+  font-family: var(--font-book);
+  font-size: 0.95rem;
   line-height: 1.6;
   color: var(--ink);
 }
@@ -371,7 +382,7 @@ main {
 .tally-count {
   color: var(--pencil);
   font-family: var(--font-label);
-  font-size: 0.8rem;
+  font-size: 0.92rem;
   text-align: center;
 }
 
@@ -511,7 +522,7 @@ i:not([class]) b {
 .strip__where {
   color: var(--pencil);
   font-family: var(--font-label);
-  font-size: 0.75rem;
+  font-size: 0.86rem;
   white-space: nowrap;
 }
 
@@ -749,7 +760,7 @@ a.cover:focus-visible {
 .contents__date {
   color: var(--pencil);
   font-family: var(--font-label);
-  font-size: 0.75rem;
+  font-size: 0.86rem;
 }
 
 .contents__name {
