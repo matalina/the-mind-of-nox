@@ -467,7 +467,7 @@ i:not([class]) b {
 .intro {
   margin: 1rem 0 2.5rem;
   color: var(--pencil);
-  font-size: 0.9rem;
+  font-size: 1.1rem;
 }
 
 .home-label {
