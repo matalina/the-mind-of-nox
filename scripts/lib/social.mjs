@@ -75,6 +75,15 @@ export function readEntries() {
   return out.sort((a, b) => a.date.localeCompare(b.date) || a.key.localeCompare(b.key));
 }
 
+/**
+ * Hashtags, only where they do something: Instagram and Bluesky. Letters,
+ * numbers and underscores only; anything else (like &) ends the tag.
+ */
+export const HASHTAGS = {
+  instagram: ["nightmare", "horror", "creature", "nightmarejournal", "TagAndTally"],
+  bluesky: ["TagAndTally", "horror", "nightmare"],
+};
+
 export const message = (e) =>
   `Hey Ducklings! Check out the latest nightmare creature -- ${e.name}. Visit The Mind of Nox for more information and more ghoulish terrors.`;
 
@@ -148,20 +157,39 @@ const PLATFORMS = {
         }
       }
 
-      const text = `${message(e)}\n${e.url}`;
-      const start = Buffer.byteLength(text.slice(0, text.lastIndexOf(e.url)));
+      // Your message and the link, then as many hashtags as fit in Bluesky's
+      // 300 characters.
+      let text = `${message(e)}\n${e.url}`;
+      const length = (s) => [...new Intl.Segmenter().segment(s)].length;
+      const tags = [];
+      for (const tag of HASHTAGS.bluesky) {
+        const next = `${text}${tags.length ? " " : "\n"}#${tag}`;
+        if (length(next) > 300) break;
+        text = next;
+        tags.push(tag);
+      }
+      const bytesTo = (s) => Buffer.byteLength(s);
+      const start = bytesTo(text.slice(0, text.indexOf(e.url)));
+      // Make the address a real link, and each hashtag a real tag.
+      const facets = [
+        {
+          index: { byteStart: start, byteEnd: start + bytesTo(e.url) },
+          features: [{ $type: "app.bsky.richtext.facet#link", uri: e.url }],
+        },
+        ...tags.map((tag) => {
+          const at = bytesTo(text.slice(0, text.lastIndexOf(`#${tag}`)));
+          return {
+            index: { byteStart: at, byteEnd: at + bytesTo(`#${tag}`) },
+            features: [{ $type: "app.bsky.richtext.facet#tag", tag }],
+          };
+        }),
+      ];
       const record = {
         $type: "app.bsky.feed.post",
         text,
         createdAt: new Date().toISOString(),
         langs: ["en"],
-        // Make the address a real link.
-        facets: [
-          {
-            index: { byteStart: start, byteEnd: start + Buffer.byteLength(e.url) },
-            features: [{ $type: "app.bsky.richtext.facet#link", uri: e.url }],
-          },
-        ],
+        facets,
         embed: {
           $type: "app.bsky.embed.external",
           external: { uri: e.url, title: e.name, description: "A nightmare from Nox's journal.", ...(thumb && { thumb }) },
@@ -193,7 +221,7 @@ const PLATFORMS = {
       if (!e.imageUrl) return "skipped: no drawing";
       const id = process.env.INSTAGRAM_ACCOUNT_ID;
       const token = process.env.META_PAGE_TOKEN;
-      const caption = `${message(e)} Link in bio.\n\n#nightmare #horror #creature #nightmarejournal`;
+      const caption = `${message(e)} Link in bio.\n\n${HASHTAGS.instagram.map((t) => `#${t}`).join(" ")}`;
       const media = await json(
         await fetch(`${GRAPH}/${id}/media`, {
           method: "POST",
