@@ -140,6 +140,11 @@ main {
   flex-wrap: wrap;
 }
 
+/* Header icons sit at the right, above the logo. */
+.iconbar--header {
+  justify-content: flex-end;
+}
+
 .iconbar__link {
   opacity: 0.5;
   transition: opacity 0.15s ease;
