@@ -8,6 +8,7 @@ export default {
     { name: "email",     label: "Email",     icon: "email.svg",     url: "mailto:nox.durante@gmail.com" },
     { name: "discord",   label: "Discord",   icon: "discord.svg",   url: "https://discord.gg/JGM7vfZ4D5" },
     { name: "facebook",  label: "Facebook",  icon: "facebook.svg",  url: "https://www.facebook.com/the.mind.of.nox" },
+    { name: "instagram", label: "Instagram", icon: "instagram.svg", url: "https://www.instagram.com/the.mind.of.nox" },
     { name: "bluesky",   label: "Bluesky",   icon: "bluesky.svg",   url: "https://bsky.app/profile/themindofnox.com" },
     { name: "wordpress", label: "WordPress", icon: "wordpress.svg", url: "https://themindofnox.wordpress.com" },
     { name: "youtube",   label: "YouTube",   icon: "youtube.svg",   url: "https://www.youtube.com/@TheMindofNox" },
