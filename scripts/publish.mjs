@@ -8,6 +8,9 @@
  *   npm run publish                 # auto commit message
  *   npm run publish -- "message"    # custom commit message
  *
+ * After the push it announces new entries on the social accounts set up in
+ * .env (scripts/lib/social.mjs), once Netlify has them live.
+ *
  * Along the way it syncs the creatures to the Creature Ledger in Dabble
  * (scripts/lib/dabble.mjs), when DABBLE_API_KEY is set.
  *
@@ -20,6 +23,7 @@ import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { syncLedger } from "./lib/dabble.mjs";
+import { announce } from "./lib/social.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = path.join(__dirname, "..");
@@ -106,3 +110,17 @@ console.log(`→ Pushing ${branch} to origin…`);
 run("git", ["push", "origin", branch]);
 
 console.log("\n✓ Published. Netlify will build and deploy shortly.");
+
+// 6. Announce new entries once Netlify has them live. Never fails a publish.
+console.log("\n→ Announcing new entries…");
+try {
+  const r = await announce({ waitMinutes: 6 });
+  if (r.skipped) console.log(`  – skipped: ${r.skipped}.`);
+  else {
+    if (!r.posted.length && !r.waiting?.length) console.log("  ✓ nothing new to announce");
+    if (r.waiting?.length) console.log(`  ! not live yet, will go out next publish: ${r.waiting.join(", ")}`);
+    for (const f of r.failed ?? []) console.warn(`  ! ${f}`);
+  }
+} catch (err) {
+  console.warn(`  ! Social posts failed: ${err.message}`);
+}

@@ -11,8 +11,9 @@ import collections from "./src/config/collections";
 import pluginToc from "eleventy-plugin-toc";
 import markdownItAnchor from "markdown-it-anchor";
 
-const siteUrl = process.env.URL ?? "http://127.0.0.1:8099";
-const siteBase = siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`;
+import site from "./src/data/site.js";
+
+const siteBase = `${site.url}/`;
 
 export default function (
   eleventyConfig: EleventyConfigApi,

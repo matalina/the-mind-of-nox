@@ -3,4 +3,5 @@ _site/
 .netlify/
 .cache/
 .env
+.social-posted.json
 
