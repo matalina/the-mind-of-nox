@@ -107,6 +107,16 @@ main {
   color: var(--pencil);
 }
 
+/* The logo is ink on white like the drawings, so it gets the same treatment:
+   inverted to light lines, white crushed to black, screened onto the page. */
+.masthead__logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: grayscale(1) invert(1) contrast(1.8) brightness(0.85) sepia(0.15);
+  mix-blend-mode: screen;
+}
+
 .mainnav {
   display: flex;
   flex-wrap: wrap;
