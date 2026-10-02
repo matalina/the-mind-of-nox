@@ -80,8 +80,8 @@ export function readEntries() {
  * numbers and underscores only; anything else (like &) ends the tag.
  */
 export const HASHTAGS = {
-  instagram: ["nightmare", "horror", "creature", "nightmarejournal", "TagAndTally"],
-  bluesky: ["TagAndTally", "horror", "nightmare"],
+  instagram: ["tagNtally", "noxknight", "nightmare", "horror", "creature", "nightmarejournal"],
+  bluesky: ["tagNtally", "noxknight", "horror", "nightmare"],
 };
 
 export const message = (e) =>
