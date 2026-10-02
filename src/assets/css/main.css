@@ -120,6 +120,12 @@ main {
   mix-blend-mode: screen;
 }
 
+/* The color version already has a transparent background: show it as is. */
+.masthead__logo--color {
+  filter: none;
+  mix-blend-mode: normal;
+}
+
 /* Small caps for the lowercase letters, like the logo's subtitle. */
 .mainnav {
   display: flex;
