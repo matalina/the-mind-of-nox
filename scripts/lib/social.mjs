@@ -7,10 +7,10 @@
  *   ghoulish terrors.
  *
  * Every platform is optional and is skipped until its keys are in .env.
- * An entry is announced once, when its page is live and its date has come.
- * What has gone out is kept in .social-posted.json (git ignores it). If that
- * file is missing, every entry already live is recorded as done without
- * posting, so a new machine never floods the feeds with old entries.
+ * An entry is announced once its date has come. What has gone out is marked
+ * in the entry itself: npm run publish stamps `published: YYYY-MM-DD` into the
+ * frontmatter of every entry without one, commits that, and announces those
+ * entries. An entry with the flag is never picked up again on its own.
  */
 
 import fs from "node:fs";
@@ -21,7 +21,6 @@ import { pad } from "../../src/config/notebook-math.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = path.join(__dirname, "..", "..");
 const NOTEBOOK_DIR = path.join(PROJECT_DIR, "src", "www", "notebook");
-const RECORD = path.join(PROJECT_DIR, ".social-posted.json");
 const GRAPH = "https://graph.facebook.com/v21.0";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -55,7 +54,8 @@ export function readEntries() {
     for (const file of fs.readdirSync(path.join(NOTEBOOK_DIR, dir)).sort()) {
       const m = /^(\d{3})\.md$/.exec(file);
       if (!m) continue;
-      const text = fs.readFileSync(path.join(NOTEBOOK_DIR, dir, file), "utf8");
+      const source = path.join(NOTEBOOK_DIR, dir, file);
+      const text = fs.readFileSync(source, "utf8");
       const parts = ["movement", "surface", "form", "features"].map((f) => field(text, f));
       if (!parts.every(Boolean)) continue;
       const date = field(text, "date") ?? "";
@@ -63,7 +63,9 @@ export function readEntries() {
       const image = field(text, "image");
       out.push({
         key: `${dir}/${m[1]}`,
+        source,
         date,
+        published: field(text, "published") ?? null,
         name: `The ${parts[0]} ${parts[1]} ${parts[2]} of ${parts[3]}`,
         url: `${siteUrl()}/notebook/${dir}/${m[1]}/`,
         imageUrl: image ? `${siteUrl()}${image}` : null,
@@ -73,6 +75,31 @@ export function readEntries() {
     }
   }
   return out.sort((a, b) => a.date.localeCompare(b.date) || a.key.localeCompare(b.key));
+}
+
+/** Entries whose date has come but that have no `published:` flag yet. */
+export const unpublished = () => readEntries().filter((e) => !e.published);
+
+/**
+ * Stamp `published: <today>` into each entry's frontmatter, just after its
+ * `date:` line (or at the end of the frontmatter). Entries already flagged are
+ * left alone.
+ */
+export function markPublished(entries) {
+  const today = todayLocal();
+  for (const e of entries) {
+    const text = fs.readFileSync(e.source, "utf8");
+    const fm = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text);
+    if (!fm || /^published:/m.test(fm[1])) continue;
+    const nl = text.includes("\r\n") ? "\r\n" : "\n";
+    const line = `published: ${today}`;
+    const body = /^date:.*$/m.test(fm[1])
+      ? fm[1].replace(/^date:.*$/m, (d) => `${d}${nl}${line}`)
+      : `${fm[1]}${nl}${line}`;
+    fs.writeFileSync(e.source, text.slice(0, fm.index) + `---${nl}${body}${nl}---` + text.slice(fm.index + fm[0].length));
+    e.published = today;
+  }
+  return entries;
 }
 
 /**
@@ -251,10 +278,7 @@ const PLATFORMS = {
   },
 };
 
-// ---------- the record ----------
-
-const readRecord = () => (fs.existsSync(RECORD) ? JSON.parse(fs.readFileSync(RECORD, "utf8")) : null);
-const writeRecord = (r) => fs.writeFileSync(RECORD, JSON.stringify(r, null, 2) + "\n");
+// ---------- announcing ----------
 
 async function isLive(url) {
   try {
@@ -266,59 +290,40 @@ async function isLive(url) {
 }
 
 /**
- * Announce the entries not yet announced.
+ * Announce entries.
+ *   entries: the entries to announce. npm run publish passes the ones it just
+ *     flagged. Left out, it is every entry without a `published:` flag, and
+ *     those are flagged here (unless dryRun).
  *   waitMinutes: how long to wait for a new page to go live (after a push).
  *   dryRun: print what would be posted, change nothing.
- *   only: announce just this NN/PPP, even if it was announced before.
+ *   only: announce just this NN/PPP, flagged or not (to retry or repost one).
  *   platform: use only this platform (e.g. "facebook"), for testing one.
- *   markDone: record every live entry not yet in the record as announced,
- *     without posting (to stop old entries going out).
+ *   markDone: flag every unflagged entry as published, without posting (to
+ *     stop old entries going out).
  */
-export async function announce({ waitMinutes = 0, dryRun = false, only = null, markDone = false, platform = null } = {}) {
+export async function announce({ entries = null, waitMinutes = 0, dryRun = false, only = null, markDone = false, platform = null } = {}) {
   loadDotEnv();
+
+  if (markDone) {
+    const flagged = dryRun ? unpublished() : markPublished(unpublished());
+    console.log(`  … ${flagged.length} entries flagged as published, without posting: ${flagged.map((e) => e.key).join(", ") || "none"}`);
+    return { posted: [], ready: [] };
+  }
+
   const ready = Object.keys(PLATFORMS).filter((p) => PLATFORMS[p].ready() && (!platform || p === platform));
   if (!ready.length) return { skipped: "no social accounts are set up in .env" };
 
-  const entries = readEntries();
-  let record = readRecord();
-
-  // First run on this machine (or markDone): everything already live counts
-  // as announced, except an entry asked for by name.
-  if (!record || markDone) {
-    record ??= { entries: {} };
-    let marked = 0;
-    for (const e of entries) {
-      if (e.key === only) continue;
-      // markDone also gives up on old failed attempts, so they never retry.
-      const done = record.entries[e.key];
-      if (done && markDone) {
-        for (const [p, v] of Object.entries(done)) if (String(v).startsWith("error")) done[p] = "skipped";
-      }
-      if (done) continue;
-      if (await isLive(e.url)) {
-        record.entries[e.key] = { seeded: new Date().toISOString() };
-        marked++;
-      }
-    }
-    if (!dryRun) writeRecord(record);
-    console.log(`  … ${marked} live entries recorded as already announced, without posting`);
-    if (markDone) return { posted: [], ready };
+  if (only) {
+    entries = readEntries().filter((e) => e.key === only);
+    if (!entries.length) throw new Error(`No entry ${only} with a date that has come.`);
+  } else if (!entries) {
+    entries = unpublished();
+    if (!dryRun) markPublished(entries);
   }
-
-  // New entries go to every platform; an entry tried before retries only the
-  // platforms that failed.
-  const todo = [];
-  for (const e of entries) {
-    if (only && e.key !== only) continue;
-    const done = only ? undefined : record.entries[e.key];
-    if (done?.seeded) continue;
-    const platforms = done ? ready.filter((p) => String(done[p] ?? "").startsWith("error")) : ready;
-    if (platforms.length) todo.push({ e, platforms });
-  }
-  if (!todo.length) return { posted: [], ready };
+  if (!entries.length) return { posted: [], ready };
 
   const report = { posted: [], waiting: [], failed: [], ready };
-  for (const { e, platforms } of todo) {
+  for (const e of entries) {
     let live = await isLive(e.url);
     for (let waited = 0; !live && waited < waitMinutes * 60; waited += 20) {
       if (waited === 0) console.log(`  … waiting for ${e.url} to go live`);
@@ -330,23 +335,19 @@ export async function announce({ waitMinutes = 0, dryRun = false, only = null, m
       continue;
     }
     if (dryRun) {
-      console.log(`\n${e.key} → ${platforms.join(", ")}\n  ${message(e)}\n  ${e.url}`);
+      console.log(`\n${e.key} → ${ready.join(", ")}\n  ${message(e)}\n  ${e.url}`);
       report.posted.push(e.key);
       continue;
     }
-    const result = { ...(record.entries[e.key] ?? {}) };
-    for (const p of platforms) {
+    for (const p of ready) {
       try {
-        result[p] = await PLATFORMS[p].post(e);
+        await PLATFORMS[p].post(e);
         console.log(`  ✓ ${e.key} on ${p}`);
       } catch (err) {
-        result[p] = `error: ${err.message}`;
         console.log(`  ✗ ${e.key} on ${p}: ${err.message}`);
-        report.failed.push(`${e.key} on ${p}: ${err.message}`);
+        report.failed.push(`${e.key} on ${p}: ${err.message} (retry: npm run social -- ${e.key} --${p})`);
       }
     }
-    record.entries[e.key] = result;
-    writeRecord(record);
     report.posted.push(e.key);
   }
   return report;

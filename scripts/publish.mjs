@@ -8,8 +8,12 @@
  *   npm run publish                 # auto commit message
  *   npm run publish -- "message"    # custom commit message
  *
- * After the push it announces new entries on the social accounts set up in
- * .env (scripts/lib/social.mjs), once Netlify has them live.
+ * Every entry whose date has come and that has no `published:` line yet gets
+ * `published: YYYY-MM-DD` stamped into its frontmatter and committed with the
+ * rest. After the push, exactly those entries are announced on the social
+ * accounts set up in .env (scripts/lib/social.mjs), once Netlify has them live.
+ * The flag is what stops the next publish announcing them again, so it does
+ * not matter whether you committed or pushed an entry yourself beforehand.
  *
  * Along the way it syncs the creatures to the Creature Ledger in Dabble
  * (scripts/lib/dabble.mjs), when DABBLE_API_KEY is set.
@@ -23,7 +27,7 @@ import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { syncLedger } from "./lib/dabble.mjs";
-import { announce } from "./lib/social.mjs";
+import { announce, markPublished, unpublished } from "./lib/social.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = path.join(__dirname, "..");
@@ -77,6 +81,11 @@ try {
   console.warn(`  ! Dabble sync failed, publishing anyway: ${err.message}`);
 }
 
+// 1c. Flag the entries this publish will announce, so the flag ships with
+//     the commit and the next publish skips them.
+const fresh = markPublished(unpublished());
+if (fresh.length) console.log(`\n→ Flagged as published: ${fresh.map((e) => e.key).join(", ")}`);
+
 // 2. Stage everything.
 run("git", ["add", "-A"]);
 
@@ -111,14 +120,15 @@ run("git", ["push", "origin", branch]);
 
 console.log("\n✓ Published. Netlify will build and deploy shortly.");
 
-// 6. Announce new entries once Netlify has them live. Never fails a publish.
+// 6. Announce the entries flagged above once Netlify has them live. Never
+//    fails a publish.
 console.log("\n→ Announcing new entries…");
 try {
-  const r = await announce({ waitMinutes: 6 });
+  const r = fresh.length ? await announce({ entries: fresh, waitMinutes: 6 }) : { posted: [] };
   if (r.skipped) console.log(`  – skipped: ${r.skipped}.`);
   else {
     if (!r.posted.length && !r.waiting?.length) console.log("  ✓ nothing new to announce");
-    if (r.waiting?.length) console.log(`  ! not live yet, will go out next publish: ${r.waiting.join(", ")}`);
+    for (const key of r.waiting ?? []) console.log(`  ! ${key} not live yet; announce it later with: npm run social -- ${key}`);
     for (const f of r.failed ?? []) console.warn(`  ! ${f}`);
   }
 } catch (err) {
