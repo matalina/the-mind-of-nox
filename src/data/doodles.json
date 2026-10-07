@@ -7,7 +7,7 @@
     { "maxAge": 99, "dice": "1d2", "sides": 2, "plus": 0 }
   ],
   "runeNotebooks": 4,
-  "runes": "a few small, angular, made-up symbols down the margin, like a secret code only he knows",
+  "runes": "a few small, angular, made-up symbols in a column down one side, like a secret code only he knows",
   "table": [
     { "roll": 1, "name": "Tally marks", "prompt": "rows of tally marks bundled in groups of seven strokes" },
     { "roll": 2, "name": "A hand", "prompt": "a study of a hand" },

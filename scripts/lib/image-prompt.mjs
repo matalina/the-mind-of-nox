@@ -99,14 +99,15 @@ const drawer = (age) =>
   `a ${age}-year-old ${age >= 18 ? "man" : age >= 13 ? "teenager" : "boy"}`;
 
 /**
- * The rest of the page: marginalia in the white space, so the bird is just
- * another thing on a kid's notebook page and not an exhibit.
+ * The rest of the picture: small doodles in the white space, so the bird is
+ * just another scribble and not an exhibit. (No "margins" or "notebook page"
+ * wording: it makes the image model draw paper.)
  */
 function doodles(names, notebook, age) {
   const items = doodlePrompts(names, age);
   if (hasRunes(notebook)) items.push(runesPrompt());
   if (!items.length) return null;
-  return `In the leftover white space around the monster and the bird, he has doodled in the margins, the way a notebook page fills up: ${items.join("; ")}. The doodles are small, scattered, unrelated to the monster, smaller than the bird, and drawn in the same hand and ink as everything else.`;
+  return `In the leftover white space around the monster and the bird, he has added small doodles: ${items.join("; ")}. The doodles are small, scattered, unrelated to the monster, smaller than the bird, and drawn in the same hand and ink as everything else.`;
 }
 
 export function imagePrompt({ notebook, age, creature: c, doodles: names = [] }) {
@@ -115,7 +116,7 @@ export function imagePrompt({ notebook, age, creature: c, doodles: names = [] })
   return [
     `A drawing by ${drawer(age)} of a monster from his nightmare. It is ${c.surface.toLowerCase()}: ${SURFACE_HINT[c.surface]}. It is shaped like ${article(form)} ${form}: ${FORM_HINT[c.form]}. It is covered in ${c.features.toLowerCase()}, and it moves by ${c.movement.toLowerCase()}.`,
     SKILL[band],
-    "Black ink lines only, on a plain white background that fills the whole image edge to edge. No color, no grey shading, no shadows.",
+    "Black ink lines only, always on a plain, pure white background that fills the whole image edge to edge. Not paper: no paper texture, no notebook page, no spiral binding, no ruled lines, no margins, no page edges, no borders or frame. Just flat white behind the drawing. No color, no grey shading, no shadows.",
     POINT_OF_VIEW,
     bird(band),
     doodles(names, notebook, age),
